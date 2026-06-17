@@ -35,7 +35,8 @@ Detalles y uso local en [`herramientas/README.md`](./herramientas/README.md).
 
 App web ([`web/`](./web)) en React + Vite + TypeScript + Leaflet que muestra los
 resultados por **comunidad autónoma, provincia y municipio**, en **listado** y
-**mapa** de provincias (coropleta). Detalles y uso en [`web/README.md`](./web/README.md).
+**mapa** (coropleta de provincias y, al entrar en una provincia, de sus
+municipios). Detalles y uso en [`web/README.md`](./web/README.md).
 
 ```bash
 cd web && npm install && npm run dev
@@ -45,6 +46,5 @@ cd web && npm install && npm run dev
 
 - [x] Procesador de XLSX oficiales a JSON de M+J.
 - [x] CI/CD para procesar automáticamente los ficheros subidos.
-- [x] App web de visualización (listado + mapa de provincias).
+- [x] App web de visualización (listado + mapa de provincias y de municipios).
 - [ ] Decidir hosting y activar el despliegue.
-- [ ] (Opcional) Mapa a nivel municipio con GeoJSON simplificado por provincia.

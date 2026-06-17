@@ -34,14 +34,21 @@ estático (incluido GitHub Pages en un subpath).
   CCAA / provincia / municipio (`src/data.ts`).
 - **Listado** (`src/components/PanelLista.tsx`): tabla con drill-down
   España › CCAA › provincia › municipios.
-- **Mapa** (`src/components/MapaProvincias.tsx`): coropleta de provincias con
+- **Mapa de provincias** (`src/components/MapaProvincias.tsx`): coropleta con
   Leaflet y `public/geo/provincias.geojson` (códigos INE), coloreada por votos o
-  % sobre válidos. Al hacer clic en una provincia se ven sus municipios.
+  % sobre válidos. Al hacer clic en una provincia se entra en su mapa municipal.
+- **Mapa de municipios** (`src/components/MapaMunicipios.tsx`): al seleccionar
+  una provincia se carga **bajo demanda** `public/geo/municipios/<CPRO>.json` y
+  se dibuja la coropleta de sus municipios (join por código INE `CUMUN`).
 
-> El mapa es de nivel provincia (los contornos de los ~8.000 municipios son
-> demasiado pesados para empaquetarlos). El detalle por municipio se muestra en
-> el listado. Si se quiere mapa municipal, se puede añadir GeoJSON simplificado
-> por provincia y cargarlo bajo demanda.
+### Contornos de municipios
+
+Los ~8.000 municipios se reparten en 52 ficheros (uno por provincia, ~50–200 KB)
+en `public/geo/municipios/`, y solo se descarga el de la provincia que se abre.
+Se generan con [`scripts/generar-municipios.sh`](scripts/generar-municipios.sh)
+a partir de las secciones censales del INE (disueltas por municipio, simplificadas
+y divididas por provincia). Solo hay que reejecutarlo si cambian los límites
+municipales.
 
 ## Despliegue
 

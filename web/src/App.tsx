@@ -16,6 +16,7 @@ import type {
   Nivel,
 } from "./types";
 import { MapaProvincias } from "./components/MapaProvincias";
+import { MapaMunicipios } from "./components/MapaMunicipios";
 import { PanelLista } from "./components/PanelLista";
 
 export default function App() {
@@ -66,6 +67,12 @@ export default function App() {
     if (comunidad) return agregarPorProvincia(registros, comunidad);
     return agregarPorComunidad(registros);
   }, [registros, comunidad, provincia]);
+
+  // Valores por municipio (clave: código INE) para el mapa municipal.
+  const valoresMunicipio = useMemo(() => {
+    if (provincia == null) return new Map<string, FilaAgregada>();
+    return new Map(filas.map((f) => [f.id, f]));
+  }, [filas, provincia]);
 
   function seleccionarFila(f: FilaAgregada) {
     if (nivel === "comunidad") setComunidad(f.nombre);
@@ -141,17 +148,27 @@ export default function App() {
         <main className="contenido">
           <PanelLista nivel={nivel} filas={filas} metrica={metrica} onSeleccionar={seleccionarFila} />
           <div className="panel-mapa">
-            <MapaProvincias
-              valores={valoresMapa}
-              provinciaComunidad={provComunidad}
-              metrica={metrica}
-              comunidadSel={comunidad}
-              provinciaSel={provincia}
-              onSelectProvincia={seleccionarProvinciaMapa}
-            />
+            {provincia != null ? (
+              <MapaMunicipios
+                codigoProvincia={provincia}
+                valores={valoresMunicipio}
+                metrica={metrica}
+              />
+            ) : (
+              <MapaProvincias
+                valores={valoresMapa}
+                provinciaComunidad={provComunidad}
+                metrica={metrica}
+                comunidadSel={comunidad}
+                provinciaSel={provincia}
+                onSelectProvincia={seleccionarProvinciaMapa}
+              />
+            )}
             <p className="leyenda">
               Color por {metrica === "votos" ? "votos a M+J" : "% sobre votos válidos"}.
-              Haz clic en una provincia para ver sus municipios.
+              {provincia != null
+                ? " Mapa por municipio. Usa las migas de pan para volver."
+                : " Haz clic en una provincia para ver sus municipios."}
             </p>
           </div>
         </main>

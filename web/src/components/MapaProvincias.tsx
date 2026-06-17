@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { FilaAgregada, Metrica } from "../types";
+import { colorPara, maxValor } from "../colores";
 
 interface Props {
   valores: Map<string, FilaAgregada>;
@@ -12,38 +13,17 @@ interface Props {
   onSelectProvincia: (codigo: number, comunidad: string) => void;
 }
 
-const COLOR_BASE = [232, 245, 240]; // verde muy claro
-const COLOR_FUERTE = [13, 110, 80]; // verde M+J
-
-function interpolaColor(t: number): string {
-  const c = COLOR_BASE.map((b, i) =>
-    Math.round(b + (COLOR_FUERTE[i] - b) * Math.max(0, Math.min(1, t))),
-  );
-  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
-}
-
-function valorDe(f: FilaAgregada | undefined, metrica: Metrica): number {
-  if (!f) return 0;
-  return metrica === "votos" ? f.votos_partido : f.porcentaje;
-}
-
 type Estado = Props;
-
-function maxValor(e: Estado): number {
-  let m = 0;
-  for (const f of e.valores.values()) m = Math.max(m, valorDe(f, e.metrica));
-  return m || 1;
-}
 
 function estiloDe(feature: any, e: Estado): L.PathOptions {
   const cod = feature.properties.cod_prov as string;
   const fila = e.valores.get(cod);
-  const t = Math.sqrt(valorDe(fila, e.metrica) / maxValor(e));
+  const max = maxValor(e.valores.values(), e.metrica);
   const seleccionada = e.provinciaSel != null && Number(cod) === e.provinciaSel;
   const enComunidad =
     !e.comunidadSel || e.provinciaComunidad.get(cod) === e.comunidadSel;
   return {
-    fillColor: interpolaColor(t),
+    fillColor: colorPara(fila, e.metrica, max),
     fillOpacity: enComunidad ? 0.9 : 0.2,
     weight: seleccionada ? 3 : 0.6,
     color: seleccionada ? "#0a4d38" : "#9bb7ac",
