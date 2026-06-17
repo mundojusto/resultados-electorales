@@ -12,8 +12,10 @@ resultados-electorales/
 ├── herramientas/                     # Procesador XLSX -> JSON
 │   ├── procesar_resultados.py
 │   └── requirements.txt
+├── web/                              # App de visualización (React + Vite + TS)
 └── .github/workflows/
-    └── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
+    ├── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
+    └── desplegar-web.yml             # Despliegue de la web (GitHub Pages, manual)
 ```
 
 ## Pipeline de datos
@@ -29,13 +31,20 @@ resultados-electorales/
 
 Detalles y uso local en [`herramientas/README.md`](./herramientas/README.md).
 
-## Visualización (en construcción)
+## Visualización
 
-App web que mostrará los resultados de todos los procesos electorales por
-comunidad autónoma, provincia y municipio, en formato listado y mapa.
+App web ([`web/`](./web)) en React + Vite + TypeScript + Leaflet que muestra los
+resultados por **comunidad autónoma, provincia y municipio**, en **listado** y
+**mapa** de provincias (coropleta). Detalles y uso en [`web/README.md`](./web/README.md).
+
+```bash
+cd web && npm install && npm run dev
+```
 
 ## Próximos pasos
 
 - [x] Procesador de XLSX oficiales a JSON de M+J.
 - [x] CI/CD para procesar automáticamente los ficheros subidos.
-- [ ] App web de visualización (listado + mapa).
+- [x] App web de visualización (listado + mapa de provincias).
+- [ ] Decidir hosting y activar el despliegue.
+- [ ] (Opcional) Mapa a nivel municipio con GeoJSON simplificado por provincia.

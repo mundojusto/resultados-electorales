@@ -1,0 +1,8 @@
+node_modules/
+dist/
+# Datos generados desde resultados-oficiales-procesados/ (fuente de verdad)
+public/datos/
+*.tsbuildinfo
+.DS_Store
+vite.config.js
+vite.config.d.ts
