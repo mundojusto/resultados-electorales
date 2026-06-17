@@ -1,0 +1,57 @@
+name: Procesar resultados oficiales
+
+# Se ejecuta cuando se sube un XLSX a datos-oficiales/.
+# Procesa cada fichero, genera el JSON de M+J en resultados-oficiales-procesados/,
+# borra el XLSX original y commitea los cambios de vuelta a la rama.
+on:
+  push:
+    paths:
+      - "datos-oficiales/**.xlsx"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  procesar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r herramientas/requirements.txt
+
+      - name: Procesar ficheros XLSX
+        id: procesar
+        run: |
+          shopt -s nullglob
+          encontrados=0
+          for f in datos-oficiales/*.xlsx; do
+            encontrados=1
+            echo "::group::Procesando $f"
+            python herramientas/procesar_resultados.py "$f" \
+              --salida resultados-oficiales-procesados \
+              --borrar-entrada
+            echo "::endgroup::"
+          done
+          if [ "$encontrados" = "0" ]; then
+            echo "No hay ficheros XLSX en datos-oficiales/."
+          fi
+
+      - name: Commitear resultados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resultados-oficiales-procesados datos-oficiales
+          if git diff --cached --quiet; then
+            echo "Sin cambios que commitear."
+          else
+            git commit -m "Procesar resultados oficiales de M+J [skip ci]"
+            git push
+          fi

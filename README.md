@@ -1,27 +1,41 @@
 # resultados-electorales
 
-Sitio web / app para mostrar los **Resultados Electorales de M+J**.
-
-> 🚧 Repositorio en preparación. Por ahora solo contiene la estructura base y la
-> carpeta donde se subirán los datos oficiales.
+Sitio web / app para mostrar los **Resultados Electorales de M+J**
+(Por Un Mundo Más Justo).
 
 ## Estructura
 
 ```
 resultados-electorales/
-├── datos-oficiales/   # Datos oficiales de resultados electorales (CSV, JSON, etc.)
-│   └── README.md
-└── README.md
+├── datos-oficiales/                  # XLSX oficiales subidos (entrada)
+├── resultados-oficiales-procesados/  # JSON de M+J generados (salida)
+├── herramientas/                     # Procesador XLSX -> JSON
+│   ├── procesar_resultados.py
+│   └── requirements.txt
+└── .github/workflows/
+    └── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
 ```
 
-## Datos oficiales
+## Pipeline de datos
 
-Sube los archivos de datos oficiales en la carpeta [`datos-oficiales/`](./datos-oficiales).
-Consulta el [README de esa carpeta](./datos-oficiales/README.md) para las
-convenciones recomendadas (formato, nombres de archivo, etc.).
+1. Se sube un XLSX oficial (votos por municipio: Congreso, Senado, Europeas o
+   Cabildos) a [`datos-oficiales/`](./datos-oficiales).
+2. El workflow de GitHub Actions lo procesa con
+   [`herramientas/procesar_resultados.py`](./herramientas/procesar_resultados.py),
+   que extrae **solo los resultados de M+J**.
+3. Guarda un JSON en
+   [`resultados-oficiales-procesados/`](./resultados-oficiales-procesados),
+   borra el XLSX original y commitea los cambios.
+
+Detalles y uso local en [`herramientas/README.md`](./herramientas/README.md).
+
+## Visualización (en construcción)
+
+App web que mostrará los resultados de todos los procesos electorales por
+comunidad autónoma, provincia y municipio, en formato listado y mapa.
 
 ## Próximos pasos
 
-- [ ] Subir los datos oficiales a `datos-oficiales/`.
-- [ ] Definir el stack de la web/app para visualizar los resultados.
-- [ ] Construir la interfaz de visualización.
+- [x] Procesador de XLSX oficiales a JSON de M+J.
+- [x] CI/CD para procesar automáticamente los ficheros subidos.
+- [ ] App web de visualización (listado + mapa).
