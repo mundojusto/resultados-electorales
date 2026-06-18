@@ -14,9 +14,11 @@ npm run dev      # http://localhost:5173
 
 `npm run dev` y `npm run build` ejecutan antes `scripts/copiar-datos.mjs`, que
 copia los JSON de [`../resultados-oficiales-procesados/`](../resultados-oficiales-procesados)
-a `public/datos/` y genera un `index.json` con las elecciones disponibles. Por
-eso `public/datos/` está en `.gitignore`: la **fuente de verdad** son los JSON
-procesados del repositorio.
+a `public/datos/` y genera un `index.json` con las elecciones disponibles y un
+`historico.json` (serie cronológica por tipo de proceso con los votos agregados
+por comunidad autónoma, para la vista de histórico). Por eso `public/datos/`
+está en `.gitignore`: la **fuente de verdad** son los JSON procesados del
+repositorio.
 
 ## Build de producción
 
@@ -40,6 +42,17 @@ Se ejecutan automáticamente en cada Pull Request junto con el build, mediante
 [`../.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 
 ## Cómo funciona
+
+La app tiene dos vistas (pestañas en la cabecera):
+
+- **Exploración por territorio**: una elección concreta, en listado y mapa.
+- **Histórico** (`src/components/PanelHistorico.tsx`): evolución del número de
+  votos (o % sobre válidos) a M+J a lo largo del tiempo, **configurable por tipo
+  de proceso electoral** (Congreso, Parlamento europeo, Cabildos…) y **por
+  comunidad autónoma** (o total nacional). Dibuja un gráfico de barras (SVG, sin
+  dependencias) más una tabla, a partir de `historico.json`.
+
+### Exploración por territorio
 
 - **Datos**: se cargan los JSON de M+J por municipio y se agregan en cliente por
   CCAA / provincia / municipio (`src/data.ts`).

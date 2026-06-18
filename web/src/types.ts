@@ -66,3 +66,36 @@ export interface FilaAgregada {
 
 export type Nivel = "comunidad" | "provincia" | "municipio";
 export type Metrica = "votos" | "porcentaje";
+
+export type Vista = "exploracion" | "historico";
+
+// --- Histórico (datos/historico.json) ---
+
+export interface AgregadoVotos {
+  votos_partido: number;
+  votos_validos: number;
+}
+
+// Una elección dentro de la serie de un tipo de proceso.
+export interface EntradaHistorico {
+  fichero: string;
+  periodo: string | null;
+  anio: number | null;
+  mes: number | null;
+  total: AgregadoVotos;
+  comunidades: Record<string, AgregadoVotos>;
+}
+
+// Histórico completo: tipo de proceso -> serie cronológica de elecciones.
+export type Historico = Record<string, EntradaHistorico[]>;
+
+// Punto de la serie ya resuelto para un tipo + comunidad (listo para el gráfico).
+export interface PuntoHistorico {
+  fichero: string;
+  etiqueta: string;
+  anio: number | null;
+  mes: number | null;
+  votos_partido: number;
+  votos_validos: number;
+  porcentaje: number;
+}

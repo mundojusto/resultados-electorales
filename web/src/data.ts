@@ -2,6 +2,8 @@ import type {
   DatosEleccion,
   EntradaIndice,
   FilaAgregada,
+  Historico,
+  PuntoHistorico,
   RegistroMunicipio,
 } from "./types";
 
@@ -16,6 +18,12 @@ export async function cargarIndice(): Promise<EntradaIndice[]> {
 export async function cargarEleccion(fichero: string): Promise<DatosEleccion> {
   const res = await fetch(`${BASE}${fichero}`);
   if (!res.ok) throw new Error(`No se pudo cargar ${fichero}.`);
+  return res.json();
+}
+
+export async function cargarHistorico(): Promise<Historico> {
+  const res = await fetch(`${BASE}historico.json`);
+  if (!res.ok) throw new Error("No se pudo cargar el histórico.");
   return res.json();
 }
 
@@ -116,4 +124,64 @@ export function provinciaAComunidad(
     }
   }
   return m;
+}
+
+// --- Histórico ---
+
+export const TODAS_COMUNIDADES = "__todas__";
+
+const MESES = [
+  "", "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
+];
+
+/** Etiqueta corta para el eje del gráfico: "Abr 2019" o "2019". */
+export function etiquetaPeriodo(anio: number | null, mes: number | null): string {
+  if (anio == null) return "—";
+  if (mes != null && mes >= 1 && mes <= 12) return `${MESES[mes]} ${anio}`;
+  return String(anio);
+}
+
+/** Tipos de proceso electoral disponibles en el histórico, ordenados. */
+export function tiposHistorico(historico: Historico): string[] {
+  return Object.keys(historico).sort((a, b) => a.localeCompare(b, "es"));
+}
+
+/** Comunidades presentes en la serie de un tipo de proceso, ordenadas. */
+export function comunidadesHistorico(
+  historico: Historico,
+  tipo: string,
+): string[] {
+  const set = new Set<string>();
+  for (const e of historico[tipo] ?? []) {
+    for (const c of Object.keys(e.comunidades)) set.add(c);
+  }
+  return [...set].sort((a, b) => a.localeCompare(b, "es"));
+}
+
+/**
+ * Serie histórica de votos para un tipo de proceso, opcionalmente filtrada por
+ * una comunidad (usa TODAS_COMUNIDADES o null para el total nacional).
+ */
+export function serieHistorica(
+  historico: Historico,
+  tipo: string,
+  comunidad?: string | null,
+): PuntoHistorico[] {
+  const entradas = historico[tipo] ?? [];
+  const todas = !comunidad || comunidad === TODAS_COMUNIDADES;
+  return entradas.map((e) => {
+    const agg = todas ? e.total : e.comunidades[comunidad];
+    const votos = agg?.votos_partido ?? 0;
+    const validos = agg?.votos_validos ?? 0;
+    return {
+      fichero: e.fichero,
+      etiqueta: etiquetaPeriodo(e.anio, e.mes),
+      anio: e.anio,
+      mes: e.mes,
+      votos_partido: votos,
+      votos_validos: validos,
+      porcentaje: porcentaje(votos, validos),
+    };
+  });
 }
