@@ -32,17 +32,23 @@ jobs:
         run: |
           shopt -s nullglob
           encontrados=0
+          fallos=0
+          # No abortamos al primer fallo: procesamos todos y reportamos al final.
           for f in datos-oficiales/*.xlsx; do
             encontrados=1
             echo "::group::Procesando $f"
-            python herramientas/procesar_resultados.py "$f" \
-              --salida resultados-oficiales-procesados \
-              --borrar-entrada
+            if ! python herramientas/procesar_resultados.py "$f" \
+                  --salida resultados-oficiales-procesados \
+                  --borrar-entrada; then
+              echo "::error::Error procesando $f"
+              fallos=$((fallos + 1))
+            fi
             echo "::endgroup::"
           done
           if [ "$encontrados" = "0" ]; then
             echo "No hay ficheros XLSX en datos-oficiales/."
           fi
+          echo "fallos=$fallos" >> "$GITHUB_OUTPUT"
 
       - name: Commitear resultados
         run: |
@@ -55,3 +61,9 @@ jobs:
             git commit -m "Procesar resultados oficiales de M+J [skip ci]"
             git push
           fi
+
+      - name: Señalar fallos (si los hubo)
+        if: steps.procesar.outputs.fallos != '0'
+        run: |
+          echo "::error::${{ steps.procesar.outputs.fallos }} fichero(s) fallaron al procesarse. Revisa los logs anteriores."
+          exit 1

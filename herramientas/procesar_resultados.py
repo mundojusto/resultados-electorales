@@ -134,12 +134,17 @@ def localiza_columnas(fila_nombres, fila_cabecera):
     faltan = {"comunidad", "provincia", "municipio", "votos_validos"} - indices_meta.keys()
     if faltan:
         raise ValueError(f"Faltan columnas de metadatos esperadas: {sorted(faltan)}")
-    if idx_partido is None:
-        raise ValueError(
-            "No se encontró la columna del partido M+J. Patrones buscados: "
-            f"{PATRONES_NOMBRE + PATRONES_SIGLAS}"
-        )
+    # idx_partido puede ser None si M+J no concurrió a esta elección; lo gestiona procesa().
     return indices_meta, idx_partido, nombre_partido, siglas_partido
+
+
+class PartidoNoPresente(Exception):
+    """M+J no concurrió a esta elección (no hay columna del partido)."""
+
+    def __init__(self, tipo, periodo):
+        self.tipo = tipo
+        self.periodo = periodo
+        super().__init__(f"M+J no se presentó en {tipo} {periodo}")
 
 
 def a_int(valor):
@@ -165,6 +170,8 @@ def procesa(entrada: Path):
 
     tipo, periodo, anio, mes = parsea_titulo(titulo)
     meta, idx_p, nombre_p, siglas_p = localiza_columnas(fila_nombres, fila_cabecera)
+    if idx_p is None:
+        raise PartidoNoPresente(tipo, periodo)
 
     resultados = []
     tot_partido = tot_validos = tot_candidaturas = 0
@@ -237,7 +244,16 @@ def main(argv=None):
         print(f"ERROR: no existe el fichero {args.entrada}", file=sys.stderr)
         return 1
 
-    datos = procesa(args.entrada)
+    try:
+        datos = procesa(args.entrada)
+    except PartidoNoPresente as e:
+        # No es un error: M+J no concurrió a esa elección. Se omite sin generar JSON.
+        print(f"OMITIDO  {args.entrada.name}: {e}. No se genera JSON.")
+        if args.borrar_entrada:
+            args.entrada.unlink()
+            print(f"    fichero de entrada borrado: {args.entrada}")
+        return 0
+
     args.salida.mkdir(parents=True, exist_ok=True)
     destino = args.salida / nombre_salida(datos)
     with destino.open("w", encoding="utf-8") as f:
