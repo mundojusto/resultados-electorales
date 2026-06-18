@@ -40,7 +40,7 @@ PATRONES_NOMBRE = [
     "MUNDO+JUSTO",
     "EXISTE",
 ]
-PATRONES_SIGLAS = ["PUM+J", "M+J", "PUMJ", "EXISTE"]
+PATRONES_SIGLAS = ["PUM+J", "M+J", "PUMJ", "MUNDO+JUSTO", "EXISTE"]
 
 # --- Cabeceras de metadatos (columnas no-partido) -----------------------------
 META_COMUNIDAD = "Nombre de Comunidad"
