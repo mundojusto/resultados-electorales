@@ -87,5 +87,10 @@ Luego `docker compose up -d --build`.
 - Los datos mostrados son los JSON de `resultados-oficiales-procesados/` en el
   momento del build. Para reflejar datos nuevos, vuelve a construir (paso de
   *Actualizar*).
+- nginx sirve los datos (`/datos/`, incluido `index.json`) con `Cache-Control:
+  no-cache`, de modo que el navegador siempre revalida y coge las elecciones
+  nuevas tras redeplegar. Si visitaste la web **antes** de este cambio, puede que
+  tu navegador aún conserve la versión antigua cacheada: fuerza una recarga
+  completa (Ctrl+F5 / Cmd+Shift+R) una vez.
 - Para HTTPS o un dominio más adelante, lo habitual es poner delante un proxy
   (Caddy o nginx con certificado); se puede añadir cuando haga falta.
