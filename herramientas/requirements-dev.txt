@@ -1,0 +1,5 @@
+# Dependencias para desarrollo y CI (tests, lint del procesador y validación).
+# Las de ejecución están en requirements.txt.
+-r requirements.txt
+pytest>=8.0
+ruff>=0.6

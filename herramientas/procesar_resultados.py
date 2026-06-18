@@ -178,8 +178,10 @@ def procesa(entrada: Path):
     for fila in ws.iter_rows(min_row=fila_cabecera_idx + 1, values_only=True):
         if fila[meta["municipio"]] in (None, ""):
             continue
-        cod_prov = a_int(fila[meta.get("codigo_provincia", -1)]) if "codigo_provincia" in meta else None
-        cod_mun = a_int(fila[meta.get("codigo_municipio", -1)]) if "codigo_municipio" in meta else None
+        cod_prov = (a_int(fila[meta.get("codigo_provincia", -1)])
+                    if "codigo_provincia" in meta else None)
+        cod_mun = (a_int(fila[meta.get("codigo_municipio", -1)])
+                   if "codigo_municipio" in meta else None)
         votos = a_int(fila[idx_p])
         validos = a_int(fila[meta["votos_validos"]])
         candidaturas = a_int(fila[meta.get("votos_candidaturas", meta["votos_validos"])])
@@ -232,10 +234,12 @@ def nombre_salida(datos):
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description="Procesa un XLSX oficial y extrae los resultados de M+J.")
+    p = argparse.ArgumentParser(
+        description="Procesa un XLSX oficial y extrae los resultados de M+J.")
     p.add_argument("entrada", type=Path, help="Fichero XLSX oficial a procesar")
     p.add_argument("--salida", type=Path, default=Path("resultados-oficiales-procesados"),
-                   help="Directorio de salida para el JSON (por defecto: resultados-oficiales-procesados)")
+                   help="Directorio de salida para el JSON "
+                        "(por defecto: resultados-oficiales-procesados)")
     p.add_argument("--borrar-entrada", action="store_true",
                    help="Borra el fichero de entrada tras procesarlo correctamente")
     args = p.parse_args(argv)

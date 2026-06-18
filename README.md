@@ -14,6 +14,7 @@ resultados-electorales/
 │   └── requirements.txt
 ├── web/                              # App de visualización (React + Vite + TS)
 └── .github/workflows/
+    ├── ci.yml                        # CI: lint + tests + validación + build en cada PR
     ├── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
     └── desplegar-web.yml             # Despliegue de la web (GitHub Pages, manual)
 ```
@@ -41,6 +42,21 @@ municipios). Detalles y uso en [`web/README.md`](./web/README.md).
 ```bash
 cd web && npm install && npm run dev
 ```
+
+## Tests y CI
+
+En cada **Pull Request**, el workflow
+[`.github/workflows/ci.yml`](./.github/workflows/ci.yml) ejecuta automáticamente:
+
+- **Procesador (Python):** lint (`ruff`), tests (`pytest`) y validación de los
+  JSON procesados + GeoJSON (`herramientas/validar_datos.py`).
+- **Web (React/TS):** lint (`eslint`), type-check (`tsc`), tests (`vitest`) y
+  build (`npm run build`).
+
+Configúralo como *required status check* en `main` para impedir fusionar un PR
+si algo falla. Para ejecutarlo en local, ver
+[`herramientas/README.md`](./herramientas/README.md) y
+[`web/README.md`](./web/README.md).
 
 ## Despliegue
 
