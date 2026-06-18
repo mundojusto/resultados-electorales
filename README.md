@@ -42,9 +42,21 @@ municipios). Detalles y uso en [`web/README.md`](./web/README.md).
 cd web && npm install && npm run dev
 ```
 
+## Despliegue
+
+Para desplegar en un servidor privado con **Docker + nginx** (sin dominio,
+accediendo por IP:puerto), sigue [`DESPLIEGUE.md`](./DESPLIEGUE.md). En resumen:
+
+```bash
+git clone https://github.com/mundojusto/resultados-electorales.git
+cd resultados-electorales
+docker compose up -d --build      # luego: http://IP-DEL-SERVIDOR:8080
+```
+
 ## Próximos pasos
 
 - [x] Procesador de XLSX oficiales a JSON de M+J.
 - [x] CI/CD para procesar automáticamente los ficheros subidos.
 - [x] App web de visualización (listado + mapa de provincias y de municipios).
-- [ ] Decidir hosting y activar el despliegue.
+- [x] Despliegue con Docker para servidor privado.
+- [ ] (Opcional) Dominio y HTTPS mediante proxy inverso.
