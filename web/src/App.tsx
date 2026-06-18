@@ -117,7 +117,7 @@ export default function App() {
           <Dato etiqueta="Votos M+J" valor={datos.totales.votos_partido.toLocaleString("es-ES")} />
           <Dato etiqueta="% s/válidos" valor={`${datos.totales.porcentaje_validos.toFixed(4)}%`} />
           <Dato etiqueta="Municipios" valor={datos.totales.municipios.toLocaleString("es-ES")} />
-          <Dato etiqueta="Partido" valor={datos.partido.siglas ?? datos.partido.nombre ?? "—"} />
+          <Dato etiqueta="Partido" valor={(datos.partido.siglas ?? datos.partido.nombre ?? "—").replace("PUM+J", "M+J")} />
         </div>
       )}
 
