@@ -1,9 +1,9 @@
 import type { FilaAgregada, Metrica } from "./types";
 
-const COLOR_BASE = [232, 245, 240]; // verde muy claro
-const COLOR_FUERTE = [13, 110, 80]; // verde M+J
+const COLOR_BASE = [248, 233, 218]; // crema muy claro (tinte del beige M+J)
+const COLOR_FUERTE = [154, 83, 57]; // terracota M+J (Pantone 7592 C, #9A5339)
 
-/** Interpola entre el verde claro y el verde M+J según t ∈ [0, 1]. */
+/** Interpola entre el crema claro y la terracota M+J según t ∈ [0, 1]. */
 export function interpolaColor(t: number): string {
   const c = COLOR_BASE.map((b, i) =>
     Math.round(b + (COLOR_FUERTE[i] - b) * Math.max(0, Math.min(1, t))),

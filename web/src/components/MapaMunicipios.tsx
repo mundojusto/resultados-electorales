@@ -60,7 +60,7 @@ export function MapaMunicipios({ codigoProvincia, valores, metrica }: Props) {
             const nombre = feature.properties.NMUN as string;
             const fila = estado.current.valores.get(feature.properties.CUMUN);
             layer.on({
-              mouseover: (e) => (e.target as L.Path).setStyle({ weight: 1.6, color: "#0a4d38" }),
+              mouseover: (e) => (e.target as L.Path).setStyle({ weight: 1.6, color: "#765043" }),
               mouseout: () => capaRef.current?.resetStyle(layer),
             });
             layer.bindTooltip(tooltip(nombre, fila), { sticky: true });
@@ -97,6 +97,6 @@ function estilo(
     fillColor: colorPara(fila, estado.metrica, max),
     fillOpacity: 0.9,
     weight: 0.4,
-    color: "#9bb7ac",
+    color: "#d8c3b2",
   };
 }
