@@ -98,6 +98,16 @@ class TestProcesa:
         assert datos["partido"]["siglas"] == "M+J"
         assert datos["totales"]["votos_partido"] == 14
 
+    def test_detecta_coalicion_existe(self, hacer_xlsx):
+        # En las europeas M+J concurrió dentro de la coalición "Existe": la
+        # columna oficial lleva el nombre/siglas de la coalición, no los de M+J.
+        datos = pr.procesa(hacer_xlsx(
+            titulo="Parlamento Europeo | Junio 2024 | Resultados por municipio",
+            nombre_partido="Existe", siglas_partido="EXISTE"))
+        assert datos["partido"]["siglas"] == "EXISTE"
+        assert datos["partido"]["nombre"] == "Existe"
+        assert datos["totales"]["votos_partido"] == 14
+
     def test_omite_filas_sin_municipio(self, hacer_xlsx):
         municipios = [
             dict(comunidad="Andalucía", cod_prov=4, provincia="Almería",
