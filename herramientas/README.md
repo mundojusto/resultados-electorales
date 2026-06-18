@@ -64,6 +64,13 @@ se ejecuta automáticamente al subir un `.xlsx` a `datos-oficiales/`: lo procesa
 guarda el JSON en `resultados-oficiales-procesados/`, borra el XLSX original y
 commitea los cambios de vuelta a la rama.
 
+### Ficheros grandes (> 25 MB)
+
+La subida por la web de GitHub está limitada a 25 MB. Para XLSX mayores: procesa
+en local y sube solo el JSON, o lanza el workflow con una **URL** del fichero
+(*Actions → Procesar resultados oficiales → Run workflow → campo `url`*). Ver
+[`datos-oficiales/README.md`](../datos-oficiales/README.md) para el detalle.
+
 ## `validar_datos.py`
 
 Valida los JSON ya procesados y su coherencia con los GeoJSON del mapa

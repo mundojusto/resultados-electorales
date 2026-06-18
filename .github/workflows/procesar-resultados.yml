@@ -8,6 +8,11 @@ on:
     paths:
       - "datos-oficiales/**.xlsx"
   workflow_dispatch:
+    inputs:
+      url:
+        description: "URL directa del XLSX oficial a descargar y procesar (para ficheros >25 MB que no caben por la web)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -26,6 +31,22 @@ jobs:
 
       - name: Instalar dependencias
         run: pip install -r herramientas/requirements.txt
+
+      - name: Descargar XLSX desde URL (ficheros grandes)
+        if: github.event_name == 'workflow_dispatch' && inputs.url != ''
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          mkdir -p datos-oficiales
+          # Nombre a partir de la URL (sin query string); si no acaba en .xlsx, uno por fecha.
+          nombre="$(basename "${URL%%\?*}")"
+          case "$nombre" in
+            *.xlsx) ;;
+            *) nombre="descarga_$(date +%Y%m%d%H%M%S).xlsx" ;;
+          esac
+          echo "Descargando -> datos-oficiales/$nombre"
+          curl -fSL "$URL" -o "datos-oficiales/$nombre"
+          ls -lh "datos-oficiales/$nombre"
 
       - name: Procesar ficheros XLSX
         id: procesar
