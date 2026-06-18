@@ -3,8 +3,8 @@
 
 Lee un fichero XLSX oficial con los votos por municipio (Congreso, Senado,
 Europeas o Cabildos), localiza la columna del partido "Por Un Mundo Más Justo"
-(M+J / PUM+J / MUNDO+JUSTO) y guarda un JSON únicamente con los resultados de
-ese partido.
+(M+J / PUM+J / MUNDO+JUSTO) —o de la coalición en la que concurrió, como
+"Existe" en las europeas— y guarda un JSON únicamente con esos resultados.
 
 Uso:
     python procesar_resultados.py ENTRADA.xlsx [--salida DIR] [--borrar-entrada]
@@ -28,12 +28,19 @@ import openpyxl
 # --- Identificadores del partido M+J ------------------------------------------
 # Se comparan sobre el texto normalizado (mayúsculas, sin acentos). Basta con
 # que el nombre completo O las siglas coincidan con alguno de estos patrones.
+#
+# Se incluyen también las coaliciones en las que M+J ha concurrido sin marca
+# propia en la papeleta: en las elecciones europeas M+J se presentó dentro de la
+# coalición "Existe", de modo que en el XLSX oficial la columna aparece con el
+# nombre/siglas de la coalición y no con los de M+J. En esos casos los votos
+# recogidos son los de la candidatura conjunta (coalición), no solo los de M+J.
 PATRONES_NOMBRE = [
     "POR UN MUNDO MAS JUSTO",
     "MUNDO MAS JUSTO",
     "MUNDO+JUSTO",
+    "EXISTE",
 ]
-PATRONES_SIGLAS = ["PUM+J", "M+J", "PUMJ"]
+PATRONES_SIGLAS = ["PUM+J", "M+J", "PUMJ", "EXISTE"]
 
 # --- Cabeceras de metadatos (columnas no-partido) -----------------------------
 META_COMUNIDAD = "Nombre de Comunidad"

@@ -4,7 +4,8 @@
 
 Procesa un fichero XLSX oficial (votos por municipio en Congreso, Senado,
 Europeas o Cabildos) y extrae **únicamente los resultados del partido M+J**
-(Por Un Mundo Más Justo / PUM+J / MUNDO+JUSTO), guardando un JSON en
+(Por Un Mundo Más Justo / PUM+J / MUNDO+JUSTO) —o de la **coalición** en la que
+concurrió—, guardando un JSON en
 [`resultados-oficiales-procesados/`](../resultados-oficiales-procesados).
 
 ### Uso local
@@ -27,11 +28,16 @@ Opciones:
 La columna de M+J se detecta por contenido (no por posición, que varía entre
 elecciones). Se normaliza el texto (mayúsculas, sin acentos) y se busca:
 
-- En el **nombre completo**: `POR UN MUNDO MAS JUSTO`, `MUNDO MAS JUSTO`, `MUNDO+JUSTO`.
-- En las **siglas**: `PUM+J`, `M+J`, `PUMJ`.
+- En el **nombre completo**: `POR UN MUNDO MAS JUSTO`, `MUNDO MAS JUSTO`, `MUNDO+JUSTO`, `EXISTE`.
+- En las **siglas**: `PUM+J`, `M+J`, `PUMJ`, `EXISTE`.
 
-Si cambian las siglas en algún proceso, basta con ampliar las listas
-`PATRONES_NOMBRE` / `PATRONES_SIGLAS` al inicio del script.
+Cuando M+J concurre dentro de una **coalición** (por ejemplo `Existe` en las
+elecciones europeas), la columna del XLSX oficial lleva el nombre/siglas de la
+coalición, no los de M+J; por eso esos identificadores también se incluyen. En
+esos casos los votos recogidos son los de la candidatura conjunta.
+
+Si cambian las siglas (o la coalición) en algún proceso, basta con ampliar las
+listas `PATRONES_NOMBRE` / `PATRONES_SIGLAS` al inicio del script.
 
 ### Formato del JSON de salida
 
