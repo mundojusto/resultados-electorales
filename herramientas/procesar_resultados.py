@@ -80,15 +80,20 @@ def detecta_filas(ws):
     """Devuelve (fila_titulo, fila_nombres, fila_cabecera) en índice 1-based."""
     fila_cabecera = None
     fila_titulo = None
+    meta = normaliza(META_COMUNIDAD)
+
     for i, fila in enumerate(ws.iter_rows(min_row=1, max_row=30, values_only=True), start=1):
-        primera = normaliza(fila[0]) if fila else ""
-        if primera == normaliza(META_COMUNIDAD):
+        celdas = tuple(fila or ())
+
+        # En algunos XLSX la columna de metadatos empieza en la columna B,
+        # así que buscamos la cabecera en toda la fila y no solo en la primera celda.
+        if any(normaliza(celda) == meta for celda in celdas):
             fila_cabecera = i
             break
-        for celda in fila or ():
-            if "RESULTADOS POR" in normaliza(celda):
-                fila_titulo = i
-                break
+
+        if any("RESULTADOS POR" in normaliza(celda) for celda in celdas):
+            fila_titulo = i
+
     if fila_cabecera is None:
         raise ValueError("No se encontró la fila de cabeceras ('Nombre de Comunidad').")
     return fila_titulo, fila_cabecera - 1, fila_cabecera
@@ -173,7 +178,11 @@ def procesa(entrada: Path):
     cabeceras = list(ws.iter_rows(min_row=1, max_row=fila_cabecera_idx, values_only=True))
     fila_nombres = cabeceras[fila_nombres_idx - 1] if fila_nombres_idx >= 1 else ()
     fila_cabecera = cabeceras[fila_cabecera_idx - 1]
-    titulo = cabeceras[fila_titulo - 1][0] if fila_titulo else None
+
+    titulo = None
+    if fila_titulo:
+        fila_t = cabeceras[fila_titulo - 1]
+        titulo = next((celda for celda in fila_t if celda not in (None, "")), None)
 
     tipo, periodo, anio, mes = parsea_titulo(titulo)
     meta, idx_p, nombre_p, siglas_p = localiza_columnas(fila_nombres, fila_cabecera)
