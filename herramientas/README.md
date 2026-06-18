@@ -63,3 +63,26 @@ El workflow [`.github/workflows/procesar-resultados.yml`](../.github/workflows/p
 se ejecuta automáticamente al subir un `.xlsx` a `datos-oficiales/`: lo procesa,
 guarda el JSON en `resultados-oficiales-procesados/`, borra el XLSX original y
 commitea los cambios de vuelta a la rama.
+
+## `validar_datos.py`
+
+Valida los JSON ya procesados y su coherencia con los GeoJSON del mapa
+(esquema, totales que cuadran, `codigo_ine` correcto y único, provincias en
+rango, y que cada provincia con datos tenga su GeoJSON de municipios). Se
+ejecuta en CI y también puede usarse en local:
+
+```bash
+python herramientas/validar_datos.py
+```
+
+## Tests y lint
+
+```bash
+pip install -r herramientas/requirements-dev.txt
+
+pytest             # tests del procesador (herramientas/tests/)
+ruff check .       # lint
+```
+
+Estas comprobaciones (más las de la web) se ejecutan en cada Pull Request
+mediante [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).

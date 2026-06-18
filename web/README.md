@@ -28,6 +28,17 @@ npm run preview  # sirve dist/ localmente
 `vite.config.ts` usa `base: "./"`, así que `dist/` funciona en cualquier hosting
 estático (incluido GitHub Pages en un subpath).
 
+## Tests, lint y type-check
+
+```bash
+npm run lint       # eslint
+npm run typecheck  # tsc -b
+npm test           # vitest (tests de src/data.ts)
+```
+
+Se ejecutan automáticamente en cada Pull Request junto con el build, mediante
+[`../.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+
 ## Cómo funciona
 
 - **Datos**: se cargan los JSON de M+J por municipio y se agregan en cliente por
