@@ -1,23 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  TODAS_COMUNIDADES,
   agregarPorComunidad,
   agregarPorProvincia,
   cargarEleccion,
+  cargarHistorico,
   cargarIndice,
+  comunidadesHistorico,
   municipiosDeProvincia,
   provinciaAComunidad,
+  tiposHistorico,
   valoresPorProvincia,
 } from "./data";
 import type {
   DatosEleccion,
   EntradaIndice,
   FilaAgregada,
+  Historico,
   Metrica,
   Nivel,
+  Vista,
 } from "./types";
 import { MapaProvincias } from "./components/MapaProvincias";
 import { MapaMunicipios } from "./components/MapaMunicipios";
 import { PanelLista } from "./components/PanelLista";
+import { PanelHistorico } from "./components/PanelHistorico";
 
 export default function App() {
   const [indice, setIndice] = useState<EntradaIndice[]>([]);
@@ -30,6 +37,11 @@ export default function App() {
   const [provincia, setProvincia] = useState<number | null>(null);
   const [metrica, setMetrica] = useState<Metrica>("votos");
 
+  const [vista, setVista] = useState<Vista>("exploracion");
+  const [historico, setHistorico] = useState<Historico | null>(null);
+  const [tipoHist, setTipoHist] = useState<string>("");
+  const [comunidadHist, setComunidadHist] = useState<string>(TODAS_COMUNIDADES);
+
   // Carga el índice de elecciones al inicio.
   useEffect(() => {
     cargarIndice()
@@ -39,6 +51,29 @@ export default function App() {
       })
       .catch((e) => setError(e.message));
   }, []);
+
+  // Carga el histórico (ligero) al inicio para la vista comparativa.
+  useEffect(() => {
+    cargarHistorico()
+      .then((h) => {
+        setHistorico(h);
+        const tipos = tiposHistorico(h);
+        if (tipos.length) setTipoHist(tipos[0]);
+      })
+      .catch((e) => setError(e.message));
+  }, []);
+
+  // Al cambiar de tipo de proceso, reinicia la comunidad si ya no existe en él.
+  function seleccionarTipoHist(t: string) {
+    setTipoHist(t);
+    if (
+      historico &&
+      comunidadHist !== TODAS_COMUNIDADES &&
+      !comunidadesHistorico(historico, t).includes(comunidadHist)
+    ) {
+      setComunidadHist(TODAS_COMUNIDADES);
+    }
+  }
 
   // Carga la elección seleccionada.
   useEffect(() => {
@@ -92,16 +127,18 @@ export default function App() {
           <p className="sub">Por Un Mundo Más Justo — resultados oficiales por territorio</p>
         </div>
         <div className="controles">
-          <label>
-            Elección
-            <select value={fichero} onChange={(e) => setFichero(e.target.value)}>
-              {indice.map((e) => (
-                <option key={e.fichero} value={e.fichero}>
-                  {e.tipo} — {e.periodo}
-                </option>
-              ))}
-            </select>
-          </label>
+          {vista === "exploracion" && (
+            <label>
+              Elección
+              <select value={fichero} onChange={(e) => setFichero(e.target.value)}>
+                {indice.map((e) => (
+                  <option key={e.fichero} value={e.fichero}>
+                    {e.tipo} — {e.periodo}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <label>
             Métrica
             <select value={metrica} onChange={(e) => setMetrica(e.target.value as Metrica)}>
@@ -112,66 +149,99 @@ export default function App() {
         </div>
       </header>
 
-      {datos && (
-        <div className="resumen">
-          <Dato etiqueta="Votos M+J" valor={datos.totales.votos_partido.toLocaleString("es-ES")} />
-          <Dato etiqueta="% s/válidos" valor={`${datos.totales.porcentaje_validos.toFixed(4)}%`} />
-          <Dato etiqueta="Municipios" valor={datos.totales.municipios.toLocaleString("es-ES")} />
-          <Dato etiqueta="Partido" valor={(datos.partido.siglas ?? datos.partido.nombre ?? "—").replace("PUM+J", "M+J")} />
-        </div>
-      )}
-
-      <nav className="migas">
-        <button className="miga" onClick={() => { setComunidad(null); setProvincia(null); }}>
-          España
+      <nav className="pestanas">
+        <button
+          className={`pestana ${vista === "exploracion" ? "activa" : ""}`}
+          onClick={() => setVista("exploracion")}
+        >
+          Exploración por territorio
         </button>
-        {comunidad && (
-          <>
-            <span className="sep">›</span>
-            <button className="miga" onClick={() => setProvincia(null)}>{comunidad}</button>
-          </>
-        )}
-        {provincia != null && (
-          <>
-            <span className="sep">›</span>
-            <span className="miga actual">
-              {registros.find((r) => r.codigo_provincia === provincia)?.provincia}
-            </span>
-          </>
-        )}
+        <button
+          className={`pestana ${vista === "historico" ? "activa" : ""}`}
+          onClick={() => setVista("historico")}
+        >
+          Histórico
+        </button>
       </nav>
 
       {error && <div className="error">⚠ {error}</div>}
-      {cargando && <div className="cargando">Cargando…</div>}
 
-      {datos && !cargando && (
-        <main className="contenido">
-          <PanelLista nivel={nivel} filas={filas} metrica={metrica} onSeleccionar={seleccionarFila} />
-          <div className="panel-mapa">
-            {provincia != null ? (
-              <MapaMunicipios
-                codigoProvincia={provincia}
-                valores={valoresMunicipio}
-                metrica={metrica}
-              />
-            ) : (
-              <MapaProvincias
-                valores={valoresMapa}
-                provinciaComunidad={provComunidad}
-                metrica={metrica}
-                comunidadSel={comunidad}
-                provinciaSel={provincia}
-                onSelectProvincia={seleccionarProvinciaMapa}
-              />
+      {vista === "historico" ? (
+        historico && tipoHist ? (
+          <PanelHistorico
+            historico={historico}
+            tipo={tipoHist}
+            comunidad={comunidadHist}
+            metrica={metrica}
+            onTipo={seleccionarTipoHist}
+            onComunidad={setComunidadHist}
+          />
+        ) : (
+          <div className="cargando">Cargando histórico…</div>
+        )
+      ) : (
+        <>
+          {datos && (
+            <div className="resumen">
+              <Dato etiqueta="Votos M+J" valor={datos.totales.votos_partido.toLocaleString("es-ES")} />
+              <Dato etiqueta="% s/válidos" valor={`${datos.totales.porcentaje_validos.toFixed(4)}%`} />
+              <Dato etiqueta="Municipios" valor={datos.totales.municipios.toLocaleString("es-ES")} />
+              <Dato etiqueta="Partido" valor={(datos.partido.siglas ?? datos.partido.nombre ?? "—").replace("PUM+J", "M+J")} />
+            </div>
+          )}
+
+          <nav className="migas">
+            <button className="miga" onClick={() => { setComunidad(null); setProvincia(null); }}>
+              España
+            </button>
+            {comunidad && (
+              <>
+                <span className="sep">›</span>
+                <button className="miga" onClick={() => setProvincia(null)}>{comunidad}</button>
+              </>
             )}
-            <p className="leyenda">
-              Color por {metrica === "votos" ? "votos a M+J" : "% sobre votos válidos"}.
-              {provincia != null
-                ? " Mapa por municipio. Usa las migas de pan para volver."
-                : " Haz clic en una provincia para ver sus municipios."}
-            </p>
-          </div>
-        </main>
+            {provincia != null && (
+              <>
+                <span className="sep">›</span>
+                <span className="miga actual">
+                  {registros.find((r) => r.codigo_provincia === provincia)?.provincia}
+                </span>
+              </>
+            )}
+          </nav>
+
+          {cargando && <div className="cargando">Cargando…</div>}
+
+          {datos && !cargando && (
+            <main className="contenido">
+              <PanelLista nivel={nivel} filas={filas} metrica={metrica} onSeleccionar={seleccionarFila} />
+              <div className="panel-mapa">
+                {provincia != null ? (
+                  <MapaMunicipios
+                    codigoProvincia={provincia}
+                    valores={valoresMunicipio}
+                    metrica={metrica}
+                  />
+                ) : (
+                  <MapaProvincias
+                    valores={valoresMapa}
+                    provinciaComunidad={provComunidad}
+                    metrica={metrica}
+                    comunidadSel={comunidad}
+                    provinciaSel={provincia}
+                    onSelectProvincia={seleccionarProvinciaMapa}
+                  />
+                )}
+                <p className="leyenda">
+                  Color por {metrica === "votos" ? "votos a M+J" : "% sobre votos válidos"}.
+                  {provincia != null
+                    ? " Mapa por municipio. Usa las migas de pan para volver."
+                    : " Haz clic en una provincia para ver sus municipios."}
+                </p>
+              </div>
+            </main>
+          )}
+        </>
       )}
 
       <footer className="pie">

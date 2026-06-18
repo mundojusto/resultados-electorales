@@ -1,14 +1,19 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  TODAS_COMUNIDADES,
   agregarPorComunidad,
   agregarPorProvincia,
+  comunidadesHistorico,
+  etiquetaPeriodo,
   municipiosDeProvincia,
   porcentaje,
   provinciaAComunidad,
+  serieHistorica,
+  tiposHistorico,
   valoresPorProvincia,
 } from "./data";
-import type { RegistroMunicipio } from "./types";
+import type { Historico, RegistroMunicipio } from "./types";
 
 // Conjunto de registros de prueba: 2 CCAA, 3 provincias, 4 municipios.
 function reg(p: Partial<RegistroMunicipio>): RegistroMunicipio {
@@ -104,5 +109,90 @@ describe("provinciaAComunidad", () => {
     const mapa = provinciaAComunidad(registros);
     expect(mapa.get("04")).toBe("Andalucía");
     expect(mapa.get("28")).toBe("Madrid");
+  });
+});
+
+// Histórico de prueba: dos tipos de proceso con varias elecciones.
+const historico: Historico = {
+  Congreso: [
+    {
+      fichero: "congreso_201912.json",
+      periodo: "Diciembre 2019",
+      anio: 2019,
+      mes: 12,
+      total: { votos_partido: 100, votos_validos: 1000 },
+      comunidades: {
+        "Andalucía": { votos_partido: 60, votos_validos: 600 },
+        "Madrid": { votos_partido: 40, votos_validos: 400 },
+      },
+    },
+    {
+      fichero: "congreso_200803.json",
+      periodo: "Marzo 2008",
+      anio: 2008,
+      mes: 3,
+      total: { votos_partido: 50, votos_validos: 500 },
+      comunidades: {
+        "Andalucía": { votos_partido: 50, votos_validos: 500 },
+      },
+    },
+  ],
+  "Parlamento europeo": [
+    {
+      fichero: "europeo_201905.json",
+      periodo: "Mayo 2019",
+      anio: 2019,
+      mes: 5,
+      total: { votos_partido: 30, votos_validos: 300 },
+      comunidades: { "Madrid": { votos_partido: 30, votos_validos: 300 } },
+    },
+  ],
+};
+
+describe("etiquetaPeriodo", () => {
+  it("incluye el mes abreviado cuando lo hay", () => {
+    expect(etiquetaPeriodo(2019, 12)).toBe("Dic 2019");
+  });
+  it("usa solo el año cuando no hay mes", () => {
+    expect(etiquetaPeriodo(2008, null)).toBe("2008");
+  });
+});
+
+describe("tiposHistorico", () => {
+  it("lista los tipos de proceso ordenados", () => {
+    expect(tiposHistorico(historico)).toEqual(["Congreso", "Parlamento europeo"]);
+  });
+});
+
+describe("comunidadesHistorico", () => {
+  it("reúne las comunidades de toda la serie del tipo, ordenadas", () => {
+    expect(comunidadesHistorico(historico, "Congreso")).toEqual([
+      "Andalucía",
+      "Madrid",
+    ]);
+  });
+});
+
+describe("serieHistorica", () => {
+  it("devuelve el total nacional por defecto", () => {
+    const serie = serieHistorica(historico, "Congreso", TODAS_COMUNIDADES);
+    expect(serie.map((p) => p.votos_partido)).toEqual([100, 50]);
+    expect(serie[0].etiqueta).toBe("Dic 2019");
+  });
+
+  it("filtra por comunidad", () => {
+    const serie = serieHistorica(historico, "Congreso", "Madrid");
+    expect(serie.map((p) => p.votos_partido)).toEqual([40, 0]);
+    expect(serie[0].porcentaje).toBe(porcentaje(40, 400));
+  });
+
+  it("devuelve 0 si la comunidad no aparece en una elección", () => {
+    const serie = serieHistorica(historico, "Congreso", "Madrid");
+    // En la elección de 2008 no hay datos de Madrid.
+    expect(serie[1]).toMatchObject({ votos_partido: 0, votos_validos: 0, porcentaje: 0 });
+  });
+
+  it("devuelve una serie vacía para un tipo inexistente", () => {
+    expect(serieHistorica(historico, "Inexistente")).toEqual([]);
   });
 });

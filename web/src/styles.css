@@ -127,3 +127,75 @@ body {
 .pie { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--borde); color: var(--gris); font-size: 0.8rem; }
 
 .leaflet-container { font: inherit; }
+
+/* Pestañas de vista */
+.pestanas {
+  display: flex;
+  gap: 0.25rem;
+  margin: 1rem 0 0.5rem;
+  border-bottom: 1px solid var(--borde);
+}
+.pestana {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--gris);
+}
+.pestana:hover { color: var(--terracota-osc); }
+.pestana.activa {
+  color: var(--terracota-osc);
+  border-bottom-color: var(--terracota);
+  font-weight: 600;
+}
+
+/* Vista histórico */
+.panel-historico {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.panel-historico__controles {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.panel-historico__controles label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  color: var(--gris);
+  gap: 0.2rem;
+}
+.panel-historico__controles select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
+  min-width: 220px;
+}
+.panel-historico__titulo {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--terracota-osc);
+}
+.panel-historico__vacio { color: var(--gris); padding: 1.5rem 0; }
+
+.grafico { width: 100%; }
+.grafico svg { width: 100%; height: auto; display: block; }
+.grafico__eje { fill: var(--gris); font-size: 11px; }
+.grafico__etiqueta { fill: var(--gris); font-size: 12px; }
+.grafico__valor { fill: var(--terracota-osc); font-size: 11px; font-weight: 600; }
+
+.panel-historico__tabla { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 1rem; }
+.panel-historico__tabla th, .panel-historico__tabla td {
+  padding: 0.4rem 0.6rem; text-align: left; border-bottom: 1px solid var(--borde);
+}
+.panel-historico__tabla th { font-size: 0.75rem; color: var(--gris); text-transform: uppercase; letter-spacing: 0.03em; }
+.panel-historico__tabla td.num, .panel-historico__tabla th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.panel-historico__tabla .destacado { font-weight: 700; color: var(--terracota-osc); }
