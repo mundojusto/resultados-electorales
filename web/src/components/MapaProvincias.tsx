@@ -26,7 +26,7 @@ function estiloDe(feature: any, e: Estado): L.PathOptions {
     fillColor: colorPara(fila, e.metrica, max),
     fillOpacity: enComunidad ? 0.9 : 0.2,
     weight: seleccionada ? 3 : 0.6,
-    color: seleccionada ? "#0a4d38" : "#9bb7ac",
+    color: seleccionada ? "#765043" : "#d8c3b2",
   };
 }
 
@@ -65,7 +65,7 @@ export function MapaProvincias(props: Props) {
           onEachFeature: (feature, layer) => {
             layer.on({
               mouseover: (ev) =>
-                (ev.target as L.Path).setStyle({ weight: 2, color: "#0d6e50" }),
+                (ev.target as L.Path).setStyle({ weight: 2, color: "#9a5339" }),
               mouseout: () => capaRef.current?.resetStyle(layer),
               click: () => {
                 const cod = Number(feature.properties.cod_prov);
