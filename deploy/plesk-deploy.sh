@@ -45,19 +45,30 @@ echo "Document root: $DOCROOT"
 
 # --- Localizar Node/npm ------------------------------------------------------
 # La extensión Node.js de Plesk instala Node en /opt/plesk/node/<version>/bin,
-# que puede NO estar en el PATH. Si npm no aparece, buscamos en las ubicaciones
-# habituales (el glob va ordenado, así que la última suele ser la más reciente).
-if ! command -v npm >/dev/null 2>&1; then
+# que puede NO estar en el PATH. Detectamos por 'node' (siempre presente) y
+# añadimos su bin al PATH; el glob va ordenado, así que la última coincidencia
+# (versión más alta) queda primera en el PATH.
+if ! command -v node >/dev/null 2>&1; then
   for node_bin in \
     /opt/plesk/node/*/bin \
     /usr/local/bin \
-    "$HOME/.nvm/versions/node/"*/bin \
-    "$HOME/.npm-global/bin" \
-    /opt/plesk/node/*/lib/node_modules/.bin; do
-    [ -x "$node_bin/npm" ] && PATH="$node_bin:$PATH"
+    "$HOME/.nvm/versions/node/"*/bin; do
+    [ -x "$node_bin/node" ] && PATH="$node_bin:$PATH"
   done
   export PATH
 fi
+
+# Con node en el PATH, npm suele estar al lado. Si no (symlink ausente en
+# algunas instalaciones de Plesk), lo invocamos vía npm-cli.js, que vive en
+# <node>/../lib/node_modules/npm/bin/npm-cli.js.
+if command -v node >/dev/null 2>&1 && ! command -v npm >/dev/null 2>&1; then
+  node_path="$(command -v node)"
+  npm_cli="${node_path%/bin/node}/lib/node_modules/npm/bin/npm-cli.js"
+  if [ -f "$npm_cli" ]; then
+    npm() { node "$npm_cli" "$@"; }
+  fi
+fi
+
 if ! command -v npm >/dev/null 2>&1; then
   echo "ERROR: no se encontró npm en el servidor." >&2
   echo "--- Diagnóstico (compártelo si pides ayuda) -----------------------" >&2
