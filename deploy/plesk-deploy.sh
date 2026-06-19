@@ -45,17 +45,46 @@ echo "Document root: $DOCROOT"
 
 # --- Localizar Node/npm ------------------------------------------------------
 # La extensión Node.js de Plesk instala Node en /opt/plesk/node/<version>/bin,
-# que puede NO estar en el PATH. Si npm no aparece, añadimos las rutas que
-# encontremos (el glob va ordenado, así que la última suele ser la más reciente).
-if ! command -v npm >/dev/null 2>&1; then
-  for node_bin in /opt/plesk/node/*/bin; do
-    [ -x "$node_bin/npm" ] && PATH="$node_bin:$PATH"
+# que puede NO estar en el PATH. Detectamos por 'node' (siempre presente) y
+# añadimos su bin al PATH; el glob va ordenado, así que la última coincidencia
+# (versión más alta) queda primera en el PATH.
+if ! command -v node >/dev/null 2>&1; then
+  for node_bin in \
+    /opt/plesk/node/*/bin \
+    /usr/local/bin \
+    "$HOME/.nvm/versions/node/"*/bin; do
+    [ -x "$node_bin/node" ] && PATH="$node_bin:$PATH"
   done
   export PATH
 fi
+
+# Con node en el PATH, npm suele estar al lado. Si no (symlink ausente en
+# algunas instalaciones de Plesk), lo invocamos vía npm-cli.js, que vive en
+# <node>/../lib/node_modules/npm/bin/npm-cli.js.
+if command -v node >/dev/null 2>&1 && ! command -v npm >/dev/null 2>&1; then
+  node_path="$(command -v node)"
+  npm_cli="${node_path%/bin/node}/lib/node_modules/npm/bin/npm-cli.js"
+  if [ -f "$npm_cli" ]; then
+    npm() { node "$npm_cli" "$@"; }
+  fi
+fi
+
 if ! command -v npm >/dev/null 2>&1; then
-  echo "ERROR: no se encontró npm. Instala la extensión Node.js de Plesk o" \
-       "ajusta el PATH al binario de Node." >&2
+  echo "ERROR: no se encontró npm en el servidor." >&2
+  echo "--- Diagnóstico (compártelo si pides ayuda) -----------------------" >&2
+  echo "PATH actual: $PATH" >&2
+  if [ -d /opt/plesk/node ]; then
+    echo "Versiones de Node de Plesk instaladas (/opt/plesk/node):" >&2
+    ls -1 /opt/plesk/node 2>/dev/null >&2 || true
+  else
+    echo "No existe /opt/plesk/node: la extensión Node.js de Plesk NO está" \
+         "instalada. Instálala en Plesk > Extensiones > 'Node.js'." >&2
+  fi
+  echo "Búsqueda de binarios 'npm' en el sistema:" >&2
+  find /opt /usr "$HOME" -name npm -type f 2>/dev/null | head -n 10 >&2 || true
+  echo "------------------------------------------------------------------" >&2
+  echo "Si 'npm' aparece arriba en una ruta no contemplada, añádela en la" \
+       "acción de despliegue: export PATH=/esa/ruta:\$PATH" >&2
   exit 1
 fi
 echo "Usando Node $(node -v) / npm $(npm -v)"
