@@ -41,6 +41,7 @@ export default function App() {
   const [historico, setHistorico] = useState<Historico | null>(null);
   const [tipoHist, setTipoHist] = useState<string>("");
   const [comunidadHist, setComunidadHist] = useState<string>(TODAS_COMUNIDADES);
+  const [ficheroHist, setFicheroHist] = useState<string>("");
 
   // Carga el índice de elecciones al inicio.
   useEffect(() => {
@@ -63,9 +64,11 @@ export default function App() {
       .catch((e) => setError(e.message));
   }, []);
 
-  // Al cambiar de tipo de proceso, reinicia la comunidad si ya no existe en él.
+  // Al cambiar de tipo de proceso, reinicia la comunidad si ya no existe en él
+  // y la elección destacada (sus años pertenecen a otra serie).
   function seleccionarTipoHist(t: string) {
     setTipoHist(t);
+    setFicheroHist("");
     if (
       historico &&
       comunidadHist !== TODAS_COMUNIDADES &&
@@ -172,9 +175,11 @@ export default function App() {
             historico={historico}
             tipo={tipoHist}
             comunidad={comunidadHist}
+            fichero={ficheroHist}
             metrica={metrica}
             onTipo={seleccionarTipoHist}
             onComunidad={setComunidadHist}
+            onFichero={setFicheroHist}
           />
         ) : (
           <div className="cargando">Cargando histórico…</div>

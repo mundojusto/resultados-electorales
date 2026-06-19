@@ -13,6 +13,7 @@ import {
   tiposHistorico,
   valoresPorProvincia,
 } from "./data";
+import { normalizarComunidad } from "./comunidades";
 import type { Historico, RegistroMunicipio } from "./types";
 
 // Conjunto de registros de prueba: 2 CCAA, 3 provincias, 4 municipios.
@@ -54,11 +55,44 @@ describe("porcentaje", () => {
   });
 });
 
+describe("normalizarComunidad", () => {
+  it("recorta espacios de relleno", () => {
+    expect(normalizarComunidad("Andalucía          ")).toBe("Andalucía");
+  });
+
+  it("resuelve variantes de orden y prefijo a un nombre canónico", () => {
+    expect(normalizarComunidad("Madrid, Comunidad de")).toBe("Comunidad de Madrid");
+    expect(normalizarComunidad("Ciudad de Ceuta")).toBe("Ceuta");
+    expect(normalizarComunidad("Rioja, La")).toBe("La Rioja");
+  });
+
+  it("unifica variantes lingüísticas", () => {
+    expect(normalizarComunidad("Catalunya")).toBe("Cataluña");
+    expect(normalizarComunidad("Cataluña")).toBe("Cataluña");
+  });
+
+  it("devuelve el nombre limpio si no hay alias", () => {
+    expect(normalizarComunidad("Galicia")).toBe("Galicia");
+    expect(normalizarComunidad(null)).toBe("");
+  });
+});
+
 describe("agregarPorComunidad", () => {
   const filas = agregarPorComunidad(registros);
 
   it("agrupa por comunidad", () => {
     expect(filas).toHaveLength(2);
+  });
+
+  it("unifica variantes del mismo nombre de comunidad", () => {
+    const mixto: RegistroMunicipio[] = [
+      reg({ comunidad: "Cataluña", votos_partido: 10, votos_validos: 100 }),
+      reg({ comunidad: "Catalunya          ", votos_partido: 5, votos_validos: 50 }),
+    ];
+    const agg = agregarPorComunidad(mixto);
+    expect(agg).toHaveLength(1);
+    expect(agg[0].nombre).toBe("Cataluña");
+    expect(agg[0].votos_partido).toBe(15);
   });
 
   it("suma votos y válidos por comunidad", () => {

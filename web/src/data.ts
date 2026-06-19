@@ -6,6 +6,7 @@ import type {
   PuntoHistorico,
   RegistroMunicipio,
 } from "./types";
+import { normalizarComunidad } from "./comunidades";
 
 const BASE = `${import.meta.env.BASE_URL}datos/`;
 
@@ -39,7 +40,7 @@ function ordenar(filas: FilaAgregada[]): FilaAgregada[] {
 export function agregarPorComunidad(registros: RegistroMunicipio[]): FilaAgregada[] {
   const acc = new Map<string, { votos: number; validos: number }>();
   for (const r of registros) {
-    const k = r.comunidad ?? "—";
+    const k = normalizarComunidad(r.comunidad);
     const a = acc.get(k) ?? { votos: 0, validos: 0 };
     a.votos += r.votos_partido;
     a.validos += r.votos_validos;
@@ -66,7 +67,7 @@ export function agregarPorProvincia(
     { nombre: string; cod: number; votos: number; validos: number }
   >();
   for (const r of registros) {
-    if (comunidad && r.comunidad !== comunidad) continue;
+    if (comunidad && normalizarComunidad(r.comunidad) !== comunidad) continue;
     const cod = r.codigo_provincia ?? 0;
     const k = String(cod).padStart(2, "0");
     const a = acc.get(k) ?? { nombre: r.provincia, cod, votos: 0, validos: 0 };
@@ -120,7 +121,7 @@ export function provinciaAComunidad(
   const m = new Map<string, string>();
   for (const r of registros) {
     if (r.codigo_provincia != null) {
-      m.set(String(r.codigo_provincia).padStart(2, "0"), r.comunidad);
+      m.set(String(r.codigo_provincia).padStart(2, "0"), normalizarComunidad(r.comunidad));
     }
   }
   return m;
