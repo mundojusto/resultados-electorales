@@ -13,11 +13,12 @@ resultados-electorales/
 │   ├── procesar_resultados.py
 │   └── requirements.txt
 ├── web/                              # App de visualización (React + Vite + TS)
-├── deploy/                           # Despliegue en Plesk (script + nginx)
+├── deploy/                           # Directivas nginx para Plesk
 └── .github/workflows/
     ├── ci.yml                        # CI: lint + tests + validación + build en cada PR
     ├── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
-    └── desplegar-web.yml             # Despliegue de la web (GitHub Pages, manual)
+    ├── publicar-plesk.yml            # Build + publicación a la rama plesk-deploy
+    └── desplegar-web.yml             # Despliegue alternativo a GitHub Pages (manual)
 ```
 
 ## Pipeline de datos
@@ -61,11 +62,12 @@ si algo falla. Para ejecutarlo en local, ver
 
 ## Despliegue
 
-La web se despliega en **Plesk** mediante su integración con **Git**: en cada
-push, Plesk hace `pull` del repo, construye la app estática y publica `web/dist`
-en el document root (lo sirve el propio nginx/Apache de Plesk, sin Docker).
+La web se sirve en **Plesk** a partir de una rama ya compilada: GitHub Actions
+construye la app ([`publicar-plesk.yml`](./.github/workflows/publicar-plesk.yml))
+y publica `web/dist` en la rama **`plesk-deploy`**; Plesk sigue esa rama y sirve
+los ficheros con su nginx/Apache (sin Docker y sin construir nada en el
+servidor, cuyo entorno de despliegue está aislado y no tiene Node).
 
-La acción de despliegue es [`deploy/plesk-deploy.sh`](./deploy/plesk-deploy.sh).
 Pasos completos en [`DESPLIEGUE.md`](./DESPLIEGUE.md).
 
 ## Próximos pasos
@@ -73,4 +75,4 @@ Pasos completos en [`DESPLIEGUE.md`](./DESPLIEGUE.md).
 - [x] Procesador de XLSX oficiales a JSON de M+J.
 - [x] CI/CD para procesar automáticamente los ficheros subidos.
 - [x] App web de visualización (listado + mapa de provincias y de municipios).
-- [x] Despliegue automático en Plesk (Git + build en el servidor).
+- [x] Despliegue automático en Plesk (build en CI + rama `plesk-deploy`).
