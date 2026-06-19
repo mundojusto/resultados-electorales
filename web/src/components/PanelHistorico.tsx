@@ -8,29 +8,22 @@ import {
 } from "../data";
 import { interpolaColor } from "../colores";
 
-// Valor del desplegable de año/fecha cuando no se resalta ninguna elección.
-const SIN_DESTACAR = "";
-
 interface Props {
   historico: Historico;
   tipo: string;
   comunidad: string;
-  fichero: string;
   metrica: Metrica;
   onTipo: (tipo: string) => void;
   onComunidad: (comunidad: string) => void;
-  onFichero: (fichero: string) => void;
 }
 
 export function PanelHistorico({
   historico,
   tipo,
   comunidad,
-  fichero,
   metrica,
   onTipo,
   onComunidad,
-  onFichero,
 }: Props) {
   const tipos = useMemo(() => tiposHistorico(historico), [historico]);
   const comunidades = useMemo(
@@ -49,22 +42,11 @@ export function PanelHistorico({
     <div className="panel-historico">
       <div className="panel-historico__controles">
         <label>
-          Tipo de elección
+          Tipo de proceso
           <select value={tipo} onChange={(e) => onTipo(e.target.value)}>
             {tipos.map((t) => (
               <option key={t} value={t}>
                 {t}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Año / fecha
-          <select value={fichero} onChange={(e) => onFichero(e.target.value)}>
-            <option value={SIN_DESTACAR}>Todo el histórico</option>
-            {serie.map((p) => (
-              <option key={p.fichero} value={p.fichero}>
-                {p.etiqueta}
               </option>
             ))}
           </select>
@@ -93,8 +75,8 @@ export function PanelHistorico({
         </p>
       ) : (
         <>
-          <GraficoBarras serie={serie} metrica={metrica} destacado={fichero} />
-          <TablaHistorico serie={serie} metrica={metrica} destacado={fichero} />
+          <GraficoBarras serie={serie} metrica={metrica} />
+          <TablaHistorico serie={serie} metrica={metrica} />
         </>
       )}
     </div>
@@ -114,11 +96,9 @@ function formatear(p: PuntoHistorico, metrica: Metrica): string {
 function GraficoBarras({
   serie,
   metrica,
-  destacado,
 }: {
   serie: PuntoHistorico[];
   metrica: Metrica;
-  destacado: string;
 }) {
   // Lienzo con coordenadas internas; el SVG se escala al ancho disponible.
   const W = 720;
@@ -169,14 +149,8 @@ function GraficoBarras({
           const x = M.left + paso * i + (paso - anchoBarra) / 2;
           const y = M.top + areaH - h;
           const color = interpolaColor(0.35 + 0.5 * Math.sqrt(v / max));
-          // Si hay una elección destacada, las demás se atenúan para resaltarla.
-          const hayDestacado = destacado !== "";
-          const esDestacado = p.fichero === destacado;
           return (
-            <g
-              key={p.fichero}
-              opacity={hayDestacado && !esDestacado ? 0.3 : 1}
-            >
+            <g key={p.fichero}>
               <rect
                 x={x}
                 y={y}
@@ -184,8 +158,6 @@ function GraficoBarras({
                 height={Math.max(0, h)}
                 rx={3}
                 fill={color}
-                stroke={esDestacado ? "#765043" : "none"}
-                strokeWidth={esDestacado ? 2.5 : 0}
               >
                 <title>
                   {p.etiqueta}: {formatear(p, metrica)}
@@ -204,7 +176,7 @@ function GraficoBarras({
               <text
                 x={x + anchoBarra / 2}
                 y={H - M.bottom + 18}
-                className={`grafico__etiqueta ${esDestacado ? "destacada" : ""}`}
+                className="grafico__etiqueta"
                 textAnchor="middle"
               >
                 {p.etiqueta}
@@ -220,11 +192,9 @@ function GraficoBarras({
 function TablaHistorico({
   serie,
   metrica,
-  destacado,
 }: {
   serie: PuntoHistorico[];
   metrica: Metrica;
-  destacado: string;
 }) {
   return (
     <table className="panel-historico__tabla">
@@ -237,7 +207,7 @@ function TablaHistorico({
       </thead>
       <tbody>
         {serie.map((p) => (
-          <tr key={p.fichero} className={p.fichero === destacado ? "destacada" : ""}>
+          <tr key={p.fichero}>
             <td>{p.etiqueta}</td>
             <td className={`num ${metrica === "votos" ? "destacado" : ""}`}>
               {p.votos_partido.toLocaleString("es-ES")}
