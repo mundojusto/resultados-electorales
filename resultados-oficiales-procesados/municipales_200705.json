@@ -9,14 +9,14 @@
     "fecha_procesado": "2026-06-18"
   },
   "partido": {
-    "nombre": "PARTIDO POR UN MUNDO MAS JUSTO",
-    "siglas": "PMJ"
+    "nombre": "POR UN MUNDO MAS JUSTO",
+    "siglas": "PUM+J"
   },
   "totales": {
-    "votos_partido": 294,
+    "votos_partido": 3001,
     "votos_validos": 22225879,
     "votos_candidaturas": 22225879,
-    "porcentaje_validos": 0.0013,
+    "porcentaje_validos": 0.0135,
     "municipios": 8077
   },
   "resultados": [
@@ -87378,7 +87378,7 @@
       "votantes": 1585402,
       "votos_validos": 1577031,
       "votos_candidaturas": 1577031,
-      "votos_partido": 0
+      "votos_partido": 2501
     },
     {
       "comunidad": "Comunidad de Madrid           ",
@@ -95490,7 +95490,7 @@
       "votantes": 200255,
       "votos_validos": 199426,
       "votos_candidaturas": 199426,
-      "votos_partido": 0
+      "votos_partido": 500
     },
     {
       "comunidad": "Región de Murcia              ",
@@ -98129,7 +98129,7 @@
       "votantes": 144928,
       "votos_validos": 144281,
       "votos_candidaturas": 144281,
-      "votos_partido": 294
+      "votos_partido": 0
     },
     {
       "comunidad": "Comunitat Valenciana          ",

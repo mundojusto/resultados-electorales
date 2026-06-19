@@ -9,14 +9,14 @@
     "fecha_procesado": "2026-06-18"
   },
   "partido": {
-    "nombre": "GOR EXISTE",
-    "siglas": "GOR EXISTE"
+    "nombre": "POR UN MUNDO MAS JUSTO",
+    "siglas": "PUM+J"
   },
   "totales": {
-    "votos_partido": 35,
+    "votos_partido": 9653,
     "votos_validos": 22380941,
     "votos_candidaturas": 22380941,
-    "porcentaje_validos": 0.0002,
+    "porcentaje_validos": 0.0431,
     "municipios": 8087
   },
   "resultados": [
@@ -2215,7 +2215,7 @@
       "votantes": 152508,
       "votos_validos": 150606,
       "votos_candidaturas": 150606,
-      "votos_partido": 0
+      "votos_partido": 254
     },
     {
       "comunidad": "Andalucía",
@@ -3866,7 +3866,7 @@
       "votantes": 593,
       "votos_validos": 587,
       "votos_candidaturas": 587,
-      "votos_partido": 35
+      "votos_partido": 0
     },
     {
       "comunidad": "Andalucía",
@@ -3892,7 +3892,7 @@
       "votantes": 110556,
       "votos_validos": 107614,
       "votos_candidaturas": 107614,
-      "votos_partido": 0
+      "votos_partido": 798
     },
     {
       "comunidad": "Andalucía",
@@ -4971,7 +4971,7 @@
       "votantes": 1094,
       "votos_validos": 1071,
       "votos_candidaturas": 1071,
-      "votos_partido": 0
+      "votos_partido": 20
     },
     {
       "comunidad": "Andalucía",
@@ -8377,7 +8377,7 @@
       "votantes": 241281,
       "votos_validos": 239079,
       "votos_candidaturas": 239079,
-      "votos_partido": 0
+      "votos_partido": 426
     },
     {
       "comunidad": "Andalucía",
@@ -9066,7 +9066,7 @@
       "votantes": 9948,
       "votos_validos": 9757,
       "votos_candidaturas": 9757,
-      "votos_partido": 0
+      "votos_partido": 238
     },
     {
       "comunidad": "Andalucía",
@@ -10028,7 +10028,7 @@
       "votantes": 326118,
       "votos_validos": 322493,
       "votos_candidaturas": 322493,
-      "votos_partido": 0
+      "votos_partido": 848
     },
     {
       "comunidad": "Andalucía",
@@ -19661,7 +19661,7 @@
       "votantes": 335350,
       "votos_validos": 331966,
       "votos_candidaturas": 331966,
-      "votos_partido": 0
+      "votos_partido": 601
     },
     {
       "comunidad": "Aragón",
@@ -20285,7 +20285,7 @@
       "votantes": 111344,
       "votos_validos": 110116,
       "votos_candidaturas": 110116,
-      "votos_partido": 0
+      "votos_partido": 415
     },
     {
       "comunidad": "Principado de Asturias",
@@ -47962,7 +47962,7 @@
       "votantes": 39816,
       "votos_validos": 39325,
       "votos_candidaturas": 39325,
-      "votos_partido": 0
+      "votos_partido": 203
     },
     {
       "comunidad": "Castilla y León",
@@ -61378,7 +61378,7 @@
       "votantes": 161820,
       "votos_validos": 160501,
       "votos_candidaturas": 160501,
-      "votos_partido": 0
+      "votos_partido": 174
     },
     {
       "comunidad": "Castilla y León",
@@ -82776,7 +82776,7 @@
       "votantes": 15173,
       "votos_validos": 15034,
       "votos_candidaturas": 15034,
-      "votos_partido": 0
+      "votos_partido": 337
     },
     {
       "comunidad": "Galicia",
@@ -87612,7 +87612,7 @@
       "votantes": 1651560,
       "votos_validos": 1639227,
       "votos_candidaturas": 1639227,
-      "votos_partido": 0
+      "votos_partido": 2647
     },
     {
       "comunidad": "Comunidad de Madrid",
@@ -91174,7 +91174,7 @@
       "votantes": 102111,
       "votos_validos": 101278,
       "votos_candidaturas": 101278,
-      "votos_partido": 0
+      "votos_partido": 710
     },
     {
       "comunidad": "Comunidad Foral de Navarra",
@@ -92552,7 +92552,7 @@
       "votantes": 110633,
       "votos_validos": 108986,
       "votos_candidaturas": 108986,
-      "votos_partido": 0
+      "votos_partido": 475
     },
     {
       "comunidad": "País Vasco",
@@ -93527,7 +93527,7 @@
       "votantes": 88275,
       "votos_validos": 87590,
       "votos_candidaturas": 87590,
-      "votos_partido": 0
+      "votos_partido": 154
     },
     {
       "comunidad": "País Vasco",
@@ -94034,7 +94034,7 @@
       "votantes": 150482,
       "votos_validos": 148822,
       "votos_candidaturas": 148822,
-      "votos_partido": 0
+      "votos_partido": 613
     },
     {
       "comunidad": "País Vasco",
@@ -98259,7 +98259,7 @@
       "votantes": 148387,
       "votos_validos": 147040,
       "votos_candidaturas": 147040,
-      "votos_partido": 0
+      "votos_partido": 202
     },
     {
       "comunidad": "Comunitat Valenciana",
@@ -104915,7 +104915,7 @@
       "votantes": 417512,
       "votos_validos": 414372,
       "votos_candidaturas": 414372,
-      "votos_partido": 0
+      "votos_partido": 538
     },
     {
       "comunidad": "Comunitat Valenciana",

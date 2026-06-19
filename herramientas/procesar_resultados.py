@@ -42,6 +42,9 @@ PATRONES_NOMBRE = [
 ]
 PATRONES_SIGLAS = ["PUM+J", "M+J", "PUMJ", "MUNDO+JUSTO", "EXISTE"]
 
+# En municipales, se pide limitar la búsqueda a estas marcas exactas.
+PATRONES_MUNICIPALES_EXACTOS = {"PUM+J", "M+J", "MUNDO+JUSTO"}
+
 # --- Cabeceras de metadatos (columnas no-partido) -----------------------------
 META_COMUNIDAD = "Nombre de Comunidad"
 COLUMNAS_META = {
@@ -116,7 +119,7 @@ def parsea_titulo(texto):
     return tipo, periodo, anio, mes
 
 
-def localiza_columnas(fila_nombres, fila_cabecera):
+def localiza_columnas(tipo, fila_nombres, fila_cabecera):
     """Mapea columnas de metadatos y localiza la columna del partido M+J.
 
     Devuelve (indices_meta: dict, idx_partido: int, nombre_partido, siglas_partido).
@@ -125,6 +128,11 @@ def localiza_columnas(fila_nombres, fila_cabecera):
     norm_meta = {normaliza(k): v for k, v in COLUMNAS_META.items()}
     idx_partido = None
     nombre_partido = siglas_partido = None
+
+    tipo_normalizado = normaliza(tipo)
+    es_municipales = "MUNICIPALES" in tipo_normalizado
+    patrones_siglas_norm = {normaliza(s) for s in PATRONES_SIGLAS}
+    patrones_municipales_norm = {normaliza(s) for s in PATRONES_MUNICIPALES_EXACTOS}
 
     for idx, siglas in enumerate(fila_cabecera):
         clave = norm_meta.get(normaliza(siglas))
@@ -135,9 +143,10 @@ def localiza_columnas(fila_nombres, fila_cabecera):
         n_nombre, n_siglas = normaliza(nombre), normaliza(siglas)
         if not n_nombre and not n_siglas:
             continue
-        es_mj = any(p in n_nombre for p in PATRONES_NOMBRE) or n_siglas in {
-            normaliza(s) for s in PATRONES_SIGLAS
-        }
+        if es_municipales:
+            es_mj = n_siglas in patrones_municipales_norm or n_nombre in patrones_municipales_norm
+        else:
+            es_mj = any(p in n_nombre for p in PATRONES_NOMBRE) or n_siglas in patrones_siglas_norm
         if es_mj:
             idx_partido = idx
             nombre_partido = str(nombre).strip() if nombre else str(siglas).strip()
@@ -185,7 +194,7 @@ def procesa(entrada: Path):
         titulo = next((celda for celda in fila_t if celda not in (None, "")), None)
 
     tipo, periodo, anio, mes = parsea_titulo(titulo)
-    meta, idx_p, nombre_p, siglas_p = localiza_columnas(fila_nombres, fila_cabecera)
+    meta, idx_p, nombre_p, siglas_p = localiza_columnas(tipo, fila_nombres, fila_cabecera)
     if idx_p is None:
         raise PartidoNoPresente(tipo, periodo)
 
