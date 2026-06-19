@@ -19,6 +19,12 @@
 
 set -euo pipefail
 
+# --- PATH básico -------------------------------------------------------------
+# La acción de despliegue de Plesk arranca con un PATH casi vacío, así que ni
+# siquiera utilidades estándar (dirname, sort, find, cp, rsync...) están
+# disponibles. Anteponemos las rutas de sistema habituales para tenerlas.
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
+
 # --- Configuración -----------------------------------------------------------
 # Document root del dominio (donde nginx/Apache de Plesk sirve los ficheros).
 # Por defecto httpdocs del usuario del dominio; sobreescribible con $DOCROOT.
@@ -28,20 +34,24 @@ DOCROOT="${DOCROOT:-$HOME/httpdocs}"
 WEB_DIR="web"
 
 # --- Ir a la raíz del repositorio -------------------------------------------
-cd "$(dirname "$0")/.."
+# Sin depender de 'dirname': usamos expansión de bash. Si $0 no trae ruta
+# (se ejecutó desde la raíz del repo), nos quedamos donde estamos.
+SCRIPT_DIR="${0%/*}"
+[ "$SCRIPT_DIR" = "$0" ] && SCRIPT_DIR="."
+cd "$SCRIPT_DIR/.."
 REPO_ROOT="$(pwd)"
 echo "Repositorio: $REPO_ROOT"
 echo "Document root: $DOCROOT"
 
 # --- Localizar Node/npm ------------------------------------------------------
 # La extensión Node.js de Plesk instala Node en /opt/plesk/node/<version>/bin,
-# que puede NO estar en el PATH de la acción de despliegue. Si npm no aparece,
-# usamos la versión más reciente que encontremos.
+# que puede NO estar en el PATH. Si npm no aparece, añadimos las rutas que
+# encontremos (el glob va ordenado, así que la última suele ser la más reciente).
 if ! command -v npm >/dev/null 2>&1; then
-  NODE_BIN="$(ls -d /opt/plesk/node/*/bin 2>/dev/null | sort -V | tail -n1 || true)"
-  if [ -n "${NODE_BIN:-}" ]; then
-    export PATH="$NODE_BIN:$PATH"
-  fi
+  for node_bin in /opt/plesk/node/*/bin; do
+    [ -x "$node_bin/npm" ] && PATH="$node_bin:$PATH"
+  done
+  export PATH
 fi
 if ! command -v npm >/dev/null 2>&1; then
   echo "ERROR: no se encontró npm. Instala la extensión Node.js de Plesk o" \

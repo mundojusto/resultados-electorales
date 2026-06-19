@@ -80,10 +80,12 @@ pasos manuales** para reflejar elecciones nuevas.
 
 ## Notas y resolución de problemas
 
-- **`npm: command not found`** en el log de despliegue: falta la extensión
-  Node.js de Plesk, o `node` no está en el PATH. El script intenta localizarlo en
-  `/opt/plesk/node/*/bin`; si tu instalación usa otra ruta, expórtala en la
-  acción de despliegue (`export PATH=/ruta/a/node/bin:$PATH`).
+- **`dirname/sort/... : command not found`** o **`npm: command not found`** en
+  el log: la acción de despliegue de Plesk arranca con un PATH casi vacío. El
+  script ya lo arregla anteponiendo las rutas de sistema (`/usr/bin`, etc.) y
+  buscando Node en `/opt/plesk/node/*/bin`. Si aun así no encuentra `npm`, falta
+  la extensión Node.js de Plesk; instálala (o si tu Node está en otra ruta,
+  expórtala en la acción de despliegue: `export PATH=/ruta/a/node/bin:$PATH`).
 - **HTTPS / dominio:** lo gestiona Plesk (Let's Encrypt en un clic), no hace
   falta proxy inverso como antes.
 - **Permisos:** el script publica en el document root del usuario del dominio, el
