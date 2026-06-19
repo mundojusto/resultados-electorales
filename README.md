@@ -13,6 +13,7 @@ resultados-electorales/
 │   ├── procesar_resultados.py
 │   └── requirements.txt
 ├── web/                              # App de visualización (React + Vite + TS)
+├── deploy/                           # Despliegue en Plesk (script + nginx)
 └── .github/workflows/
     ├── ci.yml                        # CI: lint + tests + validación + build en cada PR
     ├── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
@@ -60,19 +61,16 @@ si algo falla. Para ejecutarlo en local, ver
 
 ## Despliegue
 
-Para desplegar en un servidor privado con **Docker + nginx** (sin dominio,
-accediendo por IP:puerto), sigue [`DESPLIEGUE.md`](./DESPLIEGUE.md). En resumen:
+La web se despliega en **Plesk** mediante su integración con **Git**: en cada
+push, Plesk hace `pull` del repo, construye la app estática y publica `web/dist`
+en el document root (lo sirve el propio nginx/Apache de Plesk, sin Docker).
 
-```bash
-git clone https://github.com/mundojusto/resultados-electorales.git
-cd resultados-electorales
-docker compose up -d --build      # luego: http://IP-DEL-SERVIDOR:8080
-```
+La acción de despliegue es [`deploy/plesk-deploy.sh`](./deploy/plesk-deploy.sh).
+Pasos completos en [`DESPLIEGUE.md`](./DESPLIEGUE.md).
 
 ## Próximos pasos
 
 - [x] Procesador de XLSX oficiales a JSON de M+J.
 - [x] CI/CD para procesar automáticamente los ficheros subidos.
 - [x] App web de visualización (listado + mapa de provincias y de municipios).
-- [x] Despliegue con Docker para servidor privado.
-- [ ] (Opcional) Dominio y HTTPS mediante proxy inverso.
+- [x] Despliegue automático en Plesk (Git + build en el servidor).

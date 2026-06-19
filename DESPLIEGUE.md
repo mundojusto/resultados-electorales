@@ -1,96 +1,92 @@
-# Despliegue (Docker + nginx)
+# Despliegue (Plesk + Git)
 
-Guía para desplegar la web en un servidor privado, **sin dominio**, accediendo
-por IP y puerto (p. ej. `http://192.168.1.50:8080`). El build ocurre dentro del
-contenedor, así que el servidor **solo necesita Docker** (ni Node ni nginx).
+Guía para desplegar la web en un servidor con **Plesk**. La web es **estática**
+(React + Vite); Plesk la sirve directamente con su nginx/Apache, así que **no
+hace falta Docker**: en cada push, Plesk hace `pull` del repositorio, construye
+la app y publica el resultado en el _document root_.
+
+> Antes esto se hacía con un contenedor Docker. Para un sitio estático, Docker
+> añade una capa innecesaria: Plesk ya tiene un servidor web. Por eso se ha
+> sustituido por el despliegue Git nativo de Plesk.
 
 ## Qué necesitas
 
-- Acceso SSH al servidor con permisos `sudo`.
-- Conexión a internet en el servidor (para descargar Docker e imágenes base).
-- Un puerto libre accesible (por defecto **8080**).
-- La IP del servidor (averíguala con `hostname -I` o `ip a`).
+- Un dominio (o subdominio) en Plesk.
+- La **extensión Node.js** instalada en Plesk (provee `node`/`npm` para el
+  build). Plesk > Extensiones > busca "Node.js" e instálala.
+- Acceso al repositorio de GitHub desde Plesk (público, o con clave de
+  despliegue si es privado).
 
-## 1. Instalar Docker (si no lo tiene)
+## 1. Conectar el repositorio en Plesk
 
-En Debian/Ubuntu:
+En **Sitios web y dominios > (tu dominio) > Git**:
 
-```bash
-curl -fsSL https://get.docker.com | sudo sh
-sudo usermod -aG docker $USER     # para usar docker sin sudo
-# cierra sesión y vuelve a entrar (o ejecuta: newgrp docker)
-```
+1. **Add Repository** y pega la URL del repo
+   (`https://github.com/mundojusto/resultados-electorales.git`).
+2. Elige la **rama** a desplegar (normalmente `main`).
+3. **Modo de despliegue: Automático** — Plesk hará `pull` en cada push (usa el
+   webhook que Plesk te indica; añádelo en GitHub > Settings > Webhooks si no se
+   crea solo).
 
-Comprueba: `docker version` y `docker compose version`.
+Plesk clonará el repo en una carpeta propia (p. ej. `~/git/resultados-...`); el
+build de abajo publica los ficheros en el document root del dominio.
 
-## 2. Clonar el repositorio
+## 2. Acción de despliegue (build + publicar)
 
-```bash
-git clone https://github.com/mundojusto/resultados-electorales.git
-cd resultados-electorales
-# Mientras los cambios estén en la rama de trabajo (antes de fusionar a main):
-git checkout claude/zealous-cray-2dnjla
-```
-
-## 3. Construir y arrancar
+En la configuración de Git del dominio, abre **Acciones de despliegue
+adicionales** y pon:
 
 ```bash
-docker compose up -d --build
+bash deploy/plesk-deploy.sh
 ```
 
-La primera vez tarda unos minutos (descarga imágenes y construye la web).
-Cuando termine, el contenedor `resultados-mj` queda corriendo en segundo plano.
+El script [`deploy/plesk-deploy.sh`](./deploy/plesk-deploy.sh):
 
-## 4. Abrir el puerto (si hay cortafuegos)
+1. Localiza `node`/`npm` (extensión Node.js de Plesk).
+2. Construye la web: `npm ci && npm run build` dentro de `web/` (esto copia los
+   JSON de `resultados-oficiales-procesados/` y genera `web/dist`).
+3. Sincroniza `web/dist/` al **document root** del dominio (con `rsync --delete`,
+   dejándolo idéntico al build).
+
+Por defecto publica en `~/httpdocs`. Si tu document root es otro, indícalo con la
+variable `DOCROOT` en la misma acción de despliegue:
 
 ```bash
-sudo ufw allow 8080/tcp     # solo si usas ufw
+DOCROOT="$HOME/tu-dominio.com/httpdocs" bash deploy/plesk-deploy.sh
 ```
 
-Si el servidor está tras un router/NAT y quieres acceder desde fuera de la red
-local, redirige el puerto 8080 en el router hacia el servidor.
+## 3. Cabeceras de caché (recomendado)
 
-## 5. Acceder
+Para que las **elecciones nuevas** aparezcan al instante tras redeplegar y que
+los assets se cacheen bien, copia las directivas de
+[`deploy/nginx-adicional.conf`](./deploy/nginx-adicional.conf) en:
 
-Abre en el navegador:
+**Configuración de Apache y nginx > Directivas nginx adicionales**, y aplica.
 
-```
-http://IP-DEL-SERVIDOR:8080
-```
+## 4. Desplegar
 
-## Operaciones habituales
+- **Automático:** haz `push` a la rama configurada; Plesk hace `pull` y ejecuta
+  la acción de despliegue.
+- **Manual:** en Plesk > Git, pulsa **Deploy**.
 
-| Acción | Comando |
-| --- | --- |
-| Ver estado | `docker compose ps` |
-| Ver logs | `docker compose logs -f` |
-| Parar | `docker compose down` |
-| Reiniciar | `docker compose restart` |
-| **Actualizar** (tras subir datos o cambios) | `git pull && docker compose up -d --build` |
+Cuando termine, abre el dominio en el navegador.
 
-## Cambiar el puerto
+## Actualizar datos
 
-Edita `docker-compose.yml`, línea `ports`, y cambia el `8080` de la izquierda
-(host). Por ejemplo, para servir en el puerto 80:
+El pipeline de datos (subir un XLSX a `datos-oficiales/`) genera los JSON en
+`resultados-oficiales-procesados/` y los commitea. Ese commit en la rama
+desplegada dispara automáticamente un nuevo build en Plesk, así que **no hay
+pasos manuales** para reflejar elecciones nuevas.
 
-```yaml
-    ports:
-      - "80:80"
-```
+## Notas y resolución de problemas
 
-Luego `docker compose up -d --build`.
-
-## Notas
-
-- La web es **estática**; `base: "./"` en Vite hace que funcione en cualquier IP
-  o subruta sin configurar nada.
-- Los datos mostrados son los JSON de `resultados-oficiales-procesados/` en el
-  momento del build. Para reflejar datos nuevos, vuelve a construir (paso de
-  *Actualizar*).
-- nginx sirve los datos (`/datos/`, incluido `index.json`) con `Cache-Control:
-  no-cache`, de modo que el navegador siempre revalida y coge las elecciones
-  nuevas tras redeplegar. Si visitaste la web **antes** de este cambio, puede que
-  tu navegador aún conserve la versión antigua cacheada: fuerza una recarga
-  completa (Ctrl+F5 / Cmd+Shift+R) una vez.
-- Para HTTPS o un dominio más adelante, lo habitual es poner delante un proxy
-  (Caddy o nginx con certificado); se puede añadir cuando haga falta.
+- **`npm: command not found`** en el log de despliegue: falta la extensión
+  Node.js de Plesk, o `node` no está en el PATH. El script intenta localizarlo en
+  `/opt/plesk/node/*/bin`; si tu instalación usa otra ruta, expórtala en la
+  acción de despliegue (`export PATH=/ruta/a/node/bin:$PATH`).
+- **HTTPS / dominio:** lo gestiona Plesk (Let's Encrypt en un clic), no hace
+  falta proxy inverso como antes.
+- **Permisos:** el script publica en el document root del usuario del dominio, el
+  mismo bajo el que Plesk ejecuta el despliegue, así que no requiere `sudo`.
+- La web usa `base: "./"` (rutas relativas) y no tiene enrutado de cliente, por
+  eso no necesita reglas `try_files`/SPA en nginx.
