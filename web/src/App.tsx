@@ -90,18 +90,19 @@ export default function App() {
       .finally(() => setCargando(false));
   }, [fichero]);
 
-  const registros = datos?.resultados ?? [];
+  const registros = useMemo(() => datos?.resultados ?? [], [datos]);
+  const provincias = useMemo(() => datos?.provincias ?? [], [datos]);
 
-  const valoresMapa = useMemo(() => valoresPorProvincia(registros), [registros]);
-  const provComunidad = useMemo(() => provinciaAComunidad(registros), [registros]);
+  const valoresMapa = useMemo(() => valoresPorProvincia(provincias), [provincias]);
+  const provComunidad = useMemo(() => provinciaAComunidad(provincias), [provincias]);
 
   const nivel: Nivel = provincia != null ? "municipio" : comunidad ? "provincia" : "comunidad";
 
   const filas: FilaAgregada[] = useMemo(() => {
     if (provincia != null) return municipiosDeProvincia(registros, provincia);
-    if (comunidad) return agregarPorProvincia(registros, comunidad);
-    return agregarPorComunidad(registros);
-  }, [registros, comunidad, provincia]);
+    if (comunidad) return agregarPorProvincia(provincias, comunidad);
+    return agregarPorComunidad(provincias);
+  }, [registros, provincias, comunidad, provincia]);
 
   // Valores por municipio (clave: código INE) para el mapa municipal.
   const valoresMunicipio = useMemo(() => {
@@ -246,7 +247,7 @@ export default function App() {
               <>
                 <span className="sep">›</span>
                 <span className="miga actual">
-                  {registros.find((r) => r.codigo_provincia === provincia)?.provincia}
+                  {provincias.find((p) => p.codigo_provincia === provincia)?.provincia}
                 </span>
               </>
             )}

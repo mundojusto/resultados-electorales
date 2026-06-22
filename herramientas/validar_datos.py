@@ -2,8 +2,12 @@
 """Validador de los JSON procesados y de su coherencia con los GeoJSON del mapa.
 
 Comprueba, para cada fichero de `resultados-oficiales-procesados/*.json`:
-  - El esquema (campos esperados en eleccion / partido / totales / resultados).
-  - La coherencia de los totales (suman lo mismo que los registros).
+  - El esquema (campos esperados en eleccion / partido / totales / provincias /
+    resultados).
+  - La coherencia de los totales (el agregado por provincia suma lo mismo que
+    los totales nacionales).
+  - Que `resultados` solo contenga municipios con votos del partido (> 0) y que
+    sus votos sumen el total nacional del partido.
   - Los códigos INE (5 dígitos = provincia(2) + municipio(3)) y su unicidad.
   - Códigos de provincia válidos (1..52) y votos_partido <= votos_validos.
 
@@ -32,6 +36,9 @@ CAMPOS_REGISTRO = {"comunidad", "codigo_provincia", "provincia",
                    "codigo_municipio", "municipio", "codigo_ine", "censo",
                    "votantes", "votos_validos", "votos_candidaturas",
                    "votos_partido"}
+CAMPOS_PROVINCIA = {"codigo_provincia", "provincia", "comunidad",
+                    "votos_partido", "votos_validos", "votos_candidaturas",
+                    "municipios"}
 
 
 def valida_json(ruta: Path, errores: list[str]) -> dict | None:
@@ -44,11 +51,14 @@ def valida_json(ruta: Path, errores: list[str]) -> dict | None:
         return None
 
     # Estructura de primer nivel.
-    for clave in ("eleccion", "partido", "totales", "resultados"):
+    for clave in ("eleccion", "partido", "totales", "provincias", "resultados"):
         if clave not in datos:
             errores.append(f"{nombre}: falta la clave de primer nivel '{clave}'")
     if not isinstance(datos.get("resultados"), list):
         errores.append(f"{nombre}: 'resultados' debe ser una lista")
+        return datos
+    if not isinstance(datos.get("provincias"), list):
+        errores.append(f"{nombre}: 'provincias' debe ser una lista")
         return datos
 
     # Campos de cada bloque.
@@ -59,32 +69,48 @@ def valida_json(ruta: Path, errores: list[str]) -> dict | None:
     if faltan_t:
         errores.append(f"{nombre}: faltan campos en 'totales': {sorted(faltan_t)}")
 
-    res = datos["resultados"]
-    if not res:
-        errores.append(f"{nombre}: 'resultados' está vacío")
+    prov = datos["provincias"]
+    if not prov:
+        errores.append(f"{nombre}: 'provincias' está vacío")
         return datos
+    for i, p in enumerate(prov):
+        faltan_p = CAMPOS_PROVINCIA - p.keys()
+        if faltan_p:
+            errores.append(f"{nombre}.provincias[{i}]: faltan campos: {sorted(faltan_p)}")
 
-    # Coherencia de totales.
+    res = datos["resultados"]
+
+    # Coherencia de totales: el agregado por provincia (calculado sobre todos
+    # los municipios) debe reconstruir exactamente los totales nacionales.
     t = datos.get("totales", {})
-    sp = sum(r.get("votos_partido", 0) for r in res)
-    sv = sum(r.get("votos_validos", 0) for r in res)
-    sc = sum(r.get("votos_candidaturas", 0) for r in res)
-    if t.get("votos_partido") != sp:
+    pp = sum(p.get("votos_partido", 0) for p in prov)
+    pv = sum(p.get("votos_validos", 0) for p in prov)
+    pc = sum(p.get("votos_candidaturas", 0) for p in prov)
+    pm = sum(p.get("municipios", 0) for p in prov)
+    if t.get("votos_partido") != pp:
         errores.append(f"{nombre}: totales.votos_partido={t.get('votos_partido')} "
-                       f"no coincide con la suma {sp}")
-    if t.get("votos_validos") != sv:
+                       f"no coincide con la suma por provincia {pp}")
+    if t.get("votos_validos") != pv:
         errores.append(f"{nombre}: totales.votos_validos={t.get('votos_validos')} "
-                       f"no coincide con la suma {sv}")
-    if t.get("votos_candidaturas") != sc:
+                       f"no coincide con la suma por provincia {pv}")
+    if t.get("votos_candidaturas") != pc:
         errores.append(f"{nombre}: totales.votos_candidaturas="
-                       f"{t.get('votos_candidaturas')} no coincide con la suma {sc}")
-    if t.get("municipios") != len(res):
+                       f"{t.get('votos_candidaturas')} no coincide con la suma por "
+                       f"provincia {pc}")
+    if t.get("municipios") != pm:
         errores.append(f"{nombre}: totales.municipios={t.get('municipios')} "
-                       f"no coincide con len(resultados)={len(res)}")
-    pct = round(100 * sp / sv, 4) if sv else 0
+                       f"no coincide con la suma de municipios por provincia {pm}")
+    pct = round(100 * pp / pv, 4) if pv else 0
     if t.get("porcentaje_validos") != pct:
         errores.append(f"{nombre}: totales.porcentaje_validos="
                        f"{t.get('porcentaje_validos')} no coincide con {pct}")
+
+    # `resultados` solo contiene municipios con votos del partido y, sumados,
+    # deben dar el total nacional del partido (nada con votos se ha perdido).
+    sp = sum(r.get("votos_partido", 0) for r in res)
+    if t.get("votos_partido") != sp:
+        errores.append(f"{nombre}: totales.votos_partido={t.get('votos_partido')} "
+                       f"no coincide con la suma de resultados {sp}")
 
     # Registros: campos, INE, provincia, votos.
     vistos: set[str] = set()
@@ -104,6 +130,9 @@ def valida_json(ruta: Path, errores: list[str]) -> dict | None:
         cod_prov = r.get("codigo_provincia")
         if cod_prov is not None and not (1 <= cod_prov <= 52):
             errores.append(f"{nombre}[{i}]: codigo_provincia fuera de rango: {cod_prov}")
+        if r.get("votos_partido", 0) <= 0:
+            errores.append(f"{nombre}[{i}] ({r.get('municipio')}): "
+                           f"votos_partido debe ser > 0 en 'resultados'")
         if r.get("votos_partido", 0) > r.get("votos_validos", 0):
             errores.append(f"{nombre}[{i}] ({r.get('municipio')}): "
                            f"votos_partido > votos_validos")
@@ -111,10 +140,15 @@ def valida_json(ruta: Path, errores: list[str]) -> dict | None:
 
 
 def codigos_provincia(datos: dict) -> set[str]:
-    """Códigos de provincia (2 dígitos) presentes en los registros."""
+    """Códigos de provincia (2 dígitos) presentes en el agregado por provincia.
+
+    Se usa el agregado `provincias` (no `resultados`) porque cubre todas las
+    provincias de la elección —incluidas aquellas sin votos del partido—, que
+    son las que el mapa puede mostrar y para las que hace falta su GeoJSON.
+    """
     cods = set()
-    for r in datos.get("resultados", []):
-        cp = r.get("codigo_provincia")
+    for p in datos.get("provincias", []):
+        cp = p.get("codigo_provincia")
         if cp is not None:
             cods.add(f"{cp:02d}")
     return cods

@@ -50,13 +50,15 @@ for (const f of ficheros) {
   if (tipo == null) continue;
 
   // Agregado de votos por comunidad autónoma para el histórico, con el nombre
-  // de comunidad ya normalizado para no duplicar entradas entre años.
+  // de comunidad ya normalizado para no duplicar entradas entre años. Se parte
+  // del agregado por provincia (todos los municipios) para conservar los votos
+  // válidos correctos; `resultados` solo trae los municipios con votos.
   const comunidades = {};
-  for (const r of datos.resultados ?? []) {
-    const k = normalizarComunidad(r.comunidad);
+  for (const p of datos.provincias ?? []) {
+    const k = normalizarComunidad(p.comunidad);
     const a = comunidades[k] ?? { votos_partido: 0, votos_validos: 0 };
-    a.votos_partido += r.votos_partido ?? 0;
-    a.votos_validos += r.votos_validos ?? 0;
+    a.votos_partido += p.votos_partido ?? 0;
+    a.votos_validos += p.votos_validos ?? 0;
     comunidades[k] = a;
   }
 

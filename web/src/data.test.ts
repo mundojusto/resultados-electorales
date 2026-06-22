@@ -14,9 +14,9 @@ import {
   valoresPorProvincia,
 } from "./data";
 import { normalizarComunidad } from "./comunidades";
-import type { Historico, RegistroMunicipio } from "./types";
+import type { AgregadoProvincia, Historico, RegistroMunicipio } from "./types";
 
-// Conjunto de registros de prueba: 2 CCAA, 3 provincias, 4 municipios.
+// Registros municipales de prueba (solo municipios con votos): 1 provincia.
 function reg(p: Partial<RegistroMunicipio>): RegistroMunicipio {
   return {
     comunidad: "Andalucía",
@@ -35,14 +35,31 @@ function reg(p: Partial<RegistroMunicipio>): RegistroMunicipio {
 }
 
 const registros: RegistroMunicipio[] = [
-  reg({ comunidad: "Andalucía", codigo_provincia: 4, provincia: "Almería",
-        codigo_ine: "04001", municipio: "Abla", votos_partido: 10, votos_validos: 700 }),
-  reg({ comunidad: "Andalucía", codigo_provincia: 4, provincia: "Almería",
-        codigo_ine: "04003", municipio: "Adra", votos_partido: 30, votos_validos: 300 }),
-  reg({ comunidad: "Andalucía", codigo_provincia: 11, provincia: "Cádiz",
-        codigo_ine: "11001", municipio: "Alcalá", votos_partido: 5, votos_validos: 500 }),
-  reg({ comunidad: "Madrid", codigo_provincia: 28, provincia: "Madrid",
-        codigo_ine: "28079", municipio: "Madrid", votos_partido: 100, votos_validos: 1000 }),
+  reg({ codigo_ine: "04001", municipio: "Abla", votos_partido: 10, votos_validos: 700 }),
+  reg({ codigo_ine: "04003", municipio: "Adra", votos_partido: 30, votos_validos: 300 }),
+];
+
+// Agregado por provincia de prueba: 2 CCAA, 3 provincias.
+function prov(p: Partial<AgregadoProvincia>): AgregadoProvincia {
+  return {
+    codigo_provincia: 4,
+    provincia: "Almería",
+    comunidad: "Andalucía",
+    votos_partido: 0,
+    votos_validos: 0,
+    votos_candidaturas: 0,
+    municipios: 1,
+    ...p,
+  };
+}
+
+const provincias: AgregadoProvincia[] = [
+  prov({ codigo_provincia: 4, provincia: "Almería", comunidad: "Andalucía",
+         votos_partido: 40, votos_validos: 1000, municipios: 2 }),
+  prov({ codigo_provincia: 11, provincia: "Cádiz", comunidad: "Andalucía",
+         votos_partido: 5, votos_validos: 500, municipios: 1 }),
+  prov({ codigo_provincia: 28, provincia: "Madrid", comunidad: "Madrid",
+         votos_partido: 100, votos_validos: 1000, municipios: 1 }),
 ];
 
 describe("porcentaje", () => {
@@ -78,16 +95,18 @@ describe("normalizarComunidad", () => {
 });
 
 describe("agregarPorComunidad", () => {
-  const filas = agregarPorComunidad(registros);
+  const filas = agregarPorComunidad(provincias);
 
   it("agrupa por comunidad", () => {
     expect(filas).toHaveLength(2);
   });
 
   it("unifica variantes del mismo nombre de comunidad", () => {
-    const mixto: RegistroMunicipio[] = [
-      reg({ comunidad: "Cataluña", votos_partido: 10, votos_validos: 100 }),
-      reg({ comunidad: "Catalunya          ", votos_partido: 5, votos_validos: 50 }),
+    const mixto: AgregadoProvincia[] = [
+      prov({ codigo_provincia: 8, provincia: "Barcelona", comunidad: "Cataluña",
+             votos_partido: 10, votos_validos: 100 }),
+      prov({ codigo_provincia: 17, provincia: "Girona", comunidad: "Catalunya          ",
+             votos_partido: 5, votos_validos: 50 }),
     ];
     const agg = agregarPorComunidad(mixto);
     expect(agg).toHaveLength(1);
@@ -97,8 +116,8 @@ describe("agregarPorComunidad", () => {
 
   it("suma votos y válidos por comunidad", () => {
     const and = filas.find((f) => f.id === "Andalucía")!;
-    expect(and.votos_partido).toBe(45); // 10 + 30 + 5
-    expect(and.votos_validos).toBe(1500); // 700 + 300 + 500
+    expect(and.votos_partido).toBe(45); // 40 + 5
+    expect(and.votos_validos).toBe(1500); // 1000 + 500
     expect(and.porcentaje).toBe(porcentaje(45, 1500));
   });
 
@@ -108,16 +127,16 @@ describe("agregarPorComunidad", () => {
 });
 
 describe("agregarPorProvincia", () => {
-  it("agrupa por provincia con código a 2 dígitos", () => {
-    const filas = agregarPorProvincia(registros);
+  it("lista las provincias con código a 2 dígitos", () => {
+    const filas = agregarPorProvincia(provincias);
     expect(filas).toHaveLength(3);
     const almeria = filas.find((f) => f.id === "04")!;
-    expect(almeria.votos_partido).toBe(40); // 10 + 30
+    expect(almeria.votos_partido).toBe(40);
     expect(almeria.codigo_provincia).toBe(4);
   });
 
   it("filtra por comunidad cuando se indica", () => {
-    const filas = agregarPorProvincia(registros, "Madrid");
+    const filas = agregarPorProvincia(provincias, "Madrid");
     expect(filas).toHaveLength(1);
     expect(filas[0].id).toBe("28");
   });
@@ -132,7 +151,7 @@ describe("municipiosDeProvincia", () => {
 
 describe("valoresPorProvincia", () => {
   it("indexa por código de provincia (2 díg.)", () => {
-    const mapa = valoresPorProvincia(registros);
+    const mapa = valoresPorProvincia(provincias);
     expect(mapa.get("04")?.votos_partido).toBe(40);
     expect(mapa.get("28")?.votos_partido).toBe(100);
   });
@@ -140,7 +159,7 @@ describe("valoresPorProvincia", () => {
 
 describe("provinciaAComunidad", () => {
   it("mapea código de provincia a su comunidad", () => {
-    const mapa = provinciaAComunidad(registros);
+    const mapa = provinciaAComunidad(provincias);
     expect(mapa.get("04")).toBe("Andalucía");
     expect(mapa.get("28")).toBe("Madrid");
   });
