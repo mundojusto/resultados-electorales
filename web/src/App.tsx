@@ -119,6 +119,33 @@ export default function App() {
     setProvincia(codigo);
   }
 
+  // Selector principal en dos pasos: tipo de elección + año/fecha. El fichero
+  // seleccionado sigue siendo la fuente de verdad; el tipo se deriva de él.
+  const tiposExploracion = useMemo(() => {
+    const s = new Set<string>();
+    for (const e of indice) if (e.tipo) s.add(e.tipo);
+    return [...s].sort((a, b) => a.localeCompare(b, "es"));
+  }, [indice]);
+
+  const tipoSel = indice.find((e) => e.fichero === fichero)?.tipo ?? "";
+
+  // Elecciones del tipo seleccionado, ordenadas cronológicamente (antigua → reciente).
+  const eleccionesTipo = useMemo(
+    () =>
+      indice
+        .filter((e) => e.tipo === tipoSel)
+        .sort((a, b) => (a.anio ?? 0) - (b.anio ?? 0) || (a.mes ?? 0) - (b.mes ?? 0)),
+    [indice, tipoSel],
+  );
+
+  // Al cambiar el tipo, salta a la elección más reciente de ese tipo.
+  function seleccionarTipoEleccion(t: string) {
+    const reciente = indice
+      .filter((e) => e.tipo === t)
+      .sort((a, b) => (b.anio ?? 0) - (a.anio ?? 0) || (b.mes ?? 0) - (a.mes ?? 0))[0];
+    if (reciente) setFichero(reciente.fichero);
+  }
+
   return (
     <div className="app">
       <header className="cabecera">
@@ -128,16 +155,31 @@ export default function App() {
         </div>
         <div className="controles">
           {vista === "exploracion" && (
-            <label>
-              Elección
-              <select value={fichero} onChange={(e) => setFichero(e.target.value)}>
-                {indice.map((e) => (
-                  <option key={e.fichero} value={e.fichero}>
-                    {e.tipo} — {e.periodo}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <>
+              <label>
+                Tipo de elección
+                <select
+                  value={tipoSel}
+                  onChange={(e) => seleccionarTipoEleccion(e.target.value)}
+                >
+                  {tiposExploracion.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Año / fecha
+                <select value={fichero} onChange={(e) => setFichero(e.target.value)}>
+                  {eleccionesTipo.map((e) => (
+                    <option key={e.fichero} value={e.fichero}>
+                      {e.periodo ?? e.anio}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </>
           )}
           <label>
             Métrica
