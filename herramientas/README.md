@@ -3,7 +3,7 @@
 ## `procesar_resultados.py`
 
 Procesa un fichero XLSX oficial (votos por municipio en Congreso, Senado,
-Europeas o Cabildos) y extrae **únicamente los resultados del partido M+J**
+Europeas, Autonómicas o Cabildos) y extrae **únicamente los resultados del partido M+J**
 (Por Un Mundo Más Justo / PUM+J / MUNDO+JUSTO) —o de la **coalición** en la que
 concurrió—, guardando un JSON en
 [`resultados-oficiales-procesados/`](../resultados-oficiales-procesados).

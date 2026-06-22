@@ -1,7 +1,7 @@
 # Datos oficiales (entrada)
 
 Sube aquí los ficheros **XLSX oficiales** con los votos por municipio
-(Congreso, Senado, Europeas o Cabildos).
+(Congreso, Senado, Europeas, Autonómicas o Cabildos).
 
 Al subir un `.xlsx`, el workflow
 [`procesar-resultados.yml`](../.github/workflows/procesar-resultados.yml) lo
