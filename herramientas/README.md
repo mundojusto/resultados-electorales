@@ -46,6 +46,13 @@ listas `PATRONES_NOMBRE` / `PATRONES_SIGLAS` al inicio del script.
   "eleccion": { "tipo": "Congreso", "periodo": "Julio 2023", "anio": 2023, "mes": 7, ... },
   "partido":  { "nombre": "POR UN MUNDO MÁS JUSTO", "siglas": "PUM+J" },
   "totales":  { "votos_partido": 22344, "votos_validos": 24483438, "porcentaje_validos": 0.0913, "municipios": 8131 },
+  "provincias": [
+    {
+      "codigo_provincia": 4, "provincia": "Almería", "comunidad": "Andalucía",
+      "votos_partido": 36, "votos_validos": 312345, "votos_candidaturas": 310000,
+      "municipios": 102
+    }
+  ],
   "resultados": [
     {
       "comunidad": "Andalucía",
@@ -60,8 +67,23 @@ listas `PATRONES_NOMBRE` / `PATRONES_SIGLAS` al inicio del script.
 }
 ```
 
+**Almacenamiento optimizado.** Para que cada fichero no pese megas, `resultados`
+guarda **solo los municipios con votos del partido** (`votos_partido > 0`), una
+fracción de los ~8.000 municipios. Los denominadores que necesitan las vistas y
+el mapa por provincia/comunidad (votos válidos, nº de municipios) se conservan
+en el bloque **`provincias`**, un agregado calculado sobre *todos* los
+municipios; `totales` sigue siendo el agregado nacional completo. Con esto los
+JSON pasan de ~68 MB a ~17 MB (mucho más en las municipales), y aún menos
+servidos con compresión (ver
+[`deploy/nginx-adicional.conf`](../deploy/nginx-adicional.conf)).
+
 El `codigo_ine` (provincia 2 dígitos + municipio 3 dígitos) permite cruzar los
 datos con los contornos GeoJSON para el mapa.
+
+> Los JSON generados antes de este cambio se migran con
+> [`migrar_estructura.py`](migrar_estructura.py) (idempotente): reescribe cada
+> fichero al nuevo formato a partir de su `resultados` original, sin necesidad
+> del XLSX (que ya se borra al procesar).
 
 ### Automatización (CI/CD)
 

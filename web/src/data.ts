@@ -1,4 +1,5 @@
 import type {
+  AgregadoProvincia,
   DatosEleccion,
   EntradaIndice,
   FilaAgregada,
@@ -36,14 +37,14 @@ function ordenar(filas: FilaAgregada[]): FilaAgregada[] {
   return filas.sort((a, b) => b.votos_partido - a.votos_partido);
 }
 
-/** Agrega por comunidad autónoma. */
-export function agregarPorComunidad(registros: RegistroMunicipio[]): FilaAgregada[] {
+/** Agrega por comunidad autónoma (a partir del agregado por provincia). */
+export function agregarPorComunidad(provincias: AgregadoProvincia[]): FilaAgregada[] {
   const acc = new Map<string, { votos: number; validos: number }>();
-  for (const r of registros) {
-    const k = normalizarComunidad(r.comunidad);
+  for (const p of provincias) {
+    const k = normalizarComunidad(p.comunidad);
     const a = acc.get(k) ?? { votos: 0, validos: 0 };
-    a.votos += r.votos_partido;
-    a.validos += r.votos_validos;
+    a.votos += p.votos_partido;
+    a.validos += p.votos_validos;
     acc.set(k, a);
   }
   return ordenar(
@@ -57,33 +58,25 @@ export function agregarPorComunidad(registros: RegistroMunicipio[]): FilaAgregad
   );
 }
 
-/** Agrega por provincia, opcionalmente filtrando por una comunidad. */
+/** Filas por provincia, opcionalmente filtrando por una comunidad. */
 export function agregarPorProvincia(
-  registros: RegistroMunicipio[],
+  provincias: AgregadoProvincia[],
   comunidad?: string,
 ): FilaAgregada[] {
-  const acc = new Map<
-    string,
-    { nombre: string; cod: number; votos: number; validos: number }
-  >();
-  for (const r of registros) {
-    if (comunidad && normalizarComunidad(r.comunidad) !== comunidad) continue;
-    const cod = r.codigo_provincia ?? 0;
-    const k = String(cod).padStart(2, "0");
-    const a = acc.get(k) ?? { nombre: r.provincia, cod, votos: 0, validos: 0 };
-    a.votos += r.votos_partido;
-    a.validos += r.votos_validos;
-    acc.set(k, a);
-  }
   return ordenar(
-    [...acc.entries()].map(([id, a]) => ({
-      id,
-      nombre: a.nombre,
-      codigo_provincia: a.cod,
-      votos_partido: a.votos,
-      votos_validos: a.validos,
-      porcentaje: porcentaje(a.votos, a.validos),
-    })),
+    provincias
+      .filter((p) => !comunidad || normalizarComunidad(p.comunidad) === comunidad)
+      .map((p) => {
+        const cod = p.codigo_provincia ?? 0;
+        return {
+          id: String(cod).padStart(2, "0"),
+          nombre: p.provincia,
+          codigo_provincia: cod,
+          votos_partido: p.votos_partido,
+          votos_validos: p.votos_validos,
+          porcentaje: porcentaje(p.votos_partido, p.votos_validos),
+        };
+      }),
   );
 }
 
@@ -108,20 +101,20 @@ export function municipiosDeProvincia(
 
 /** Mapa código provincia (2 díg.) -> valor agregado, para colorear el mapa. */
 export function valoresPorProvincia(
-  registros: RegistroMunicipio[],
+  provincias: AgregadoProvincia[],
 ): Map<string, FilaAgregada> {
-  const filas = agregarPorProvincia(registros);
+  const filas = agregarPorProvincia(provincias);
   return new Map(filas.map((f) => [f.id, f]));
 }
 
 /** Mapa código provincia (2 díg.) -> comunidad, para la vista por CCAA. */
 export function provinciaAComunidad(
-  registros: RegistroMunicipio[],
+  provincias: AgregadoProvincia[],
 ): Map<string, string> {
   const m = new Map<string, string>();
-  for (const r of registros) {
-    if (r.codigo_provincia != null) {
-      m.set(String(r.codigo_provincia).padStart(2, "0"), normalizarComunidad(r.comunidad));
+  for (const p of provincias) {
+    if (p.codigo_provincia != null) {
+      m.set(String(p.codigo_provincia).padStart(2, "0"), normalizarComunidad(p.comunidad));
     }
   }
   return m;

@@ -37,10 +37,27 @@ export interface RegistroMunicipio {
   votos_partido: number;
 }
 
+// Agregado por provincia, calculado sobre TODOS los municipios (incluidos los
+// que no dieron votos a M+J). Conserva los denominadores correctos —votos
+// válidos y nº de municipios— para las vistas y el mapa por provincia/comunidad
+// sin tener que cargar los ~8.000 municipios en `resultados`.
+export interface AgregadoProvincia {
+  codigo_provincia: number | null;
+  provincia: string;
+  comunidad: string;
+  votos_partido: number;
+  votos_validos: number;
+  votos_candidaturas: number;
+  municipios: number;
+}
+
 export interface DatosEleccion {
   eleccion: Eleccion;
   partido: Partido;
   totales: Totales;
+  // Agregado por provincia (todos los municipios).
+  provincias: AgregadoProvincia[];
+  // Detalle municipal, solo de los municipios con votos del partido (> 0).
   resultados: RegistroMunicipio[];
 }
 

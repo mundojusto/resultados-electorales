@@ -132,8 +132,12 @@ def localiza_columnas(tipo, fila_nombres, fila_cabecera):
     tipo_normalizado = normaliza(tipo)
     es_municipales = "MUNICIPALES" in tipo_normalizado
     es_europeas = "EUROPE" in tipo_normalizado
-    patrones_nombre = PATRONES_NOMBRE if es_europeas else [p for p in PATRONES_NOMBRE if p != "EXISTE"]
-    patrones_siglas = PATRONES_SIGLAS if es_europeas else [s for s in PATRONES_SIGLAS if s != "EXISTE"]
+    if es_europeas:
+        patrones_nombre = PATRONES_NOMBRE
+        patrones_siglas = PATRONES_SIGLAS
+    else:
+        patrones_nombre = [p for p in PATRONES_NOMBRE if p != "EXISTE"]
+        patrones_siglas = [s for s in PATRONES_SIGLAS if s != "EXISTE"]
     patrones_municipales_norm = {normaliza(s) for s in PATRONES_MUNICIPALES_EXACTOS}
     patrones_siglas_norm = {normaliza(s) for s in patrones_siglas}
 
@@ -182,6 +186,39 @@ def a_int(valor):
 
 def slug(texto):
     return re.sub(r"[^a-z0-9]+", "-", normaliza(texto).lower()).strip("-")
+
+
+def agrega_por_provincia(resultados):
+    """Agrega los registros municipales en totales por provincia.
+
+    Devuelve una lista (ordenada por código de provincia) con, para cada
+    provincia, sus votos y el número de municipios. Este agregado se calcula
+    sobre TODOS los municipios —incluidos aquellos en los que M+J no obtuvo
+    votos—, de modo que conserva los denominadores correctos (votos válidos,
+    nº de municipios) aunque luego solo se guarden en `resultados` los
+    municipios con votos > 0. La web lo usa para las vistas y el mapa por
+    provincia/comunidad sin tener que cargar los ~8.000 municipios.
+    """
+    acc: dict = {}
+    for r in resultados:
+        cod = r.get("codigo_provincia")
+        a = acc.get(cod)
+        if a is None:
+            a = {
+                "codigo_provincia": cod,
+                "provincia": r.get("provincia"),
+                "comunidad": r.get("comunidad"),
+                "votos_partido": 0,
+                "votos_validos": 0,
+                "votos_candidaturas": 0,
+                "municipios": 0,
+            }
+            acc[cod] = a
+        a["votos_partido"] += r.get("votos_partido", 0)
+        a["votos_validos"] += r.get("votos_validos", 0)
+        a["votos_candidaturas"] += r.get("votos_candidaturas", 0)
+        a["municipios"] += 1
+    return [acc[k] for k in sorted(acc, key=lambda c: (c is None, c))]
 
 
 def procesa(entrada: Path):
@@ -236,6 +273,13 @@ def procesa(entrada: Path):
             }
             resultados.append(registro)
 
+        # Agregado por provincia sobre TODOS los municipios (denominadores
+        # correctos) y, para reducir el tamaño, en `resultados` solo se guardan
+        # los municipios con votos del partido.
+        provincias = agrega_por_provincia(resultados)
+        n_municipios = len(resultados)
+        resultados = [r for r in resultados if r["votos_partido"] > 0]
+
         return {
             "eleccion": {
                 "tipo": tipo,
@@ -251,9 +295,12 @@ def procesa(entrada: Path):
                 "votos_partido": tot_partido,
                 "votos_validos": tot_validos,
                 "votos_candidaturas": tot_candidaturas,
-                "porcentaje_validos": round(100 * tot_partido / tot_validos, 4) if tot_validos else 0,
-                "municipios": len(resultados),
+                "porcentaje_validos": (
+                    round(100 * tot_partido / tot_validos, 4) if tot_validos else 0
+                ),
+                "municipios": n_municipios,
             },
+            "provincias": provincias,
             "resultados": resultados,
         }
     finally:
