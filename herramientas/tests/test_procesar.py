@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 
+import openpyxl
 import procesar_resultados as pr
 import pytest
 
@@ -97,6 +98,56 @@ class TestProcesa:
         datos = pr.procesa(hacer_xlsx(siglas_partido="M+J", nombre_partido="Otra cosa"))
         assert datos["partido"]["siglas"] == "M+J"
         assert datos["totales"]["votos_partido"] == 14
+
+    def test_suma_varias_columnas_del_partido(self, tmp_path):
+        ruta = tmp_path / "senado_multi.xlsx"
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.append(["Senado | Julio 2023 | Resultados por municipio"])
+        ws.append([
+            "", "", "", "", "", "", "", "", "",
+            "POR UN MUNDO MÁS JUSTO", "POR UN MUNDO MÁS JUSTO",
+        ])
+        ws.append([
+            "Nombre de Comunidad", "Código de Provincia", "Nombre de Provincia",
+            "Código de Municipio", "Nombre de Municipio", "Total censo electoral",
+            "Total votantes", "Votos válidos", "Votos a candidaturas",
+            "PUM+J", "PUM+J",
+        ])
+        ws.append([
+            "Andalucía", 4, "Almería", 1, "Abla", 1000,
+            700, 680, 670, 3, 5,
+        ])
+        wb.save(ruta)
+
+        datos = pr.procesa(ruta)
+        assert datos["totales"]["votos_partido"] == 8
+        assert datos["resultados"][0]["votos_partido"] == 8
+
+    def test_no_confunde_existe_fuera_de_europeas(self, tmp_path):
+        ruta = tmp_path / "senado_sin_existe.xlsx"
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.append(["Senado | Noviembre 2019 | Resultados por municipio"])
+        ws.append([
+            "", "", "", "", "", "", "", "", "",
+            "AGRUPACIÓN DE ELECTORES TERUEL EXISTE", "POR UN MUNDO MÁS JUSTO",
+        ])
+        ws.append([
+            "Nombre de Comunidad", "Código de Provincia", "Nombre de Provincia",
+            "Código de Municipio", "Nombre de Municipio", "Total censo electoral",
+            "Total votantes", "Votos válidos", "Votos a candidaturas",
+            "EXISTE", "PUM+J",
+        ])
+        ws.append([
+            "Aragón", 44, "Teruel", 216, "Teruel", 10000,
+            7000, 6800, 6700, 1200, 9,
+        ])
+        wb.save(ruta)
+
+        datos = pr.procesa(ruta)
+        assert datos["partido"]["siglas"] == "PUM+J"
+        assert datos["totales"]["votos_partido"] == 9
 
     def test_detecta_coalicion_existe(self, hacer_xlsx):
         # En las europeas M+J concurrió dentro de la coalición "Existe": la

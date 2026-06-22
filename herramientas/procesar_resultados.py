@@ -120,19 +120,22 @@ def parsea_titulo(texto):
 
 
 def localiza_columnas(tipo, fila_nombres, fila_cabecera):
-    """Mapea columnas de metadatos y localiza la columna del partido M+J.
+    """Mapea columnas de metadatos y localiza las columnas del partido M+J.
 
-    Devuelve (indices_meta: dict, idx_partido: int, nombre_partido, siglas_partido).
+    Devuelve (indices_meta: dict, idx_partido: list[int], nombre_partido, siglas_partido).
     """
     indices_meta = {}
     norm_meta = {normaliza(k): v for k, v in COLUMNAS_META.items()}
-    idx_partido = None
+    idx_partido = []
     nombre_partido = siglas_partido = None
 
     tipo_normalizado = normaliza(tipo)
     es_municipales = "MUNICIPALES" in tipo_normalizado
-    patrones_siglas_norm = {normaliza(s) for s in PATRONES_SIGLAS}
+    es_europeas = "EUROPE" in tipo_normalizado
+    patrones_nombre = PATRONES_NOMBRE if es_europeas else [p for p in PATRONES_NOMBRE if p != "EXISTE"]
+    patrones_siglas = PATRONES_SIGLAS if es_europeas else [s for s in PATRONES_SIGLAS if s != "EXISTE"]
     patrones_municipales_norm = {normaliza(s) for s in PATRONES_MUNICIPALES_EXACTOS}
+    patrones_siglas_norm = {normaliza(s) for s in patrones_siglas}
 
     for idx, siglas in enumerate(fila_cabecera):
         clave = norm_meta.get(normaliza(siglas))
@@ -146,16 +149,18 @@ def localiza_columnas(tipo, fila_nombres, fila_cabecera):
         if es_municipales:
             es_mj = n_siglas in patrones_municipales_norm or n_nombre in patrones_municipales_norm
         else:
-            es_mj = any(p in n_nombre for p in PATRONES_NOMBRE) or n_siglas in patrones_siglas_norm
+            es_mj = any(p in n_nombre for p in patrones_nombre) or n_siglas in patrones_siglas_norm
         if es_mj:
-            idx_partido = idx
-            nombre_partido = str(nombre).strip() if nombre else str(siglas).strip()
-            siglas_partido = str(siglas).strip() if siglas else None
+            idx_partido.append(idx)
+            if nombre_partido is None:
+                nombre_partido = str(nombre).strip() if nombre else str(siglas).strip()
+            if siglas_partido is None and siglas:
+                siglas_partido = str(siglas).strip()
 
     faltan = {"comunidad", "provincia", "municipio", "votos_validos"} - indices_meta.keys()
     if faltan:
         raise ValueError(f"Faltan columnas de metadatos esperadas: {sorted(faltan)}")
-    # idx_partido puede ser None si M+J no concurrió a esta elección; lo gestiona procesa().
+    # idx_partido puede estar vacío si M+J no concurrió a esta elección; lo gestiona procesa().
     return indices_meta, idx_partido, nombre_partido, siglas_partido
 
 
@@ -181,73 +186,78 @@ def slug(texto):
 
 def procesa(entrada: Path):
     wb = openpyxl.load_workbook(entrada, read_only=True, data_only=True)
-    ws = wb[wb.sheetnames[0]]
+    try:
+        ws = wb[wb.sheetnames[0]]
 
-    fila_titulo, fila_nombres_idx, fila_cabecera_idx = detecta_filas(ws)
-    cabeceras = list(ws.iter_rows(min_row=1, max_row=fila_cabecera_idx, values_only=True))
-    fila_nombres = cabeceras[fila_nombres_idx - 1] if fila_nombres_idx >= 1 else ()
-    fila_cabecera = cabeceras[fila_cabecera_idx - 1]
+        fila_titulo, fila_nombres_idx, fila_cabecera_idx = detecta_filas(ws)
+        cabeceras = list(ws.iter_rows(min_row=1, max_row=fila_cabecera_idx, values_only=True))
+        fila_nombres = cabeceras[fila_nombres_idx - 1] if fila_nombres_idx >= 1 else ()
+        fila_cabecera = cabeceras[fila_cabecera_idx - 1]
 
-    titulo = None
-    if fila_titulo:
-        fila_t = cabeceras[fila_titulo - 1]
-        titulo = next((celda for celda in fila_t if celda not in (None, "")), None)
+        titulo = None
+        if fila_titulo:
+            fila_t = cabeceras[fila_titulo - 1]
+            titulo = next((celda for celda in fila_t if celda not in (None, "")), None)
 
-    tipo, periodo, anio, mes = parsea_titulo(titulo)
-    meta, idx_p, nombre_p, siglas_p = localiza_columnas(tipo, fila_nombres, fila_cabecera)
-    if idx_p is None:
-        raise PartidoNoPresente(tipo, periodo)
+        tipo, periodo, anio, mes = parsea_titulo(titulo)
+        meta, idx_p, nombre_p, siglas_p = localiza_columnas(tipo, fila_nombres, fila_cabecera)
+        if not idx_p:
+            raise PartidoNoPresente(tipo, periodo)
 
-    resultados = []
-    tot_partido = tot_validos = tot_candidaturas = 0
-    for fila in ws.iter_rows(min_row=fila_cabecera_idx + 1, values_only=True):
-        if fila[meta["municipio"]] in (None, ""):
-            continue
-        cod_prov = (a_int(fila[meta.get("codigo_provincia", -1)])
-                    if "codigo_provincia" in meta else None)
-        cod_mun = (a_int(fila[meta.get("codigo_municipio", -1)])
-                   if "codigo_municipio" in meta else None)
-        votos = a_int(fila[idx_p])
-        validos = a_int(fila[meta["votos_validos"]])
-        candidaturas = a_int(fila[meta.get("votos_candidaturas", meta["votos_validos"])])
-        tot_partido += votos
-        tot_validos += validos
-        tot_candidaturas += candidaturas
-        registro = {
-            "comunidad": fila[meta["comunidad"]],
-            "codigo_provincia": cod_prov,
-            "provincia": fila[meta["provincia"]],
-            "codigo_municipio": cod_mun,
-            "municipio": fila[meta["municipio"]],
-            "codigo_ine": f"{cod_prov:02d}{cod_mun:03d}" if cod_prov and cod_mun else None,
-            "censo": a_int(fila[meta["censo"]]) if "censo" in meta else None,
-            "votantes": a_int(fila[meta["votantes"]]) if "votantes" in meta else None,
-            "votos_validos": validos,
-            "votos_candidaturas": candidaturas,
-            "votos_partido": votos,
+        resultados = []
+        tot_partido = tot_validos = tot_candidaturas = 0
+        for fila in ws.iter_rows(min_row=fila_cabecera_idx + 1, values_only=True):
+            if fila[meta["municipio"]] in (None, ""):
+                continue
+            cod_prov = (a_int(fila[meta.get("codigo_provincia", -1)])
+                        if "codigo_provincia" in meta else None)
+            cod_mun = (a_int(fila[meta.get("codigo_municipio", -1)])
+                       if "codigo_municipio" in meta else None)
+            # En algunos XLSX (especialmente Senado) el partido aparece en varias
+            # columnas; se agregan todas para obtener el total municipal real.
+            votos = sum(a_int(fila[idx]) for idx in idx_p if idx < len(fila))
+            validos = a_int(fila[meta["votos_validos"]])
+            candidaturas = a_int(fila[meta.get("votos_candidaturas", meta["votos_validos"])])
+            tot_partido += votos
+            tot_validos += validos
+            tot_candidaturas += candidaturas
+            registro = {
+                "comunidad": fila[meta["comunidad"]],
+                "codigo_provincia": cod_prov,
+                "provincia": fila[meta["provincia"]],
+                "codigo_municipio": cod_mun,
+                "municipio": fila[meta["municipio"]],
+                "codigo_ine": f"{cod_prov:02d}{cod_mun:03d}" if cod_prov and cod_mun else None,
+                "censo": a_int(fila[meta["censo"]]) if "censo" in meta else None,
+                "votantes": a_int(fila[meta["votantes"]]) if "votantes" in meta else None,
+                "votos_validos": validos,
+                "votos_candidaturas": candidaturas,
+                "votos_partido": votos,
+            }
+            resultados.append(registro)
+
+        return {
+            "eleccion": {
+                "tipo": tipo,
+                "periodo": periodo,
+                "anio": anio,
+                "mes": mes,
+                "ambito": "municipio",
+                "fuente_archivo": entrada.name,
+                "fecha_procesado": date.today().isoformat(),
+            },
+            "partido": {"nombre": nombre_p, "siglas": siglas_p},
+            "totales": {
+                "votos_partido": tot_partido,
+                "votos_validos": tot_validos,
+                "votos_candidaturas": tot_candidaturas,
+                "porcentaje_validos": round(100 * tot_partido / tot_validos, 4) if tot_validos else 0,
+                "municipios": len(resultados),
+            },
+            "resultados": resultados,
         }
-        resultados.append(registro)
-
-    return {
-        "eleccion": {
-            "tipo": tipo,
-            "periodo": periodo,
-            "anio": anio,
-            "mes": mes,
-            "ambito": "municipio",
-            "fuente_archivo": entrada.name,
-            "fecha_procesado": date.today().isoformat(),
-        },
-        "partido": {"nombre": nombre_p, "siglas": siglas_p},
-        "totales": {
-            "votos_partido": tot_partido,
-            "votos_validos": tot_validos,
-            "votos_candidaturas": tot_candidaturas,
-            "porcentaje_validos": round(100 * tot_partido / tot_validos, 4) if tot_validos else 0,
-            "municipios": len(resultados),
-        },
-        "resultados": resultados,
-    }
+    finally:
+        wb.close()
 
 
 def nombre_salida(datos):
