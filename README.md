@@ -23,8 +23,8 @@ resultados-electorales/
 
 ## Pipeline de datos
 
-1. Se sube un XLSX oficial (votos por municipio: Congreso, Senado, Europeas o
-   Cabildos) a [`datos-oficiales/`](./datos-oficiales).
+1. Se sube un XLSX oficial (votos por municipio: Congreso, Senado, Europeas,
+   Autonómicas o Cabildos) a [`datos-oficiales/`](./datos-oficiales).
 2. El workflow de GitHub Actions lo procesa con
    [`herramientas/procesar_resultados.py`](./herramientas/procesar_resultados.py),
    que extrae **solo los resultados de M+J**.
