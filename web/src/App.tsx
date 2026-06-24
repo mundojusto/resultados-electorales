@@ -128,21 +128,41 @@ export default function App() {
     return [...s].sort((a, b) => a.localeCompare(b, "es"));
   }, [indice]);
 
-  const tipoSel = indice.find((e) => e.fichero === fichero)?.tipo ?? "";
+  const entradaSel = indice.find((e) => e.fichero === fichero);
+  const tipoSel = entradaSel?.tipo ?? "";
+  const comunidadSel = entradaSel?.comunidad ?? null;
 
-  // Elecciones del tipo seleccionado, ordenadas cronológicamente (antigua → reciente).
+  // Comunidades disponibles para el tipo seleccionado (autonómicas, cabildos…).
+  // Cuando un mismo tipo agrupa elecciones de varias CCAA hace falta un selector
+  // adicional para separarlas; si está vacío, el tipo no se circunscribe a una.
+  const comunidadesTipo = useMemo(() => {
+    const s = new Set<string>();
+    for (const e of indice) if (e.tipo === tipoSel && e.comunidad) s.add(e.comunidad);
+    return [...s].sort((a, b) => a.localeCompare(b, "es"));
+  }, [indice, tipoSel]);
+
+  // Elecciones del tipo (y, si aplica, comunidad) seleccionados, ordenadas
+  // cronológicamente (antigua → reciente).
   const eleccionesTipo = useMemo(
     () =>
       indice
-        .filter((e) => e.tipo === tipoSel)
+        .filter((e) => e.tipo === tipoSel && (!comunidadSel || e.comunidad === comunidadSel))
         .sort((a, b) => (a.anio ?? 0) - (b.anio ?? 0) || (a.mes ?? 0) - (b.mes ?? 0)),
-    [indice, tipoSel],
+    [indice, tipoSel, comunidadSel],
   );
 
   // Al cambiar el tipo, salta a la elección más reciente de ese tipo.
   function seleccionarTipoEleccion(t: string) {
     const reciente = indice
       .filter((e) => e.tipo === t)
+      .sort((a, b) => (b.anio ?? 0) - (a.anio ?? 0) || (b.mes ?? 0) - (a.mes ?? 0))[0];
+    if (reciente) setFichero(reciente.fichero);
+  }
+
+  // Al cambiar la comunidad, salta a la elección más reciente de ese tipo en ella.
+  function seleccionarComunidadEleccion(c: string) {
+    const reciente = indice
+      .filter((e) => e.tipo === tipoSel && e.comunidad === c)
       .sort((a, b) => (b.anio ?? 0) - (a.anio ?? 0) || (b.mes ?? 0) - (a.mes ?? 0))[0];
     if (reciente) setFichero(reciente.fichero);
   }
@@ -170,6 +190,21 @@ export default function App() {
                   ))}
                 </select>
               </label>
+              {comunidadesTipo.length > 0 && (
+                <label>
+                  Comunidad autónoma
+                  <select
+                    value={comunidadSel ?? ""}
+                    onChange={(e) => seleccionarComunidadEleccion(e.target.value)}
+                  >
+                    {comunidadesTipo.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
               <label>
                 Año / fecha
                 <select value={fichero} onChange={(e) => setFichero(e.target.value)}>

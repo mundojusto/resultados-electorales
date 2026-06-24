@@ -64,6 +64,9 @@ export interface DatosEleccion {
 export interface EntradaIndice {
   fichero: string;
   tipo: string | null;
+  // Comunidad autónoma a la que se circunscribe la elección (autonómicas,
+  // cabildos…); null cuando abarca varias (municipales, generales, europeas).
+  comunidad: string | null;
   periodo: string | null;
   anio: number | null;
   mes: number | null;

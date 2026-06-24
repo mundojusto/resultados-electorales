@@ -35,9 +35,20 @@ for (const f of ficheros) {
   const anio = datos.eleccion?.anio ?? null;
   const mes = datos.eleccion?.mes ?? null;
 
+  // Comunidad de la elección: única (normalizada) si todos sus territorios
+  // pertenecen a una sola CCAA —caso de autonómicas o cabildos—; null si
+  // abarca varias (municipales, generales, europeas). Permite ofrecer un
+  // selector de comunidad en la exploración cuando un mismo tipo de proceso
+  // (p. ej. "Autonómicas") agrupa elecciones de comunidades distintas.
+  const comunidadesProc = new Set(
+    (datos.provincias ?? []).map((p) => normalizarComunidad(p.comunidad)),
+  );
+  const comunidad = comunidadesProc.size === 1 ? [...comunidadesProc][0] : null;
+
   indice.push({
     fichero: f,
     tipo,
+    comunidad,
     periodo: datos.eleccion?.periodo ?? null,
     anio,
     mes,
