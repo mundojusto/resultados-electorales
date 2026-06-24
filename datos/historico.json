@@ -1,0 +1,1902 @@
+{
+  "Autonómicas": [
+    {
+      "fichero": "autonomicas_euskadi_200504.json",
+      "periodo": "Abril 2005",
+      "anio": 2005,
+      "mes": 4,
+      "total": {
+        "votos_partido": 1219,
+        "votos_validos": 1209714
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1219,
+          "votos_validos": 1209714
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_euskadi_200903.json",
+      "periodo": "Marzo 2009",
+      "anio": 2009,
+      "mes": 3,
+      "total": {
+        "votos_partido": 3013,
+        "votos_validos": 1040540
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 3013,
+          "votos_validos": 1040540
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_euskadi_201210.json",
+      "periodo": "Octubre 2012",
+      "anio": 2012,
+      "mes": 10,
+      "total": {
+        "votos_partido": 2467,
+        "votos_validos": 1122421
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 2467,
+          "votos_validos": 1122421
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_euskadi_202007.json",
+      "periodo": "Julio 2020",
+      "anio": 2020,
+      "mes": 7,
+      "total": {
+        "votos_partido": 1094,
+        "votos_validos": 901714
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1094,
+          "votos_validos": 901714
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_madrid_202105.json",
+      "periodo": "Mayo 2021",
+      "anio": 2021,
+      "mes": 5,
+      "total": {
+        "votos_partido": 2563,
+        "votos_validos": 3645559
+      },
+      "comunidades": {
+        "Comunidad de Madrid": {
+          "votos_partido": 2563,
+          "votos_validos": 3645559
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_madrid_202305.json",
+      "periodo": "Mayo 2023",
+      "anio": 2023,
+      "mes": 5,
+      "total": {
+        "votos_partido": 7219,
+        "votos_validos": 3379477
+      },
+      "comunidades": {
+        "Comunidad de Madrid": {
+          "votos_partido": 7219,
+          "votos_validos": 3379477
+        }
+      }
+    },
+    {
+      "fichero": "autonomicas_euskadi_202404.json",
+      "periodo": "Abril 2024",
+      "anio": 2024,
+      "mes": 4,
+      "total": {
+        "votos_partido": 1333,
+        "votos_validos": 909814
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1333,
+          "votos_validos": 909814
+        }
+      }
+    }
+  ],
+  "Cabildos Insulares": [
+    {
+      "fichero": "cabildos-insulares_201905.json",
+      "periodo": "Mayo 2019",
+      "anio": 2019,
+      "mes": 5,
+      "total": {
+        "votos_partido": 686,
+        "votos_validos": 900399
+      },
+      "comunidades": {
+        "Canarias": {
+          "votos_partido": 686,
+          "votos_validos": 900399
+        }
+      }
+    }
+  ],
+  "Congreso": [
+    {
+      "fichero": "congreso_200803.json",
+      "periodo": "Marzo 2008",
+      "anio": 2008,
+      "mes": 3,
+      "total": {
+        "votos_partido": 21604,
+        "votos_validos": 25356123
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 2711,
+          "votos_validos": 1117381
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1002,
+          "votos_validos": 1203592
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 1744,
+          "votos_validos": 2728432
+        },
+        "Andalucía": {
+          "votos_partido": 3881,
+          "votos_validos": 4468125
+        },
+        "Castilla y León": {
+          "votos_partido": 1372,
+          "votos_validos": 1637267
+        },
+        "Extremadura": {
+          "votos_partido": 922,
+          "votos_validos": 693611
+        },
+        "Illes Balears": {
+          "votos_partido": 417,
+          "votos_validos": 470491
+        },
+        "Cataluña": {
+          "votos_partido": 2174,
+          "votos_validos": 3691763
+        },
+        "Galicia": {
+          "votos_partido": 1623,
+          "votos_validos": 1732975
+        },
+        "Aragón": {
+          "votos_partido": 474,
+          "votos_validos": 760287
+        },
+        "La Rioja": {
+          "votos_partido": 207,
+          "votos_validos": 185072
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 2440,
+          "votos_validos": 3492794
+        },
+        "Región de Murcia": {
+          "votos_partido": 642,
+          "votos_validos": 760936
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 547,
+          "votos_validos": 334998
+        },
+        "Principado de Asturias": {
+          "votos_partido": 368,
+          "votos_validos": 670843
+        },
+        "Canarias": {
+          "votos_partido": 698,
+          "votos_validos": 976356
+        },
+        "Cantabria": {
+          "votos_partido": 313,
+          "votos_validos": 363795
+        },
+        "Ceuta": {
+          "votos_partido": 39,
+          "votos_validos": 35899
+        },
+        "Melilla": {
+          "votos_partido": 30,
+          "votos_validos": 31506
+        }
+      }
+    },
+    {
+      "fichero": "congreso_201111.json",
+      "periodo": "Noviembre 2011",
+      "anio": 2011,
+      "mes": 11,
+      "total": {
+        "votos_partido": 26922,
+        "votos_validos": 24275919
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 3464,
+          "votos_validos": 1179729
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1129,
+          "votos_validos": 1171330
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2603757
+        },
+        "Andalucía": {
+          "votos_partido": 2948,
+          "votos_validos": 4349519
+        },
+        "Castilla y León": {
+          "votos_partido": 2721,
+          "votos_validos": 1515759
+        },
+        "Extremadura": {
+          "votos_partido": 1519,
+          "votos_validos": 661618
+        },
+        "Illes Balears": {
+          "votos_partido": 1088,
+          "votos_validos": 437654
+        },
+        "Cataluña": {
+          "votos_partido": 362,
+          "votos_validos": 3454929
+        },
+        "Galicia": {
+          "votos_partido": 1843,
+          "votos_validos": 1629839
+        },
+        "Aragón": {
+          "votos_partido": 1366,
+          "votos_validos": 709377
+        },
+        "La Rioja": {
+          "votos_partido": 676,
+          "votos_validos": 173184
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 5262,
+          "votos_validos": 3361444
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 733366
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 1387,
+          "votos_validos": 330195
+        },
+        "Principado de Asturias": {
+          "votos_partido": 366,
+          "votos_validos": 627565
+        },
+        "Canarias": {
+          "votos_partido": 2649,
+          "votos_validos": 928307
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 349943
+        },
+        "Ceuta": {
+          "votos_partido": 63,
+          "votos_validos": 31745
+        },
+        "Melilla": {
+          "votos_partido": 79,
+          "votos_validos": 26659
+        }
+      }
+    },
+    {
+      "fichero": "congreso_201512.json",
+      "periodo": "Diciembre 2015",
+      "anio": 2015,
+      "mes": 12,
+      "total": {
+        "votos_partido": 4525,
+        "votos_validos": 25079606
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 475,
+          "votos_validos": 1216596
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 0,
+          "votos_validos": 1163797
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2668384
+        },
+        "Andalucía": {
+          "votos_partido": 613,
+          "votos_validos": 4427471
+        },
+        "Castilla y León": {
+          "votos_partido": 0,
+          "votos_validos": 1501094
+        },
+        "Extremadura": {
+          "votos_partido": 0,
+          "votos_validos": 644869
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 483342
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3750171
+        },
+        "Galicia": {
+          "votos_partido": 0,
+          "votos_validos": 1628784
+        },
+        "Aragón": {
+          "votos_partido": 0,
+          "votos_validos": 730966
+        },
+        "La Rioja": {
+          "votos_partido": 0,
+          "votos_validos": 176209
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 2826,
+          "votos_validos": 3595764
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 723331
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 0,
+          "votos_validos": 352185
+        },
+        "Principado de Asturias": {
+          "votos_partido": 0,
+          "votos_validos": 617125
+        },
+        "Canarias": {
+          "votos_partido": 611,
+          "votos_validos": 990986
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 347993
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 32720
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 27819
+        }
+      }
+    },
+    {
+      "fichero": "congreso_201904.json",
+      "periodo": "Abril 2019",
+      "anio": 2019,
+      "mes": 4,
+      "total": {
+        "votos_partido": 21479,
+        "votos_validos": 26084449
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1593,
+          "votos_validos": 1271005
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1208,
+          "votos_validos": 1184740
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 297,
+          "votos_validos": 2679049
+        },
+        "Andalucía": {
+          "votos_partido": 4257,
+          "votos_validos": 4569140
+        },
+        "Castilla y León": {
+          "votos_partido": 2361,
+          "votos_validos": 1513127
+        },
+        "Extremadura": {
+          "votos_partido": 436,
+          "votos_validos": 655380
+        },
+        "Illes Balears": {
+          "votos_partido": 680,
+          "votos_validos": 517400
+        },
+        "Cataluña": {
+          "votos_partido": 413,
+          "votos_validos": 4128116
+        },
+        "Galicia": {
+          "votos_partido": 196,
+          "votos_validos": 1633742
+        },
+        "Aragón": {
+          "votos_partido": 975,
+          "votos_validos": 754399
+        },
+        "La Rioja": {
+          "votos_partido": 194,
+          "votos_validos": 179995
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 5125,
+          "votos_validos": 3756107
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 767205
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 1187,
+          "votos_validos": 365459
+        },
+        "Principado de Asturias": {
+          "votos_partido": 755,
+          "votos_validos": 621615
+        },
+        "Canarias": {
+          "votos_partido": 1409,
+          "votos_validos": 1059050
+        },
+        "Cantabria": {
+          "votos_partido": 267,
+          "votos_validos": 357287
+        },
+        "Ceuta": {
+          "votos_partido": 87,
+          "votos_validos": 37884
+        },
+        "Melilla": {
+          "votos_partido": 39,
+          "votos_validos": 33749
+        }
+      }
+    },
+    {
+      "fichero": "congreso_201911.json",
+      "periodo": "Noviembre 2019",
+      "anio": 2019,
+      "mes": 11,
+      "total": {
+        "votos_partido": 26622,
+        "votos_validos": 24113264
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1197,
+          "votos_validos": 1177301
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1900,
+          "votos_validos": 1084469
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 2298,
+          "votos_validos": 2526361
+        },
+        "Andalucía": {
+          "votos_partido": 5129,
+          "votos_validos": 4253627
+        },
+        "Castilla y León": {
+          "votos_partido": 2394,
+          "votos_validos": 1378151
+        },
+        "Extremadura": {
+          "votos_partido": 1198,
+          "votos_validos": 591307
+        },
+        "Illes Balears": {
+          "votos_partido": 566,
+          "votos_validos": 452869
+        },
+        "Cataluña": {
+          "votos_partido": 2381,
+          "votos_validos": 3853536
+        },
+        "Galicia": {
+          "votos_partido": 1505,
+          "votos_validos": 1471423
+        },
+        "Aragón": {
+          "votos_partido": 659,
+          "votos_validos": 696868
+        },
+        "La Rioja": {
+          "votos_partido": 293,
+          "votos_validos": 163974
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 4190,
+          "votos_validos": 3530451
+        },
+        "Región de Murcia": {
+          "votos_partido": 426,
+          "votos_validos": 712463
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 910,
+          "votos_validos": 333043
+        },
+        "Principado de Asturias": {
+          "votos_partido": 462,
+          "votos_validos": 553594
+        },
+        "Canarias": {
+          "votos_partido": 858,
+          "votos_validos": 944774
+        },
+        "Cantabria": {
+          "votos_partido": 184,
+          "votos_validos": 325012
+        },
+        "Ceuta": {
+          "votos_partido": 43,
+          "votos_validos": 33265
+        },
+        "Melilla": {
+          "votos_partido": 29,
+          "votos_validos": 30776
+        }
+      }
+    },
+    {
+      "fichero": "congreso_202307.json",
+      "periodo": "Julio 2023",
+      "anio": 2023,
+      "mes": 7,
+      "total": {
+        "votos_partido": 22344,
+        "votos_validos": 24483438
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1037,
+          "votos_validos": 1146505
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1512,
+          "votos_validos": 1141678
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 1725,
+          "votos_validos": 2631488
+        },
+        "Andalucía": {
+          "votos_partido": 6205,
+          "votos_validos": 4358205
+        },
+        "Castilla y León": {
+          "votos_partido": 1396,
+          "votos_validos": 1415672
+        },
+        "Extremadura": {
+          "votos_partido": 676,
+          "votos_validos": 624388
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 500934
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3515874
+        },
+        "Galicia": {
+          "votos_partido": 216,
+          "votos_validos": 1606364
+        },
+        "Aragón": {
+          "votos_partido": 527,
+          "votos_validos": 709102
+        },
+        "La Rioja": {
+          "votos_partido": 228,
+          "votos_validos": 173185
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 6514,
+          "votos_validos": 3564449
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 744328
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 974,
+          "votos_validos": 339055
+        },
+        "Principado de Asturias": {
+          "votos_partido": 713,
+          "votos_validos": 588359
+        },
+        "Canarias": {
+          "votos_partido": 553,
+          "votos_validos": 1016699
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 346742
+        },
+        "Ceuta": {
+          "votos_partido": 29,
+          "votos_validos": 33233
+        },
+        "Melilla": {
+          "votos_partido": 39,
+          "votos_validos": 27178
+        }
+      }
+    }
+  ],
+  "Municipales": [
+    {
+      "fichero": "municipales_200705.json",
+      "periodo": "Mayo 2007",
+      "anio": 2007,
+      "mes": 5,
+      "total": {
+        "votos_partido": 3001,
+        "votos_validos": 22225879
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 0,
+          "votos_validos": 991061
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 0,
+          "votos_validos": 1100728
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2466875
+        },
+        "Andalucía": {
+          "votos_partido": 0,
+          "votos_validos": 3827458
+        },
+        "Castilla y León": {
+          "votos_partido": 0,
+          "votos_validos": 1503011
+        },
+        "Extremadura": {
+          "votos_partido": 0,
+          "votos_validos": 659992
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 425213
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 2868941
+        },
+        "Galicia": {
+          "votos_partido": 0,
+          "votos_validos": 1646014
+        },
+        "Aragón": {
+          "votos_partido": 0,
+          "votos_validos": 673187
+        },
+        "La Rioja": {
+          "votos_partido": 0,
+          "votos_validos": 171775
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 2501,
+          "votos_validos": 2976747
+        },
+        "Región de Murcia": {
+          "votos_partido": 500,
+          "votos_validos": 652133
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 0,
+          "votos_validos": 335001
+        },
+        "Principado de Asturias": {
+          "votos_partido": 0,
+          "votos_validos": 590473
+        },
+        "Canarias": {
+          "votos_partido": 0,
+          "votos_validos": 930316
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 343687
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 34495
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 28772
+        }
+      }
+    },
+    {
+      "fichero": "municipales_201105.json",
+      "periodo": "Mayo 2011",
+      "anio": 2011,
+      "mes": 5,
+      "total": {
+        "votos_partido": 21631,
+        "votos_validos": 22581120
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 4026,
+          "votos_validos": 1084845
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 970,
+          "votos_validos": 1175508
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 752,
+          "votos_validos": 2501320
+        },
+        "Andalucía": {
+          "votos_partido": 2197,
+          "votos_validos": 4074687
+        },
+        "Castilla y León": {
+          "votos_partido": 492,
+          "votos_validos": 1441431
+        },
+        "Extremadura": {
+          "votos_partido": 783,
+          "votos_validos": 664504
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 428022
+        },
+        "Cataluña": {
+          "votos_partido": 1838,
+          "votos_validos": 2870835
+        },
+        "Galicia": {
+          "votos_partido": 1342,
+          "votos_validos": 1583411
+        },
+        "Aragón": {
+          "votos_partido": 587,
+          "votos_validos": 684064
+        },
+        "La Rioja": {
+          "votos_partido": 357,
+          "votos_validos": 167262
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 6456,
+          "votos_validos": 3005126
+        },
+        "Región de Murcia": {
+          "votos_partido": 426,
+          "votos_validos": 660955
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 286,
+          "votos_validos": 318249
+        },
+        "Principado de Asturias": {
+          "votos_partido": 0,
+          "votos_validos": 598891
+        },
+        "Canarias": {
+          "votos_partido": 795,
+          "votos_validos": 920493
+        },
+        "Cantabria": {
+          "votos_partido": 324,
+          "votos_validos": 339484
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 30776
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 31257
+        }
+      }
+    },
+    {
+      "fichero": "municipales_201505.json",
+      "periodo": "Mayo 2015",
+      "anio": 2015,
+      "mes": 5,
+      "total": {
+        "votos_partido": 1995,
+        "votos_validos": 22433162
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 0,
+          "votos_validos": 1087563
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 0,
+          "votos_validos": 1106004
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2507065
+        },
+        "Andalucía": {
+          "votos_partido": 589,
+          "votos_validos": 3846405
+        },
+        "Castilla y León": {
+          "votos_partido": 0,
+          "votos_validos": 1368986
+        },
+        "Extremadura": {
+          "votos_partido": 0,
+          "votos_validos": 635271
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 436942
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3115583
+        },
+        "Galicia": {
+          "votos_partido": 0,
+          "votos_validos": 1480411
+        },
+        "Aragón": {
+          "votos_partido": 0,
+          "votos_validos": 669236
+        },
+        "La Rioja": {
+          "votos_partido": 0,
+          "votos_validos": 163711
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 0,
+          "votos_validos": 3180994
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 646058
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 0,
+          "votos_validos": 333089
+        },
+        "Principado de Asturias": {
+          "votos_partido": 0,
+          "votos_validos": 542529
+        },
+        "Canarias": {
+          "votos_partido": 1406,
+          "votos_validos": 926986
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 325099
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 29236
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 31994
+        }
+      }
+    },
+    {
+      "fichero": "municipales_201905.json",
+      "periodo": "Mayo 2019",
+      "anio": 2019,
+      "mes": 5,
+      "total": {
+        "votos_partido": 226,
+        "votos_validos": 22785274
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 0,
+          "votos_validos": 1127318
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 0,
+          "votos_validos": 1082190
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2335006
+        },
+        "Andalucía": {
+          "votos_partido": 0,
+          "votos_validos": 3886298
+        },
+        "Castilla y León": {
+          "votos_partido": 0,
+          "votos_validos": 1383026
+        },
+        "Extremadura": {
+          "votos_partido": 0,
+          "votos_validos": 614760
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 435197
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3493544
+        },
+        "Galicia": {
+          "votos_partido": 0,
+          "votos_validos": 1510781
+        },
+        "Aragón": {
+          "votos_partido": 0,
+          "votos_validos": 672667
+        },
+        "La Rioja": {
+          "votos_partido": 0,
+          "votos_validos": 163362
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 0,
+          "votos_validos": 3241392
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 658873
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 226,
+          "votos_validos": 343522
+        },
+        "Principado de Asturias": {
+          "votos_partido": 0,
+          "votos_validos": 531218
+        },
+        "Canarias": {
+          "votos_partido": 0,
+          "votos_validos": 911563
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 326526
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 33826
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 34205
+        }
+      }
+    },
+    {
+      "fichero": "municipales_202305.json",
+      "periodo": "Mayo 2023",
+      "anio": 2023,
+      "mes": 5,
+      "total": {
+        "votos_partido": 9653,
+        "votos_validos": 22380941
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1242,
+          "votos_validos": 1017451
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 0,
+          "votos_validos": 1091446
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 740,
+          "votos_validos": 2491313
+        },
+        "Andalucía": {
+          "votos_partido": 2584,
+          "votos_validos": 3904474
+        },
+        "Castilla y León": {
+          "votos_partido": 377,
+          "votos_validos": 1290596
+        },
+        "Extremadura": {
+          "votos_partido": 0,
+          "votos_validos": 610397
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 456922
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3006025
+        },
+        "Galicia": {
+          "votos_partido": 337,
+          "votos_validos": 1441234
+        },
+        "Aragón": {
+          "votos_partido": 601,
+          "votos_validos": 671810
+        },
+        "La Rioja": {
+          "votos_partido": 0,
+          "votos_validos": 168067
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 2647,
+          "votos_validos": 3373982
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 688095
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 710,
+          "votos_validos": 323029
+        },
+        "Principado de Asturias": {
+          "votos_partido": 415,
+          "votos_validos": 532246
+        },
+        "Canarias": {
+          "votos_partido": 0,
+          "votos_validos": 924791
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 325028
+        },
+        "Ceuta": {
+          "votos_partido": 0,
+          "votos_validos": 34282
+        },
+        "Melilla": {
+          "votos_partido": 0,
+          "votos_validos": 29753
+        }
+      }
+    }
+  ],
+  "Parlamento europeo": [
+    {
+      "fichero": "parlamento-europeo_200406.json",
+      "periodo": "Junio 2004",
+      "anio": 2004,
+      "mes": 6,
+      "total": {
+        "votos_partido": 8398,
+        "votos_validos": 15291299
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 699,
+          "votos_validos": 699105
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 293,
+          "votos_validos": 747168
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 752,
+          "votos_validos": 1738089
+        },
+        "Andalucía": {
+          "votos_partido": 1288,
+          "votos_validos": 2458018
+        },
+        "Castilla y León": {
+          "votos_partido": 514,
+          "votos_validos": 1114772
+        },
+        "Extremadura": {
+          "votos_partido": 158,
+          "votos_validos": 433201
+        },
+        "Illes Balears": {
+          "votos_partido": 121,
+          "votos_validos": 259312
+        },
+        "Cataluña": {
+          "votos_partido": 1175,
+          "votos_validos": 2099903
+        },
+        "Galicia": {
+          "votos_partido": 491,
+          "votos_validos": 1085086
+        },
+        "Aragón": {
+          "votos_partido": 195,
+          "votos_validos": 477774
+        },
+        "La Rioja": {
+          "votos_partido": 87,
+          "votos_validos": 124451
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 1558,
+          "votos_validos": 2172509
+        },
+        "Región de Murcia": {
+          "votos_partido": 179,
+          "votos_validos": 458776
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 265,
+          "votos_validos": 197556
+        },
+        "Principado de Asturias": {
+          "votos_partido": 228,
+          "votos_validos": 428418
+        },
+        "Canarias": {
+          "votos_partido": 267,
+          "votos_validos": 520403
+        },
+        "Cantabria": {
+          "votos_partido": 120,
+          "votos_validos": 244192
+        },
+        "Ceuta": {
+          "votos_partido": 7,
+          "votos_validos": 17553
+        },
+        "Melilla": {
+          "votos_partido": 1,
+          "votos_validos": 15013
+        }
+      }
+    },
+    {
+      "fichero": "parlamento-europeo_200906.json",
+      "periodo": "Junio 2009",
+      "anio": 2009,
+      "mes": 6,
+      "total": {
+        "votos_partido": 23572,
+        "votos_validos": 15664050
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 1517,
+          "votos_validos": 725506
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 892,
+          "votos_validos": 790021
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 2003,
+          "votos_validos": 1876821
+        },
+        "Andalucía": {
+          "votos_partido": 3423,
+          "votos_validos": 2608817
+        },
+        "Castilla y León": {
+          "votos_partido": 1388,
+          "votos_validos": 1086543
+        },
+        "Extremadura": {
+          "votos_partido": 616,
+          "votos_validos": 449078
+        },
+        "Illes Balears": {
+          "votos_partido": 458,
+          "votos_validos": 256098
+        },
+        "Cataluña": {
+          "votos_partido": 2801,
+          "votos_validos": 1956777
+        },
+        "Galicia": {
+          "votos_partido": 1341,
+          "votos_validos": 1088657
+        },
+        "Aragón": {
+          "votos_partido": 725,
+          "votos_validos": 467113
+        },
+        "La Rioja": {
+          "votos_partido": 152,
+          "votos_validos": 119001
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 5367,
+          "votos_validos": 2271594
+        },
+        "Región de Murcia": {
+          "votos_partido": 498,
+          "votos_validos": 466505
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 694,
+          "votos_validos": 200783
+        },
+        "Principado de Asturias": {
+          "votos_partido": 409,
+          "votos_validos": 418106
+        },
+        "Canarias": {
+          "votos_partido": 995,
+          "votos_validos": 602761
+        },
+        "Cantabria": {
+          "votos_partido": 266,
+          "votos_validos": 244903
+        },
+        "Ceuta": {
+          "votos_partido": 17,
+          "votos_validos": 18163
+        },
+        "Melilla": {
+          "votos_partido": 10,
+          "votos_validos": 16803
+        }
+      }
+    },
+    {
+      "fichero": "parlamento-europeo_201905.json",
+      "periodo": "Mayo 2019",
+      "anio": 2019,
+      "mes": 5,
+      "total": {
+        "votos_partido": 21727,
+        "votos_validos": 22411498
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 934,
+          "votos_validos": 1119498
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 818,
+          "votos_validos": 1072003
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 1421,
+          "votos_validos": 2312086
+        },
+        "Andalucía": {
+          "votos_partido": 3784,
+          "votos_validos": 3811408
+        },
+        "Castilla y León": {
+          "votos_partido": 1297,
+          "votos_validos": 1349428
+        },
+        "Extremadura": {
+          "votos_partido": 638,
+          "votos_validos": 603302
+        },
+        "Illes Balears": {
+          "votos_partido": 314,
+          "votos_validos": 420022
+        },
+        "Cataluña": {
+          "votos_partido": 2915,
+          "votos_validos": 3458629
+        },
+        "Galicia": {
+          "votos_partido": 1171,
+          "votos_validos": 1450978
+        },
+        "Aragón": {
+          "votos_partido": 550,
+          "votos_validos": 661754
+        },
+        "La Rioja": {
+          "votos_partido": 165,
+          "votos_validos": 160714
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 4788,
+          "votos_validos": 3216489
+        },
+        "Región de Murcia": {
+          "votos_partido": 492,
+          "votos_validos": 643714
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 604,
+          "votos_validos": 339390
+        },
+        "Principado de Asturias": {
+          "votos_partido": 415,
+          "votos_validos": 520039
+        },
+        "Canarias": {
+          "votos_partido": 1053,
+          "votos_validos": 894937
+        },
+        "Cantabria": {
+          "votos_partido": 304,
+          "votos_validos": 312290
+        },
+        "Ceuta": {
+          "votos_partido": 41,
+          "votos_validos": 32786
+        },
+        "Melilla": {
+          "votos_partido": 23,
+          "votos_validos": 32031
+        }
+      }
+    },
+    {
+      "fichero": "parlamento-europeo_202406.json",
+      "periodo": "Junio 2024",
+      "anio": 2024,
+      "mes": 6,
+      "total": {
+        "votos_partido": 40019,
+        "votos_validos": 17433958
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 690,
+          "votos_validos": 870528
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 1366,
+          "votos_validos": 799268
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 3050,
+          "votos_validos": 1965593
+        },
+        "Andalucía": {
+          "votos_partido": 3602,
+          "votos_validos": 2908175
+        },
+        "Castilla y León": {
+          "votos_partido": 6372,
+          "votos_validos": 1059305
+        },
+        "Extremadura": {
+          "votos_partido": 518,
+          "votos_validos": 411581
+        },
+        "Illes Balears": {
+          "votos_partido": 204,
+          "votos_validos": 318671
+        },
+        "Cataluña": {
+          "votos_partido": 1780,
+          "votos_validos": 2388924
+        },
+        "Galicia": {
+          "votos_partido": 432,
+          "votos_validos": 1115111
+        },
+        "Aragón": {
+          "votos_partido": 15222,
+          "votos_validos": 520655
+        },
+        "La Rioja": {
+          "votos_partido": 231,
+          "votos_validos": 123190
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 4104,
+          "votos_validos": 2781051
+        },
+        "Región de Murcia": {
+          "votos_partido": 768,
+          "votos_validos": 517914
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 616,
+          "votos_validos": 259993
+        },
+        "Principado de Asturias": {
+          "votos_partido": 500,
+          "votos_validos": 422901
+        },
+        "Canarias": {
+          "votos_partido": 350,
+          "votos_validos": 676637
+        },
+        "Cantabria": {
+          "votos_partido": 199,
+          "votos_validos": 256260
+        },
+        "Ceuta": {
+          "votos_partido": 6,
+          "votos_validos": 19773
+        },
+        "Melilla": {
+          "votos_partido": 9,
+          "votos_validos": 18428
+        }
+      }
+    }
+  ],
+  "Senado": [
+    {
+      "fichero": "senado_200803.json",
+      "periodo": "Marzo 2008",
+      "anio": 2008,
+      "mes": 3,
+      "total": {
+        "votos_partido": 128725,
+        "votos_validos": 25153329
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 17287,
+          "votos_validos": 1105980
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 2227,
+          "votos_validos": 1195308
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 5518,
+          "votos_validos": 2756974
+        },
+        "Andalucía": {
+          "votos_partido": 14226,
+          "votos_validos": 4424757
+        },
+        "Castilla y León": {
+          "votos_partido": 3411,
+          "votos_validos": 1620261
+        },
+        "Extremadura": {
+          "votos_partido": 2827,
+          "votos_validos": 686828
+        },
+        "Illes Balears": {
+          "votos_partido": 726,
+          "votos_validos": 464035
+        },
+        "Cataluña": {
+          "votos_partido": 52009,
+          "votos_validos": 3648211
+        },
+        "Galicia": {
+          "votos_partido": 5695,
+          "votos_validos": 1705209
+        },
+        "Aragón": {
+          "votos_partido": 1732,
+          "votos_validos": 748319
+        },
+        "La Rioja": {
+          "votos_partido": 517,
+          "votos_validos": 183037
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 14580,
+          "votos_validos": 3463676
+        },
+        "Región de Murcia": {
+          "votos_partido": 2987,
+          "votos_validos": 752218
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 1997,
+          "votos_validos": 327326
+        },
+        "Principado de Asturias": {
+          "votos_partido": 963,
+          "votos_validos": 667368
+        },
+        "Canarias": {
+          "votos_partido": 1298,
+          "votos_validos": 978025
+        },
+        "Cantabria": {
+          "votos_partido": 587,
+          "votos_validos": 360162
+        },
+        "Ceuta": {
+          "votos_partido": 72,
+          "votos_validos": 34716
+        },
+        "Melilla": {
+          "votos_partido": 66,
+          "votos_validos": 30919
+        }
+      }
+    },
+    {
+      "fichero": "senado_201111.json",
+      "periodo": "Noviembre 2011",
+      "anio": 2011,
+      "mes": 11,
+      "total": {
+        "votos_partido": 95610,
+        "votos_validos": 23506228
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 11421,
+          "votos_validos": 1156409
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 4640,
+          "votos_validos": 1143523
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 0,
+          "votos_validos": 2515403
+        },
+        "Andalucía": {
+          "votos_partido": 11831,
+          "votos_validos": 4245383
+        },
+        "Castilla y León": {
+          "votos_partido": 8147,
+          "votos_validos": 1471545
+        },
+        "Extremadura": {
+          "votos_partido": 4053,
+          "votos_validos": 647747
+        },
+        "Illes Balears": {
+          "votos_partido": 2041,
+          "votos_validos": 425049
+        },
+        "Cataluña": {
+          "votos_partido": 1182,
+          "votos_validos": 3277294
+        },
+        "Galicia": {
+          "votos_partido": 5902,
+          "votos_validos": 1574043
+        },
+        "Aragón": {
+          "votos_partido": 4357,
+          "votos_validos": 687930
+        },
+        "La Rioja": {
+          "votos_partido": 2102,
+          "votos_validos": 167454
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 28958,
+          "votos_validos": 3252736
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 715376
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 2968,
+          "votos_validos": 318705
+        },
+        "Principado de Asturias": {
+          "votos_partido": 1718,
+          "votos_validos": 615777
+        },
+        "Canarias": {
+          "votos_partido": 6048,
+          "votos_validos": 893553
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 341640
+        },
+        "Ceuta": {
+          "votos_partido": 102,
+          "votos_validos": 30698
+        },
+        "Melilla": {
+          "votos_partido": 140,
+          "votos_validos": 25963
+        }
+      }
+    },
+    {
+      "fichero": "senado_201904.json",
+      "periodo": "Abril 2019",
+      "anio": 2019,
+      "mes": 4,
+      "total": {
+        "votos_partido": 65920,
+        "votos_validos": 25520364
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 3840,
+          "votos_validos": 1244530
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 3702,
+          "votos_validos": 1163421
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 628,
+          "votos_validos": 2602191
+        },
+        "Andalucía": {
+          "votos_partido": 12263,
+          "votos_validos": 4437013
+        },
+        "Castilla y León": {
+          "votos_partido": 7350,
+          "votos_validos": 1490213
+        },
+        "Extremadura": {
+          "votos_partido": 1346,
+          "votos_validos": 643573
+        },
+        "Illes Balears": {
+          "votos_partido": 1295,
+          "votos_validos": 508824
+        },
+        "Cataluña": {
+          "votos_partido": 2346,
+          "votos_validos": 4026489
+        },
+        "Galicia": {
+          "votos_partido": 565,
+          "votos_validos": 1590712
+        },
+        "Aragón": {
+          "votos_partido": 2782,
+          "votos_validos": 745094
+        },
+        "La Rioja": {
+          "votos_partido": 561,
+          "votos_validos": 177880
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 17824,
+          "votos_validos": 3717440
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 758033
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 5905,
+          "votos_validos": 357504
+        },
+        "Principado de Asturias": {
+          "votos_partido": 2062,
+          "votos_validos": 614950
+        },
+        "Canarias": {
+          "votos_partido": 2588,
+          "votos_validos": 1020029
+        },
+        "Cantabria": {
+          "votos_partido": 656,
+          "votos_validos": 352338
+        },
+        "Ceuta": {
+          "votos_partido": 121,
+          "votos_validos": 37025
+        },
+        "Melilla": {
+          "votos_partido": 86,
+          "votos_validos": 33105
+        }
+      }
+    },
+    {
+      "fichero": "senado_201911.json",
+      "periodo": "Noviembre 2019",
+      "anio": 2019,
+      "mes": 11,
+      "total": {
+        "votos_partido": 68638,
+        "votos_validos": 23680490
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 2786,
+          "votos_validos": 1161744
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 5676,
+          "votos_validos": 1067487
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 3556,
+          "votos_validos": 2484106
+        },
+        "Andalucía": {
+          "votos_partido": 14553,
+          "votos_validos": 4152696
+        },
+        "Castilla y León": {
+          "votos_partido": 5864,
+          "votos_validos": 1356851
+        },
+        "Extremadura": {
+          "votos_partido": 2441,
+          "votos_validos": 579241
+        },
+        "Illes Balears": {
+          "votos_partido": 1016,
+          "votos_validos": 445592
+        },
+        "Cataluña": {
+          "votos_partido": 6632,
+          "votos_validos": 3778412
+        },
+        "Galicia": {
+          "votos_partido": 3856,
+          "votos_validos": 1435914
+        },
+        "Aragón": {
+          "votos_partido": 1888,
+          "votos_validos": 687372
+        },
+        "La Rioja": {
+          "votos_partido": 797,
+          "votos_validos": 162189
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 12267,
+          "votos_validos": 3489089
+        },
+        "Región de Murcia": {
+          "votos_partido": 1249,
+          "votos_validos": 700055
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 2379,
+          "votos_validos": 328249
+        },
+        "Principado de Asturias": {
+          "votos_partido": 1315,
+          "votos_validos": 544892
+        },
+        "Canarias": {
+          "votos_partido": 1644,
+          "votos_validos": 924450
+        },
+        "Cantabria": {
+          "votos_partido": 575,
+          "votos_validos": 319621
+        },
+        "Ceuta": {
+          "votos_partido": 91,
+          "votos_validos": 32290
+        },
+        "Melilla": {
+          "votos_partido": 53,
+          "votos_validos": 30240
+        }
+      }
+    },
+    {
+      "fichero": "senado_202307.json",
+      "periodo": "Julio 2023",
+      "anio": 2023,
+      "mes": 7,
+      "total": {
+        "votos_partido": 60346,
+        "votos_validos": 24074527
+      },
+      "comunidades": {
+        "País Vasco": {
+          "votos_partido": 2803,
+          "votos_validos": 1133565
+        },
+        "Castilla-La Mancha": {
+          "votos_partido": 4218,
+          "votos_validos": 1125948
+        },
+        "Comunitat Valenciana": {
+          "votos_partido": 4440,
+          "votos_validos": 2597206
+        },
+        "Andalucía": {
+          "votos_partido": 17532,
+          "votos_validos": 4271435
+        },
+        "Castilla y León": {
+          "votos_partido": 4248,
+          "votos_validos": 1394914
+        },
+        "Extremadura": {
+          "votos_partido": 1766,
+          "votos_validos": 614264
+        },
+        "Illes Balears": {
+          "votos_partido": 0,
+          "votos_validos": 493658
+        },
+        "Cataluña": {
+          "votos_partido": 0,
+          "votos_validos": 3426776
+        },
+        "Galicia": {
+          "votos_partido": 870,
+          "votos_validos": 1568454
+        },
+        "Aragón": {
+          "votos_partido": 1589,
+          "votos_validos": 702384
+        },
+        "La Rioja": {
+          "votos_partido": 680,
+          "votos_validos": 170935
+        },
+        "Comunidad de Madrid": {
+          "votos_partido": 17100,
+          "votos_validos": 3530223
+        },
+        "Región de Murcia": {
+          "votos_partido": 0,
+          "votos_validos": 736962
+        },
+        "Comunidad Foral de Navarra": {
+          "votos_partido": 2325,
+          "votos_validos": 333185
+        },
+        "Principado de Asturias": {
+          "votos_partido": 1773,
+          "votos_validos": 581664
+        },
+        "Canarias": {
+          "votos_partido": 853,
+          "votos_validos": 991194
+        },
+        "Cantabria": {
+          "votos_partido": 0,
+          "votos_validos": 342054
+        },
+        "Ceuta": {
+          "votos_partido": 84,
+          "votos_validos": 32829
+        },
+        "Melilla": {
+          "votos_partido": 65,
+          "votos_validos": 26877
+        }
+      }
+    }
+  ]
+}
