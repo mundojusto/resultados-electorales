@@ -1,0 +1,677 @@
+[
+  {
+    "fichero": "autonomicas_andalucia_202605.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Andalucía",
+    "periodo": "Mayo 2026",
+    "anio": 2026,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 4696,
+      "votos_validos": 4172080,
+      "votos_candidaturas": 4131587,
+      "porcentaje_validos": 0.1126,
+      "municipios": 793
+    }
+  },
+  {
+    "fichero": "autonomicas_castilla-leon_202603.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Castilla y León",
+    "periodo": "Marzo 2026",
+    "anio": 2026,
+    "mes": 3,
+    "totales": {
+      "votos_partido": 1555,
+      "votos_validos": 1235056,
+      "votos_candidaturas": 1216744,
+      "porcentaje_validos": 0.1259,
+      "municipios": 2248
+    }
+  },
+  {
+    "fichero": "autonomicas_aragon_202602.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Aragón",
+    "periodo": "Febrero 2026",
+    "anio": 2026,
+    "mes": 2,
+    "totales": {
+      "votos_partido": 535,
+      "votos_validos": 600906,
+      "votos_candidaturas": 594264,
+      "porcentaje_validos": 0.089,
+      "municipios": 497
+    }
+  },
+  {
+    "fichero": "parlamento-europeo_202406.json",
+    "tipo": "Parlamento europeo",
+    "comunidad": null,
+    "periodo": "Junio 2024",
+    "anio": 2024,
+    "mes": 6,
+    "totales": {
+      "votos_partido": 40019,
+      "votos_validos": 17433958,
+      "votos_candidaturas": 17310263,
+      "porcentaje_validos": 0.2295,
+      "municipios": 8132
+    }
+  },
+  {
+    "fichero": "autonomicas_cataluna_202405.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Cataluña",
+    "periodo": "Mayo 2024",
+    "anio": 2024,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 2760,
+      "votos_validos": 3156470,
+      "votos_candidaturas": 3120503,
+      "porcentaje_validos": 0.0874,
+      "municipios": 951
+    }
+  },
+  {
+    "fichero": "autonomicas_euskadi_202404.json",
+    "tipo": "Autonómicas",
+    "comunidad": "País Vasco",
+    "periodo": "Abril 2024",
+    "anio": 2024,
+    "mes": 4,
+    "totales": {
+      "votos_partido": 1333,
+      "votos_validos": 909814,
+      "votos_candidaturas": 900720,
+      "porcentaje_validos": 0.1465,
+      "municipios": 200
+    }
+  },
+  {
+    "fichero": "autonomicas_galicia_202402.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Galicia",
+    "periodo": "Febrero 2024",
+    "anio": 2024,
+    "mes": 2,
+    "totales": {
+      "votos_partido": 1572,
+      "votos_validos": 1501757,
+      "votos_candidaturas": 1488705,
+      "porcentaje_validos": 0.1047,
+      "municipios": 317
+    }
+  },
+  {
+    "fichero": "congreso_202307.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Julio 2023",
+    "anio": 2023,
+    "mes": 7,
+    "totales": {
+      "votos_partido": 22344,
+      "votos_validos": 24483438,
+      "votos_candidaturas": 24284335,
+      "porcentaje_validos": 0.0913,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "senado_202307.json",
+    "tipo": "Senado",
+    "comunidad": null,
+    "periodo": "Julio 2023",
+    "anio": 2023,
+    "mes": 7,
+    "totales": {
+      "votos_partido": 60346,
+      "votos_validos": 24074527,
+      "votos_candidaturas": 24074527,
+      "porcentaje_validos": 0.2507,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "autonomicas_asturias_202305.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Principado de Asturias",
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 789,
+      "votos_validos": 537023,
+      "votos_candidaturas": 527500,
+      "porcentaje_validos": 0.1469,
+      "municipios": 79
+    }
+  },
+  {
+    "fichero": "autonomicas_comunitat-valenciana_202305.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunitat Valenciana",
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 1373,
+      "votos_validos": 2466987,
+      "votos_candidaturas": 2435951,
+      "porcentaje_validos": 0.0557,
+      "municipios": 545
+    }
+  },
+  {
+    "fichero": "autonomicas_madrid_202305.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad de Madrid",
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 7219,
+      "votos_validos": 3379477,
+      "votos_candidaturas": 3344370,
+      "porcentaje_validos": 0.2136,
+      "municipios": 180
+    }
+  },
+  {
+    "fichero": "autonomicas_navarra_202305.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad Foral de Navarra",
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 1740,
+      "votos_validos": 329861,
+      "votos_candidaturas": 324001,
+      "porcentaje_validos": 0.5275,
+      "municipios": 273
+    }
+  },
+  {
+    "fichero": "municipales_202305.json",
+    "tipo": "Municipales",
+    "comunidad": null,
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 9653,
+      "votos_validos": 22380941,
+      "votos_candidaturas": 22380941,
+      "porcentaje_validos": 0.0431,
+      "municipios": 8087
+    }
+  },
+  {
+    "fichero": "autonomicas_castilla-leon_202202.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Castilla y León",
+    "periodo": "Febrero 2022",
+    "anio": 2022,
+    "mes": 2,
+    "totales": {
+      "votos_partido": 1122,
+      "votos_validos": 1214101,
+      "votos_candidaturas": 1201948,
+      "porcentaje_validos": 0.0924,
+      "municipios": 2248
+    }
+  },
+  {
+    "fichero": "autonomicas_madrid_202105.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad de Madrid",
+    "periodo": "Mayo 2021",
+    "anio": 2021,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 2563,
+      "votos_validos": 3645559,
+      "votos_candidaturas": 3626290,
+      "porcentaje_validos": 0.0703,
+      "municipios": 180
+    }
+  },
+  {
+    "fichero": "autonomicas_euskadi_202007.json",
+    "tipo": "Autonómicas",
+    "comunidad": "País Vasco",
+    "periodo": "Julio 2020",
+    "anio": 2020,
+    "mes": 7,
+    "totales": {
+      "votos_partido": 1094,
+      "votos_validos": 901714,
+      "votos_candidaturas": 893199,
+      "porcentaje_validos": 0.1213,
+      "municipios": 251
+    }
+  },
+  {
+    "fichero": "autonomicas_galicia_202007.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Galicia",
+    "periodo": "Julio 2020",
+    "anio": 2020,
+    "mes": 7,
+    "totales": {
+      "votos_partido": 794,
+      "votos_validos": 1303554,
+      "votos_candidaturas": 1291831,
+      "porcentaje_validos": 0.0609,
+      "municipios": 313
+    }
+  },
+  {
+    "fichero": "congreso_201911.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Noviembre 2019",
+    "anio": 2019,
+    "mes": 11,
+    "totales": {
+      "votos_partido": 26622,
+      "votos_validos": 24113264,
+      "votos_candidaturas": 23897015,
+      "porcentaje_validos": 0.1104,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "senado_201911.json",
+    "tipo": "Senado",
+    "comunidad": null,
+    "periodo": "Noviembre 2019",
+    "anio": 2019,
+    "mes": 11,
+    "totales": {
+      "votos_partido": 68638,
+      "votos_validos": 23680490,
+      "votos_candidaturas": 23680490,
+      "porcentaje_validos": 0.2899,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "autonomicas_castilla-leon_201905.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Castilla y León",
+    "periodo": "Mayo 2019",
+    "anio": 2019,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 147,
+      "votos_validos": 1372177,
+      "votos_candidaturas": 1357639,
+      "porcentaje_validos": 0.0107,
+      "municipios": 2248
+    }
+  },
+  {
+    "fichero": "autonomicas_madrid_201905.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad de Madrid",
+    "periodo": "Mayo 2019",
+    "anio": 2019,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 3178,
+      "votos_validos": 3237859,
+      "votos_candidaturas": 3222839,
+      "porcentaje_validos": 0.0982,
+      "municipios": 180
+    }
+  },
+  {
+    "fichero": "cabildos-insulares_201905.json",
+    "tipo": "Cabildos Insulares",
+    "comunidad": "Canarias",
+    "periodo": "Mayo 2019",
+    "anio": 2019,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 686,
+      "votos_validos": 900399,
+      "votos_candidaturas": 890764,
+      "porcentaje_validos": 0.0762,
+      "municipios": 88
+    }
+  },
+  {
+    "fichero": "municipales_201905.json",
+    "tipo": "Municipales",
+    "comunidad": null,
+    "periodo": "Mayo 2019",
+    "anio": 2019,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 226,
+      "votos_validos": 22785274,
+      "votos_candidaturas": 22785274,
+      "porcentaje_validos": 0.001,
+      "municipios": 8121
+    }
+  },
+  {
+    "fichero": "parlamento-europeo_201905.json",
+    "tipo": "Parlamento europeo",
+    "comunidad": null,
+    "periodo": "Mayo 2019",
+    "anio": 2019,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 21727,
+      "votos_validos": 22411498,
+      "votos_candidaturas": 22194670,
+      "porcentaje_validos": 0.0969,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "congreso_201904.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Abril 2019",
+    "anio": 2019,
+    "mes": 4,
+    "totales": {
+      "votos_partido": 21479,
+      "votos_validos": 26084449,
+      "votos_candidaturas": 25885332,
+      "porcentaje_validos": 0.0823,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "senado_201904.json",
+    "tipo": "Senado",
+    "comunidad": null,
+    "periodo": "Abril 2019",
+    "anio": 2019,
+    "mes": 4,
+    "totales": {
+      "votos_partido": 65920,
+      "votos_validos": 25520364,
+      "votos_candidaturas": 25520364,
+      "porcentaje_validos": 0.2583,
+      "municipios": 8131
+    }
+  },
+  {
+    "fichero": "congreso_201512.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Diciembre 2015",
+    "anio": 2015,
+    "mes": 12,
+    "totales": {
+      "votos_partido": 4525,
+      "votos_validos": 25079606,
+      "votos_candidaturas": 24891911,
+      "porcentaje_validos": 0.018,
+      "municipios": 8123
+    }
+  },
+  {
+    "fichero": "municipales_201505.json",
+    "tipo": "Municipales",
+    "comunidad": null,
+    "periodo": "Mayo 2015",
+    "anio": 2015,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 1995,
+      "votos_validos": 22433162,
+      "votos_candidaturas": 22433162,
+      "porcentaje_validos": 0.0089,
+      "municipios": 8093
+    }
+  },
+  {
+    "fichero": "autonomicas_euskadi_201210.json",
+    "tipo": "Autonómicas",
+    "comunidad": "País Vasco",
+    "periodo": "Octubre 2012",
+    "anio": 2012,
+    "mes": 10,
+    "totales": {
+      "votos_partido": 2467,
+      "votos_validos": 1122421,
+      "votos_candidaturas": 1107807,
+      "porcentaje_validos": 0.2198,
+      "municipios": 251
+    }
+  },
+  {
+    "fichero": "autonomicas_galicia_201210.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Galicia",
+    "periodo": "Octubre 2012",
+    "anio": 2012,
+    "mes": 10,
+    "totales": {
+      "votos_partido": 1329,
+      "votos_validos": 1443848,
+      "votos_candidaturas": 1405400,
+      "porcentaje_validos": 0.092,
+      "municipios": 319
+    }
+  },
+  {
+    "fichero": "congreso_201111.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Noviembre 2011",
+    "anio": 2011,
+    "mes": 11,
+    "totales": {
+      "votos_partido": 26922,
+      "votos_validos": 24275919,
+      "votos_candidaturas": 23942870,
+      "porcentaje_validos": 0.1109,
+      "municipios": 8116
+    }
+  },
+  {
+    "fichero": "senado_201111.json",
+    "tipo": "Senado",
+    "comunidad": null,
+    "periodo": "Noviembre 2011",
+    "anio": 2011,
+    "mes": 11,
+    "totales": {
+      "votos_partido": 95610,
+      "votos_validos": 23506228,
+      "votos_candidaturas": 23506228,
+      "porcentaje_validos": 0.4067,
+      "municipios": 8116
+    }
+  },
+  {
+    "fichero": "autonomicas_madrid_201105.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad de Madrid",
+    "periodo": "Mayo 2011",
+    "anio": 2011,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 10330,
+      "votos_validos": 2993235,
+      "votos_candidaturas": 2921777,
+      "porcentaje_validos": 0.3451,
+      "municipios": 180
+    }
+  },
+  {
+    "fichero": "municipales_201105.json",
+    "tipo": "Municipales",
+    "comunidad": null,
+    "periodo": "Mayo 2011",
+    "anio": 2011,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 21631,
+      "votos_validos": 22581120,
+      "votos_candidaturas": 22581120,
+      "porcentaje_validos": 0.0958,
+      "municipios": 8084
+    }
+  },
+  {
+    "fichero": "parlamento-europeo_200906.json",
+    "tipo": "Parlamento europeo",
+    "comunidad": null,
+    "periodo": "Junio 2009",
+    "anio": 2009,
+    "mes": 6,
+    "totales": {
+      "votos_partido": 23572,
+      "votos_validos": 15664050,
+      "votos_candidaturas": 15444093,
+      "porcentaje_validos": 0.1505,
+      "municipios": 8112
+    }
+  },
+  {
+    "fichero": "autonomicas_euskadi_200903.json",
+    "tipo": "Autonómicas",
+    "comunidad": "País Vasco",
+    "periodo": "Marzo 2009",
+    "anio": 2009,
+    "mes": 3,
+    "totales": {
+      "votos_partido": 3013,
+      "votos_validos": 1040540,
+      "votos_candidaturas": 1029026,
+      "porcentaje_validos": 0.2896,
+      "municipios": 251
+    }
+  },
+  {
+    "fichero": "autonomicas_galicia_200903.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Galicia",
+    "periodo": "Marzo 2009",
+    "anio": 2009,
+    "mes": 3,
+    "totales": {
+      "votos_partido": 3507,
+      "votos_validos": 1690975,
+      "votos_candidaturas": 1662904,
+      "porcentaje_validos": 0.2074,
+      "municipios": 319
+    }
+  },
+  {
+    "fichero": "congreso_200803.json",
+    "tipo": "Congreso",
+    "comunidad": null,
+    "periodo": "Marzo 2008",
+    "anio": 2008,
+    "mes": 3,
+    "totales": {
+      "votos_partido": 21604,
+      "votos_validos": 25356123,
+      "votos_candidaturas": 25071428,
+      "porcentaje_validos": 0.0852,
+      "municipios": 8112
+    }
+  },
+  {
+    "fichero": "senado_200803.json",
+    "tipo": "Senado",
+    "comunidad": null,
+    "periodo": "Marzo 2008",
+    "anio": 2008,
+    "mes": 3,
+    "totales": {
+      "votos_partido": 128725,
+      "votos_validos": 25153329,
+      "votos_candidaturas": 25153329,
+      "porcentaje_validos": 0.5118,
+      "municipios": 8112
+    }
+  },
+  {
+    "fichero": "autonomicas_madrid_200705.json",
+    "tipo": "Autonómicas",
+    "comunidad": "Comunidad de Madrid",
+    "periodo": "Mayo 2007",
+    "anio": 2007,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 5024,
+      "votos_validos": 2987746,
+      "votos_candidaturas": 2936081,
+      "porcentaje_validos": 0.1682,
+      "municipios": 180
+    }
+  },
+  {
+    "fichero": "municipales_200705.json",
+    "tipo": "Municipales",
+    "comunidad": null,
+    "periodo": "Mayo 2007",
+    "anio": 2007,
+    "mes": 5,
+    "totales": {
+      "votos_partido": 3001,
+      "votos_validos": 22225879,
+      "votos_candidaturas": 22225879,
+      "porcentaje_validos": 0.0135,
+      "municipios": 8077
+    }
+  },
+  {
+    "fichero": "autonomicas_euskadi_200504.json",
+    "tipo": "Autonómicas",
+    "comunidad": "País Vasco",
+    "periodo": "Abril 2005",
+    "anio": 2005,
+    "mes": 4,
+    "totales": {
+      "votos_partido": 1219,
+      "votos_validos": 1209714,
+      "votos_candidaturas": 1200780,
+      "porcentaje_validos": 0.1008,
+      "municipios": 250
+    }
+  },
+  {
+    "fichero": "parlamento-europeo_200406.json",
+    "tipo": "Parlamento europeo",
+    "comunidad": null,
+    "periodo": "Junio 2004",
+    "anio": 2004,
+    "mes": 6,
+    "totales": {
+      "votos_partido": 8398,
+      "votos_validos": 15291299,
+      "votos_candidaturas": 15196959,
+      "porcentaje_validos": 0.0549,
+      "municipios": 8109
+    }
+  },
+  {
+    "fichero": "eleccion.json",
+    "tipo": null,
+    "comunidad": null,
+    "periodo": null,
+    "anio": null,
+    "mes": null,
+    "totales": {
+      "votos_partido": 226,
+      "votos_validos": 22785274,
+      "votos_candidaturas": 22785274,
+      "porcentaje_validos": 0.001,
+      "municipios": 8121
+    }
+  }
+]
