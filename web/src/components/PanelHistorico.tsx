@@ -102,15 +102,28 @@ function GraficoBarras({
 }) {
   // Lienzo con coordenadas internas; el SVG se escala al ancho disponible.
   const W = 720;
-  const H = 320;
-  const M = { top: 24, right: 16, bottom: 56, left: 64 };
+  const M = { top: 24, right: 16, left: 64 };
   const areaW = W - M.left - M.right;
-  const areaH = H - M.top - M.bottom;
+  const areaH = 240;
 
   const max = Math.max(1, ...serie.map((p) => valorDe(p, metrica)));
   const n = serie.length;
   const paso = areaW / n;
   const anchoBarra = Math.min(72, paso * 0.62);
+
+  // Ancho aproximado de la etiqueta más larga (~6,5px por carácter a 12px).
+  const anchoEtiqueta =
+    Math.max(0, ...serie.map((p) => p.etiqueta.length)) * 6.5;
+  // Si las etiquetas no caben horizontalmente bajo cada barra, se giran para
+  // que no se superpongan.
+  const rotarEtiquetas = anchoEtiqueta > paso - 4;
+  const anguloEtiqueta = 35;
+  // Margen inferior: reservamos espacio para las etiquetas giradas.
+  const bottom = rotarEtiquetas
+    ? Math.round(anchoEtiqueta * Math.sin((anguloEtiqueta * Math.PI) / 180)) + 30
+    : 56;
+  const H = M.top + areaH + bottom;
+  const ejeY = M.top + areaH;
 
   // Líneas de referencia horizontales.
   const ticks = 4;
@@ -173,14 +186,26 @@ function GraficoBarras({
                   {formatear(p, metrica)}
                 </text>
               )}
-              <text
-                x={x + anchoBarra / 2}
-                y={H - M.bottom + 18}
-                className="grafico__etiqueta"
-                textAnchor="middle"
-              >
-                {p.etiqueta}
-              </text>
+              {rotarEtiquetas ? (
+                <text
+                  x={x + anchoBarra / 2}
+                  y={ejeY + 16}
+                  className="grafico__etiqueta"
+                  textAnchor="end"
+                  transform={`rotate(-${anguloEtiqueta} ${x + anchoBarra / 2} ${ejeY + 16})`}
+                >
+                  {p.etiqueta}
+                </text>
+              ) : (
+                <text
+                  x={x + anchoBarra / 2}
+                  y={ejeY + 18}
+                  className="grafico__etiqueta"
+                  textAnchor="middle"
+                >
+                  {p.etiqueta}
+                </text>
+              )}
             </g>
           );
         })}
