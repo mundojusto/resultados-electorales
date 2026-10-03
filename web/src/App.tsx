@@ -25,6 +25,7 @@ import { MapaProvincias } from "./components/MapaProvincias";
 import { MapaMunicipios } from "./components/MapaMunicipios";
 import { PanelLista } from "./components/PanelLista";
 import { PanelHistorico } from "./components/PanelHistorico";
+import { PanelAvales } from "./avales/PanelAvales";
 
 export default function App() {
   const [indice, setIndice] = useState<EntradaIndice[]>([]);
@@ -37,10 +38,23 @@ export default function App() {
   const [provincia, setProvincia] = useState<number | null>(null);
   const [metrica, setMetrica] = useState<Metrica>("votos");
 
-  const [vista, setVista] = useState<Vista>("exploracion");
+  const [vista, setVista] = useState<Vista>(vistaDesdeHash);
   const [historico, setHistorico] = useState<Historico | null>(null);
   const [tipoHist, setTipoHist] = useState<string>("");
   const [comunidadHist, setComunidadHist] = useState<string>(TODAS_COMUNIDADES);
+
+  // La vista activa se refleja en el hash (#historico, #avales) para poder
+  // enlazar cada pestaña directamente, p. ej. desde la web del partido.
+  function cambiarVista(v: Vista) {
+    setVista(v);
+    history.replaceState(null, "", v === "exploracion" ? location.pathname + location.search : `#${v}`);
+  }
+
+  useEffect(() => {
+    const alCambiarHash = () => setVista(vistaDesdeHash());
+    window.addEventListener("hashchange", alCambiarHash);
+    return () => window.removeEventListener("hashchange", alCambiarHash);
+  }, []);
 
   // Carga el índice de elecciones al inicio.
   useEffect(() => {
@@ -217,34 +231,44 @@ export default function App() {
               </label>
             </>
           )}
-          <label>
-            Métrica
-            <select value={metrica} onChange={(e) => setMetrica(e.target.value as Metrica)}>
-              <option value="votos">Votos</option>
-              <option value="porcentaje">% sobre válidos</option>
-            </select>
-          </label>
+          {vista !== "avales" && (
+            <label>
+              Métrica
+              <select value={metrica} onChange={(e) => setMetrica(e.target.value as Metrica)}>
+                <option value="votos">Votos</option>
+                <option value="porcentaje">% sobre válidos</option>
+              </select>
+            </label>
+          )}
         </div>
       </header>
 
       <nav className="pestanas">
         <button
           className={`pestana ${vista === "exploracion" ? "activa" : ""}`}
-          onClick={() => setVista("exploracion")}
+          onClick={() => cambiarVista("exploracion")}
         >
           Exploración por territorio
         </button>
         <button
           className={`pestana ${vista === "historico" ? "activa" : ""}`}
-          onClick={() => setVista("historico")}
+          onClick={() => cambiarVista("historico")}
         >
           Histórico
+        </button>
+        <button
+          className={`pestana pestana--avales ${vista === "avales" ? "activa" : ""}`}
+          onClick={() => cambiarVista("avales")}
+        >
+          Avales 29-N
         </button>
       </nav>
 
       {error && <div className="error">⚠ {error}</div>}
 
-      {vista === "historico" ? (
+      {vista === "avales" ? (
+        <PanelAvales />
+      ) : vista === "historico" ? (
         historico && tipoHist ? (
           <PanelHistorico
             historico={historico}
@@ -327,6 +351,11 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+function vistaDesdeHash(): Vista {
+  const h = location.hash.replace("#", "");
+  return h === "historico" || h === "avales" ? h : "exploracion";
 }
 
 function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
