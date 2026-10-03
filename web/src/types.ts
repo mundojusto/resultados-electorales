@@ -87,7 +87,7 @@ export interface FilaAgregada {
 export type Nivel = "comunidad" | "provincia" | "municipio";
 export type Metrica = "votos" | "porcentaje";
 
-export type Vista = "exploracion" | "historico";
+export type Vista = "exploracion" | "historico" | "avales";
 
 // --- Histórico (datos/historico.json) ---
 

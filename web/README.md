@@ -52,6 +52,17 @@ La app tiene dos vistas (pestañas en la cabecera):
   comunidad autónoma** (o total nacional). Dibuja un gráfico de barras (SVG, sin
   dependencias) más una tabla, a partir de `historico.json`.
 
+- **Avales 29-N** (`src/avales/`): página informativa para la recogida de
+  avales de las generales del 29 de noviembre (calendario con cuenta atrás,
+  mapa y ficha por provincia, escenarios de esfuerzo, guía y preguntas
+  frecuentes). Se enlaza directamente con `#avales` (y el histórico con
+  `#historico`). Los datos por provincia están en
+  `src/avales/provincias-29n.json`; el mínimo legal y los objetivos se calculan
+  a partir del censo. Para publicar recuentos, marcar las provincias elegidas o
+  activar los enlaces de Boreal y del impreso, basta con rellenar en ese JSON
+  `seleccionada`, `avales_papel`, `avales_boreal`, `estado`, `url_boreal` y
+  `url_impreso`: al fusionar en `main` la web se republica sola.
+
 ### Exploración por territorio
 
 - **Datos**: se cargan los JSON de M+J por municipio y se agregan en cliente por
