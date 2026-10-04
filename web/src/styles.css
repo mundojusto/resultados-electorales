@@ -362,6 +362,12 @@ body {
 .av-boton--principal { background: var(--terracota); color: white; }
 .av-boton--inactivo { opacity: 0.55; cursor: not-allowed; }
 .av-boton small { font-weight: 400; font-size: 0.72rem; }
+.av-boton__etiqueta {
+  display: inline-block; margin-left: 0.5rem; vertical-align: 0.1em;
+  padding: 0.05rem 0.45rem; border-radius: 999px;
+  background: var(--melocoton); color: #3d2c24;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+}
 
 /* Tabla de provincias */
 .av-tabla { margin-top: 1.25rem; border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; }
