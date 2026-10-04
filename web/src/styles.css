@@ -446,3 +446,109 @@ body {
 .av-contacto { font-size: 0.85rem; color: var(--gris); margin: 1rem 0 0; }
 .av-contacto a, .av-fuentes a { color: var(--terracota); }
 .av-fuentes ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; line-height: 1.7; }
+
+/* ===== Vista listas y calendario 29-N ===== */
+.pestana--listas { color: var(--terracota); font-weight: 600; }
+@media (max-width: 700px) {
+  .pestanas { flex-wrap: wrap; }
+  .pestana { padding: 0.45rem 0.6rem; }
+  .pestana--avales { margin-left: 0; }
+}
+
+.li-esencial { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.45rem; line-height: 1.5; max-width: 80ch; }
+.li-esencial li::marker { color: var(--terracota); font-weight: 700; }
+
+/* Calendario */
+.li-periodos {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.li-periodo {
+  border: 1px solid var(--borde); border-radius: 8px; padding: 0.5rem 0.65rem;
+  font-size: 0.82rem; line-height: 1.35; background: var(--fondo);
+}
+.li-periodo span { display: block; font-weight: 700; color: var(--terracota-osc); font-size: 0.9rem; }
+.li-periodo.clave { background: #fdf1e6; border-color: var(--melocoton); }
+.li-periodo.clave span { color: var(--terracota); }
+.li-cal__cabecera { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.li-cal__cabecera h3 { margin: 0.25rem 0 0.5rem; font-size: 1rem; color: var(--terracota-osc); }
+.li-cal__cabecera label { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--gris); cursor: pointer; }
+
+.li-tabla-scroll { overflow-x: auto; border: 1px solid var(--borde); border-radius: 10px; }
+.li-tabla { width: 100%; border-collapse: collapse; font-size: 0.88rem; line-height: 1.45; }
+.li-tabla th, .li-tabla td { padding: 0.5rem 0.7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--borde); }
+.li-tabla tr:last-child td { border-bottom: 0; }
+.li-tabla thead th {
+  background: var(--fondo); font-size: 0.72rem; color: var(--gris);
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.li-tabla__nombre { font-weight: 700; color: var(--terracota-osc); min-width: 10rem; }
+.li-tabla__plazo { font-weight: 600; color: var(--terracota); min-width: 8rem; }
+.li-cal__fecha { white-space: nowrap; font-weight: 600; color: var(--terracota-osc); font-variant-numeric: tabular-nums; }
+.li-cal__dia { white-space: nowrap; color: var(--gris); font-size: 0.8rem; }
+.li-cal tr.clave td:nth-child(3) { font-weight: 700; color: #3d2c24; }
+.li-cal tr.li-cal--pasado td { opacity: 0.5; }
+.li-cal tr.li-cal--hoy td { background: #fdf1e6; }
+.li-cal tr.li-cal--hoy td:first-child { box-shadow: inset 3px 0 0 var(--terracota); }
+.li-hoy {
+  display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.45rem; border-radius: 999px;
+  background: var(--terracota); color: white; font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em; vertical-align: 0.1em;
+}
+.li-interno {
+  display: inline-block; margin-right: 0.4rem; padding: 0.02rem 0.45rem; border-radius: 999px;
+  background: var(--melocoton); color: #3d2c24; font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+@media (max-width: 600px) {
+  .li-tabla .ocultable { display: none; }
+  .li-tabla th, .li-tabla td { padding: 0.45rem 0.5rem; }
+  .li-cal__fecha { white-space: normal; }
+}
+
+/* Ficha de provincia */
+.li-desglose dt { min-height: 2em; }
+.li-islas { margin: 0.4rem 0 0; }
+.li-seguimiento { margin-top: 0.75rem; }
+.li-hitos-prov { list-style: none; margin: 0.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.li-hitos-prov li {
+  font-size: 0.78rem; padding: 0.15rem 0.55rem; border-radius: 999px;
+  background: #efe4d8; color: var(--gris);
+}
+.li-hitos-prov li.ok { background: #e3f0e7; color: #2f6b45; font-weight: 600; }
+.li-subtotal { float: right; font-weight: 400; color: var(--gris); font-size: 0.78rem; }
+
+.li-escenarios { margin-top: 1.5rem; }
+.li-escenarios h3 { margin: 0 0 0.75rem; font-size: 1rem; color: var(--terracota-osc); }
+.li-lectura { margin-top: 1rem; }
+
+.li-perfil { margin: 1rem 0 0; max-width: 80ch; line-height: 1.5; }
+
+/* Tareas */
+.li-tareas__cabecera { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+.li-tareas__cabecera h2 { margin: 0 0 0.35rem; font-size: 1.2rem; color: var(--terracota-osc); }
+.li-tareas__cuenta { font-size: 0.85rem; color: var(--gris); display: flex; align-items: center; gap: 0.6rem; }
+.li-borrar {
+  border: 1px solid var(--borde); background: white; border-radius: 999px;
+  padding: 0.2rem 0.7rem; font-size: 0.78rem; color: var(--gris); cursor: pointer;
+}
+.li-semanas { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.9rem; }
+.li-semana { border: 1px solid var(--borde); border-radius: 10px; padding: 0.85rem 1rem; background: white; }
+.li-semana.actual { border-color: var(--terracota); box-shadow: 0 0 0 1px var(--terracota); background: #fffaf5; }
+.li-semana h3 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--terracota-osc); display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem; }
+.li-semana h3 small { margin-left: auto; font-weight: 400; color: var(--gris); font-variant-numeric: tabular-nums; }
+.li-semana h3 .li-hoy { margin-left: 0; }
+.li-semana ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.li-semana label { display: grid; grid-template-columns: 1.1rem 1fr; align-items: start; gap: 0.45rem; font-size: 0.87rem; line-height: 1.45; cursor: pointer; }
+.li-semana input { margin: 0.2rem 0 0; accent-color: var(--terracota); }
+.li-semana label strong { color: var(--terracota); }
+.li-semana label.hecha span { color: var(--gris); text-decoration: line-through; text-decoration-color: rgba(96, 90, 87, 0.5); }
+@media (max-width: 420px) { .li-semanas { grid-template-columns: 1fr; } }
+
+/* Prohibiciones y envíos */
+.li-prohibido { background: #fbf1ef; border-color: #f0d3cb; }
+.li-prohibido dl { margin: 0; display: grid; gap: 0.5rem; }
+.li-prohibido dt { font-weight: 700; color: var(--terracota); font-size: 0.82rem; }
+.li-prohibido dd { margin: 0; }
+.li-envios td:last-child { text-align: right; white-space: nowrap; }
+@media (max-width: 600px) { .li-envios td:last-child { white-space: normal; } }

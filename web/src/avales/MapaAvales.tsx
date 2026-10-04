@@ -11,8 +11,9 @@ import {
   type ProvinciaAvales,
   type TipoSede,
 } from "./avales";
+import { personasMinimo } from "./listas";
 
-export type ModoMapa = "necesarios" | "sede" | "progreso";
+export type ModoMapa = "necesarios" | "sede" | "progreso" | "personas";
 
 interface Props {
   provincias: Map<string, ProvinciaAvales>;
@@ -31,14 +32,17 @@ function colorDe(p: ProvinciaAvales | undefined, e: Props, max: number): string 
   if (!p) return "#f3e7da";
   if (e.modo === "sede") return COLOR_SEDE[p.sede];
   if (e.modo === "progreso") return interpolaColor(Math.min(1, progreso(p)));
+  if (e.modo === "personas") return interpolaColor(Math.sqrt(personasMinimo(p) / max));
   return interpolaColor(Math.sqrt(minimoLegal(p.censo) / max));
 }
 
 function estiloDe(feature: any, e: Props): L.PathOptions {
   const cod = feature.properties.cod_prov as string;
   const p = e.provincias.get(cod);
+  // Máximo de la magnitud que se pinta (avales o personas) para escalar el color.
+  const magnitud = e.modo === "personas" ? personasMinimo : (q: ProvinciaAvales) => minimoLegal(q.censo);
   let max = 1;
-  for (const q of e.provincias.values()) max = Math.max(max, minimoLegal(q.censo));
+  for (const q of e.provincias.values()) max = Math.max(max, magnitud(q));
   const sel = e.seleccionada === cod;
   // Tras la decisión de la Coordinadora, las provincias descartadas se atenúan.
   const descartada = p?.seleccionada === false;
@@ -57,11 +61,13 @@ function tooltipDe(feature: any, e: Props): string {
   const linea =
     e.modo === "sede"
       ? ETIQUETA_SEDE[p.sede]
-      : e.modo === "progreso"
-        ? r == null
-          ? "Sin recuento todavía"
-          : `${fmt(r)} avales · ${Math.round(progreso(p) * 100)} % del objetivo`
-        : `${fmt(minimoLegal(p.censo))} avales mínimos`;
+      : e.modo === "personas"
+        ? `${personasMinimo(p)} personas en listas como mínimo`
+        : e.modo === "progreso"
+          ? r == null
+            ? "Sin recuento todavía"
+            : `${fmt(r)} avales · ${Math.round(progreso(p) * 100)} % del objetivo`
+          : `${fmt(minimoLegal(p.censo))} avales mínimos`;
   return `<strong>${p.provincia}</strong><br/>${linea}`;
 }
 
