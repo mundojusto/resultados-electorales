@@ -6,7 +6,7 @@
 // partir del censo, para que no puedan desincronizarse si se corrige un censo.
 import PROVINCIAS from "./provincias-29n.json";
 
-export type TipoSede = "oficial" | "media" | "sin_sede";
+export type TipoSede = "constituida" | "pendiente" | "sin_sede";
 
 export const ESTADOS = [
   "No iniciado",
@@ -40,8 +40,8 @@ export interface ProvinciaAvales {
 export const PROVINCIAS_AVALES = PROVINCIAS as ProvinciaAvales[];
 
 export const ETIQUETA_SEDE: Record<TipoSede, string> = {
-  oficial: "Sede oficial",
-  media: "Sede de prioridad media",
+  constituida: "Sede constituida",
+  pendiente: "Sede pendiente de constitución",
   sin_sede: "Sin sede",
 };
 

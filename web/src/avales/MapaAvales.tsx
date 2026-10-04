@@ -22,8 +22,8 @@ interface Props {
 }
 
 export const COLOR_SEDE: Record<TipoSede, string> = {
-  oficial: "#9a5339",
-  media: "#e7b78a",
+  constituida: "#9a5339",
+  pendiente: "#e7b78a",
   sin_sede: "#efe4d8",
 };
 

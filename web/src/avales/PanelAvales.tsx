@@ -25,6 +25,10 @@ import { interpolaColor } from "../colores";
 
 const BOREAL_CONTACTO = "contacto@boreal.es";
 
+// Formulario común mientras la Comisión Electoral no publique el impreso de
+// cada provincia (campo `url_impreso` del JSON, que tiene prioridad).
+const IMPRESO_PROVISIONAL = `${import.meta.env.BASE_URL}avales/formulario-avales-provisional.pdf`;
+
 export function PanelAvales() {
   const provincias = PROVINCIAS_AVALES;
   const porCodigo = useMemo(
@@ -387,7 +391,13 @@ function FichaProvincia({
         <Enlace url={p.url_boreal} principal>
           Avala en línea con Boreal
         </Enlace>
-        <Enlace url={p.url_impreso}>Descargar impreso oficial (PDF)</Enlace>
+        {p.url_impreso ? (
+          <Enlace url={p.url_impreso}>Descargar impreso oficial (PDF)</Enlace>
+        ) : (
+          <Enlace url={IMPRESO_PROVISIONAL} etiqueta="Provisional">
+            Descargar impreso oficial (PDF)
+          </Enlace>
+        )}
       </div>
     </article>
   );
@@ -396,10 +406,12 @@ function FichaProvincia({
 function Enlace({
   url,
   principal,
+  etiqueta,
   children,
 }: {
   url: string | null;
   principal?: boolean;
+  etiqueta?: string;
   children: React.ReactNode;
 }) {
   const clase = `av-boton ${principal ? "av-boton--principal" : ""}`;
@@ -413,7 +425,10 @@ function Enlace({
   }
   return (
     <a className={clase} href={url} target="_blank" rel="noopener noreferrer">
-      {children}
+      <span>
+        {children}
+        {etiqueta && <span className="av-boton__etiqueta">{etiqueta}</span>}
+      </span>
     </a>
   );
 }
