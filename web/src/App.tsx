@@ -26,6 +26,7 @@ import { MapaMunicipios } from "./components/MapaMunicipios";
 import { PanelLista } from "./components/PanelLista";
 import { PanelHistorico } from "./components/PanelHistorico";
 import { PanelAvales } from "./avales/PanelAvales";
+import { PanelListas } from "./avales/PanelListas";
 
 export default function App() {
   const [indice, setIndice] = useState<EntradaIndice[]>([]);
@@ -43,7 +44,7 @@ export default function App() {
   const [tipoHist, setTipoHist] = useState<string>("");
   const [comunidadHist, setComunidadHist] = useState<string>(TODAS_COMUNIDADES);
 
-  // La vista activa se refleja en el hash (#historico, #avales) para poder
+  // La vista activa se refleja en el hash (#historico, #avales, #listas) para poder
   // enlazar cada pestaña directamente, p. ej. desde la web del partido.
   function cambiarVista(v: Vista) {
     setVista(v);
@@ -231,7 +232,7 @@ export default function App() {
               </label>
             </>
           )}
-          {vista !== "avales" && (
+          {vista !== "avales" && vista !== "listas" && (
             <label>
               Métrica
               <select value={metrica} onChange={(e) => setMetrica(e.target.value as Metrica)}>
@@ -262,12 +263,20 @@ export default function App() {
         >
           Avales 29-N
         </button>
+        <button
+          className={`pestana pestana--listas ${vista === "listas" ? "activa" : ""}`}
+          onClick={() => cambiarVista("listas")}
+        >
+          Listas y calendario 29-N
+        </button>
       </nav>
 
       {error && <div className="error">⚠ {error}</div>}
 
       {vista === "avales" ? (
         <PanelAvales />
+      ) : vista === "listas" ? (
+        <PanelListas />
       ) : vista === "historico" ? (
         historico && tipoHist ? (
           <PanelHistorico
@@ -355,7 +364,7 @@ export default function App() {
 
 function vistaDesdeHash(): Vista {
   const h = location.hash.replace("#", "");
-  return h === "historico" || h === "avales" ? h : "exploracion";
+  return h === "historico" || h === "avales" || h === "listas" ? h : "exploracion";
 }
 
 function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {

@@ -35,6 +35,17 @@ export interface ProvinciaAvales {
   estado: EstadoAvales;
   url_impreso: string | null;
   url_boreal: string | null;
+  // Seguimiento de listas (pestaña «Listas y calendario»). Solo cifras
+  // agregadas: nunca nombres, DNI ni aceptaciones.
+  personas_confirmadas: number | null;
+  aceptaciones_recibidas: number | null;
+  mujeres: number | null;
+  hombres: number | null;
+  cabeza_lista_congreso_confirmada: boolean | null;
+  representante_designado: boolean | null;
+  administrador_designado: boolean | null;
+  fecha_presentacion: string | null; // AAAA-MM-DD
+  proclamada: boolean | null;
 }
 
 export const PROVINCIAS_AVALES = PROVINCIAS as ProvinciaAvales[];

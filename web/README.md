@@ -43,7 +43,7 @@ Se ejecutan automáticamente en cada Pull Request junto con el build, mediante
 
 ## Cómo funciona
 
-La app tiene dos vistas (pestañas en la cabecera):
+La app tiene estas vistas (pestañas en la cabecera):
 
 - **Exploración por territorio**: una elección concreta, en listado y mapa.
 - **Histórico** (`src/components/PanelHistorico.tsx`): evolución del número de
@@ -62,6 +62,20 @@ La app tiene dos vistas (pestañas en la cabecera):
   activar los enlaces de Boreal y del impreso, basta con rellenar en ese JSON
   `seleccionada`, `avales_papel`, `avales_boreal`, `estado`, `url_boreal` y
   `url_impreso`: al fusionar en `main` la web se republica sola.
+
+- **Listas y calendario 29-N** (`src/avales/PanelListas.tsx`, cálculos en
+  `src/avales/listas.ts`): instrucciones generales para las sedes. Incluye el
+  calendario día a día con el próximo plazo, los requisitos para ir en una
+  lista, las personas necesarias por provincia (mapa, ficha y tabla), las
+  funciones que nombra cada sede, las tareas semanales con casillas (se guardan
+  solo en el navegador), las figuras electorales, el dinero, las prohibiciones y
+  lo que se envía a la Comisión. Se enlaza con `#listas`. Las personas
+  necesarias se calculan a partir de los escaños (Congreso + 2 × Senado, más dos
+  suplentes recomendados). El seguimiento por provincia se rellena en el mismo
+  `provincias-29n.json` (`personas_confirmadas`, `aceptaciones_recibidas`,
+  `mujeres`, `hombres`, `cabeza_lista_congreso_confirmada`,
+  `representante_designado`, `administrador_designado`, `fecha_presentacion`,
+  `proclamada`), siempre con cifras agregadas: ni nombres ni documentos.
 
 ### Exploración por territorio
 
