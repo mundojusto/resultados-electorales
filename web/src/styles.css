@@ -328,8 +328,8 @@ body {
   display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.5rem; border-radius: 999px;
   font-weight: 600; margin-left: 0.35rem;
 }
-.av-sede--oficial { background: var(--terracota); color: white; }
-.av-sede--media { background: var(--beige); color: #3d2c24; }
+.av-sede--constituida { background: var(--terracota); color: white; }
+.av-sede--pendiente { background: var(--beige); color: #3d2c24; }
 .av-sede--sin_sede { background: #efe4d8; color: var(--gris); }
 .av-etiqueta { font-size: 0.72rem; padding: 0.1rem 0.5rem; border-radius: 999px; background: #2f7d4f; color: white; font-weight: 600; }
 .av-etiqueta--no { background: #8b8380; }
