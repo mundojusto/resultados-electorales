@@ -430,7 +430,6 @@ body {
 .av-tarjeta a { color: var(--terracota); }
 .av-tarjeta--si { background: #f1f7f2; border-color: #cfe3d5; }
 .av-tarjeta--si h3 { color: #2f6b45; }
-.av-tarjeta--boreal { background: #fdf1e6; border-color: var(--melocoton); grid-row: span 2; }
 .av-tarjeta--datos { background: var(--fondo); }
 .av-numeros li::marker { color: var(--terracota); font-weight: 700; }
 .av-tarjeta blockquote {

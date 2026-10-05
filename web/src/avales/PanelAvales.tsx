@@ -23,8 +23,6 @@ import {
 import { COLOR_SEDE, MapaAvales, type ModoMapa } from "./MapaAvales";
 import { interpolaColor } from "../colores";
 
-const BOREAL_CONTACTO = "contacto@boreal.es";
-
 // Formulario común mientras la Comisión Electoral no publique el impreso de
 // cada provincia (campo `url_impreso` del JSON, que tiene prioridad).
 const IMPRESO_PROVISIONAL = `${import.meta.env.BASE_URL}avales/formulario-avales-provisional.pdf`;
@@ -363,8 +361,7 @@ function FichaProvincia({
 
       {recogidos != null ? (
         <p className="av-ficha__recuento">
-          <strong>{fmt(recogidos)}</strong> avales recogidos ({fmt(p.avales_papel ?? 0)} en papel ·{" "}
-          {fmt(p.avales_boreal ?? 0)} por Boreal) · Estado: <strong>{p.estado}</strong>
+          <strong>{fmt(recogidos)}</strong> avales recogidos · Estado: <strong>{p.estado}</strong>
         </p>
       ) : (
         <p className="av-ficha__recuento av-ficha__recuento--vacio">
@@ -388,13 +385,10 @@ function FichaProvincia({
       </dl>
 
       <div className="av-ficha__botones">
-        <Enlace url={p.url_boreal} principal>
-          Avala en línea con Boreal
-        </Enlace>
         {p.url_impreso ? (
-          <Enlace url={p.url_impreso}>Descargar impreso oficial (PDF)</Enlace>
+          <Enlace url={p.url_impreso} principal>Descargar impreso oficial (PDF)</Enlace>
         ) : (
-          <Enlace url={IMPRESO_PROVISIONAL} etiqueta="Provisional">
+          <Enlace url={IMPRESO_PROVISIONAL} principal etiqueta="Provisional">
             Descargar impreso oficial (PDF)
           </Enlace>
         )}
@@ -653,24 +647,6 @@ function Guia() {
           </p>
         </article>
 
-        <article className="av-tarjeta av-tarjeta--boreal">
-          <h3>En línea, con Boreal</h3>
-          <p>
-            Quien tenga certificado digital (FNMT o DNI electrónico) puede avalar desde el móvil o el
-            ordenador a través de Boreal, una plataforma sin ánimo de lucro. Es la vía para quien
-            vive lejos de una mesa o fuera de España (censo CERA).
-          </p>
-          <ol className="av-numeros">
-            <li>Abre el enlace de tu provincia (en su ficha, más arriba).</li>
-            <li>Comprueba que la provincia es la de tu censo.</li>
-            <li>Rellena nombre, apellidos, DNI y fecha de nacimiento.</li>
-            <li>Firma con tu certificado.</li>
-            <li>Guarda el justificante.</li>
-          </ol>
-          <p className="av-nota">
-            Si ya firmaste en papel, no vuelvas a firmar en línea: la segunda firma se anula.
-          </p>
-        </article>
 
         <article className="av-tarjeta">
           <h3>En la mesa de recogida</h3>
@@ -684,7 +660,6 @@ function Guia() {
             «Estamos recogiendo firmas para que M+J pueda presentarse en esta provincia. Firmar no
             te compromete a votarnos: solo permite que haya una opción más en la papeleta.»
           </blockquote>
-          <p className="av-nota">Lleva siempre el cartel con el QR de Boreal de la provincia.</p>
         </article>
 
         <article className="av-tarjeta">
@@ -703,7 +678,6 @@ function Guia() {
           <ul>
             <li>Cada sede envía a la Comisión Electoral el recuento del día por provincia.</li>
             <li>Los pliegos originales van a la persona responsable provincial, que los revisa, quita duplicados y los guarda hasta presentarlos (21–26 de octubre).</li>
-            <li>Antes de presentar se cruzan las firmas en papel con las de Boreal.</li>
           </ul>
         </article>
 
@@ -725,9 +699,7 @@ function Guia() {
 const PREGUNTAS: [string, string][] = [
   ["¿Firmar obliga a votarnos?", "No. El aval solo permite que la candidatura se presente. El voto sigue siendo libre y secreto."],
   ["¿Puedo recoger firmas antes del 6 de octubre?", "No. Solo cuentan las firmas recogidas después de que la convocatoria salga en el BOE."],
-  ["¿Puedo avalar por internet?", "Sí, a través de Boreal, si tienes certificado digital o DNI electrónico. Si no lo tienes, firma en papel en una mesa."],
-  ["He firmado en papel. ¿Firmo también en Boreal por si acaso?", "No. Es el mismo elector y la segunda firma se descarta por duplicada."],
-  ["¿Puede firmar alguien que vive en el extranjero?", "Sí, si está inscrito en el censo de residentes ausentes (CERA) de esa provincia. En papel es casi imposible a tiempo; lo realista es Boreal."],
+  ["¿Puedo avalar por internet?", "No. Esta vez solo se recogen firmas en papel, en el impreso oficial de cada provincia."],
   ["¿Una persona afiliada puede firmar en dos provincias?", "No. Solo en la provincia donde está censada y una única vez."],
   ["¿Se puede retirar un aval?", "Una vez presentada la candidatura, retirarlo ya no tiene efecto."],
   ["¿Las firmas sirven para el Congreso y el Senado?", "Trabajamos con una sola cifra por provincia para las dos cámaras. Está pendiente de confirmar con la Junta Electoral Provincial; si hiciera falta un juego de firmas por cámara, el esfuerzo se duplicaría."],
@@ -746,8 +718,7 @@ function Preguntas() {
         ))}
       </div>
       <p className="av-contacto">
-        Dudas sobre impresos y requisitos: Comisión Electoral. Incidencias al firmar en Boreal:{" "}
-        <a href={`mailto:${BOREAL_CONTACTO}`}>{BOREAL_CONTACTO}</a>.
+        Dudas sobre impresos y requisitos: Comisión Electoral.
       </p>
     </section>
   );
@@ -777,11 +748,6 @@ function Fuentes() {
         <li>
           <a href="https://www.juntaelectoralcentral.es/cs/jec/doctrina/instrucciones" target="_blank" rel="noopener noreferrer">
             Junta Electoral Central · Instrucciones
-          </a>
-        </li>
-        <li>
-          <a href="https://www.boreal.es" target="_blank" rel="noopener noreferrer">
-            Boreal · plataforma de recogida de firmas
           </a>
         </li>
       </ul>
