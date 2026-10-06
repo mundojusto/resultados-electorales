@@ -27,6 +27,10 @@ import { interpolaColor } from "../colores";
 // cada provincia (campo `url_impreso` del JSON, que tiene prioridad).
 const IMPRESO_PROVISIONAL = `${import.meta.env.BASE_URL}avales/formulario-avales-provisional.pdf`;
 
+// Firma en línea común a todas las provincias; `url_boreal` del JSON, si se
+// rellena, tiene prioridad.
+const BOREAL_AVALES = "https://www.boreal.es/avales";
+
 export function PanelAvales() {
   const provincias = PROVINCIAS_AVALES;
   const porCodigo = useMemo(
@@ -385,10 +389,13 @@ function FichaProvincia({
       </dl>
 
       <div className="av-ficha__botones">
+        <Enlace url={p.url_boreal ?? BOREAL_AVALES} principal>
+          Avala en línea con Boreal
+        </Enlace>
         {p.url_impreso ? (
-          <Enlace url={p.url_impreso} principal>Descargar impreso oficial (PDF)</Enlace>
+          <Enlace url={p.url_impreso}>Descargar impreso oficial (PDF)</Enlace>
         ) : (
-          <Enlace url={IMPRESO_PROVISIONAL} principal etiqueta="Provisional">
+          <Enlace url={IMPRESO_PROVISIONAL} etiqueta="Provisional">
             Descargar impreso oficial (PDF)
           </Enlace>
         )}
@@ -699,7 +706,7 @@ function Guia() {
 const PREGUNTAS: [string, string][] = [
   ["¿Firmar obliga a votarnos?", "No. El aval solo permite que la candidatura se presente. El voto sigue siendo libre y secreto."],
   ["¿Puedo recoger firmas antes del 6 de octubre?", "No. Solo cuentan las firmas recogidas después de que la convocatoria salga en el BOE."],
-  ["¿Puedo avalar por internet?", "No. Esta vez solo se recogen firmas en papel, en el impreso oficial de cada provincia."],
+  ["¿Puedo avalar por internet?", "Sí, a través de Boreal (www.boreal.es/avales), si tienes certificado digital o DNI electrónico. Si no lo tienes, firma en papel en una mesa."],
   ["¿Una persona afiliada puede firmar en dos provincias?", "No. Solo en la provincia donde está censada y una única vez."],
   ["¿Se puede retirar un aval?", "Una vez presentada la candidatura, retirarlo ya no tiene efecto."],
   ["¿Las firmas sirven para el Congreso y el Senado?", "Trabajamos con una sola cifra por provincia para las dos cámaras. Está pendiente de confirmar con la Junta Electoral Provincial; si hiciera falta un juego de firmas por cámara, el esfuerzo se duplicaría."],
