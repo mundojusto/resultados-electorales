@@ -23,9 +23,15 @@ import {
 import { COLOR_SEDE, MapaAvales, type ModoMapa } from "./MapaAvales";
 import { interpolaColor } from "../colores";
 
-// Formulario común mientras la Comisión Electoral no publique el impreso de
-// cada provincia (campo `url_impreso` del JSON, que tiene prioridad).
-const IMPRESO_PROVISIONAL = `${import.meta.env.BASE_URL}avales/formulario-avales-provisional.pdf`;
+// Hoja de firmas oficial (modelo C.2) en castellano y en versión bilingüe con
+// cada lengua cooficial.
+const HOJAS_FIRMAS: [string, string][] = [
+  ["Castellano", "castellano"],
+  ["Català", "catalan"],
+  ["Euskara", "euskera"],
+  ["Galego", "gallego"],
+  ["Valencià", "valenciano"],
+].map(([idioma, f]) => [idioma, `${import.meta.env.BASE_URL}avales/hoja-firmas-${f}.pdf`]);
 
 export function PanelAvales() {
   const provincias = PROVINCIAS_AVALES;
@@ -385,13 +391,17 @@ function FichaProvincia({
       </dl>
 
       <div className="av-ficha__botones">
-        {p.url_impreso ? (
-          <Enlace url={p.url_impreso} principal>Descargar impreso oficial (PDF)</Enlace>
-        ) : (
-          <Enlace url={IMPRESO_PROVISIONAL} principal etiqueta="Provisional">
-            Descargar impreso oficial (PDF)
-          </Enlace>
-        )}
+        <Enlace url={p.url_boreal} principal aviso="Pronto disponible">
+          Avala en línea con Boreal
+        </Enlace>
+        <p className="av-ficha__hojas-titulo">Hoja de firmas oficial (PDF)</p>
+        <div className="av-ficha__hojas">
+          {HOJAS_FIRMAS.map(([idioma, url]) => (
+            <Enlace key={idioma} url={url}>
+              {idioma}
+            </Enlace>
+          ))}
+        </div>
       </div>
     </article>
   );
@@ -401,19 +411,21 @@ function Enlace({
   url,
   principal,
   etiqueta,
+  aviso = "Disponible desde el 6 de octubre",
   children,
 }: {
   url: string | null;
   principal?: boolean;
   etiqueta?: string;
+  aviso?: string;
   children: React.ReactNode;
 }) {
   const clase = `av-boton ${principal ? "av-boton--principal" : ""}`;
   if (!url) {
     return (
-      <span className={`${clase} av-boton--inactivo`} title="Disponible tras la convocatoria">
+      <span className={`${clase} av-boton--inactivo`} title={aviso}>
         {children}
-        <small>Disponible desde el 6 de octubre</small>
+        <small>{aviso}</small>
       </span>
     );
   }
@@ -628,8 +640,14 @@ function Guia() {
             <a href="https://infoelectoral.interior.gob.es" target="_blank" rel="noopener noreferrer">
               Infoelectoral
             </a>
-            . La Comisión Electoral preparará la versión de cada provincia, con la candidatura y la
-            circunscripción ya impresas.
+            . Hay una versión en castellano y otra bilingüe por cada lengua cooficial:
+          </p>
+          <p className="av-hojas">
+            {HOJAS_FIRMAS.map(([idioma, url]) => (
+              <a key={idioma} href={url} target="_blank" rel="noopener noreferrer">
+                {idioma}
+              </a>
+            ))}
           </p>
           <ul>
             <li>Imprimir a tamaño real, sin tocar nada.</li>
@@ -699,7 +717,7 @@ function Guia() {
 const PREGUNTAS: [string, string][] = [
   ["¿Firmar obliga a votarnos?", "No. El aval solo permite que la candidatura se presente. El voto sigue siendo libre y secreto."],
   ["¿Puedo recoger firmas antes del 6 de octubre?", "No. Solo cuentan las firmas recogidas después de que la convocatoria salga en el BOE."],
-  ["¿Puedo avalar por internet?", "No. Esta vez solo se recogen firmas en papel, en el impreso oficial de cada provincia."],
+  ["¿Puedo avalar por internet?", "Pronto, a través de Boreal, con certificado digital o DNI electrónico. Mientras tanto, firma en papel en la hoja oficial."],
   ["¿Una persona afiliada puede firmar en dos provincias?", "No. Solo en la provincia donde está censada y una única vez."],
   ["¿Se puede retirar un aval?", "Una vez presentada la candidatura, retirarlo ya no tiene efecto."],
   ["¿Las firmas sirven para el Congreso y el Senado?", "Trabajamos con una sola cifra por provincia para las dos cámaras. Está pendiente de confirmar con la Junta Electoral Provincial; si hiciera falta un juego de firmas por cámara, el esfuerzo se duplicaría."],

@@ -354,6 +354,9 @@ body {
 .av-ficha__recuento { font-size: 0.88rem; margin: 0.75rem 0 0; }
 .av-ficha__recuento--vacio { color: var(--gris); font-style: italic; }
 .av-ficha__botones { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; }
+.av-ficha__hojas-titulo { margin: 0.4rem 0 0; font-size: 0.8rem; font-weight: 600; color: var(--gris); }
+.av-ficha__hojas { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: 0.4rem; }
+.av-ficha__hojas .av-boton { padding: 0.5rem 0.6rem; font-size: 0.86rem; }
 .av-boton {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: 0.65rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.92rem;
@@ -428,6 +431,7 @@ body {
 .av-tarjeta ul, .av-tarjeta ol { margin: 0.3rem 0; padding-left: 1.15rem; }
 .av-tarjeta li { margin: 0.2rem 0; }
 .av-tarjeta a { color: var(--terracota); }
+.av-hojas { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-weight: 600; }
 .av-tarjeta--si { background: #f1f7f2; border-color: #cfe3d5; }
 .av-tarjeta--si h3 { color: #2f6b45; }
 .av-tarjeta--datos { background: var(--fondo); }
