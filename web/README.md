@@ -59,9 +59,10 @@ La app tiene estas vistas (pestañas en la cabecera):
   `#historico`). Los datos por provincia están en
   `src/avales/provincias-29n.json`; el mínimo legal y los objetivos se calculan
   a partir del censo. Para publicar recuentos, marcar las provincias elegidas o
-  activar los enlaces de Boreal y del impreso, basta con rellenar en ese JSON
-  `seleccionada`, `avales_papel`, `avales_boreal`, `estado`, `url_boreal` y
-  `url_impreso`: al fusionar en `main` la web se republica sola.
+  activar el enlace de Boreal, basta con rellenar en ese JSON `seleccionada`,
+  `avales_papel`, `avales_boreal`, `estado` y `url_boreal`: al fusionar en
+  `main` la web se republica sola. Las hojas de firmas oficiales (modelo C.2,
+  una por idioma) están en `public/avales/`.
 
 - **Listas y calendario 29-N** (`src/avales/PanelListas.tsx`, cálculos en
   `src/avales/listas.ts`): instrucciones generales para las sedes. Incluye el
