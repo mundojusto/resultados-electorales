@@ -391,7 +391,7 @@ function FichaProvincia({
       </dl>
 
       <div className="av-ficha__botones">
-        <Enlace url={p.url_boreal} principal aviso="Pronto disponible">
+        <Enlace url={p.url_boreal} principal aviso="Enlace pendiente">
           Avala en línea con Boreal
         </Enlace>
         <p className="av-ficha__hojas-titulo">Hoja de firmas oficial (PDF)</p>
@@ -717,7 +717,7 @@ function Guia() {
 const PREGUNTAS: [string, string][] = [
   ["¿Firmar obliga a votarnos?", "No. El aval solo permite que la candidatura se presente. El voto sigue siendo libre y secreto."],
   ["¿Puedo recoger firmas antes del 6 de octubre?", "No. Solo cuentan las firmas recogidas después de que la convocatoria salga en el BOE."],
-  ["¿Puedo avalar por internet?", "Pronto, a través de Boreal, con certificado digital o DNI electrónico. Mientras tanto, firma en papel en la hoja oficial."],
+  ["¿Puedo avalar por internet?", "Sí, en boreal.es/avales, con certificado digital o DNI electrónico. Si no tienes ninguno de los dos, firma en papel en la hoja oficial."],
   ["¿Una persona afiliada puede firmar en dos provincias?", "No. Solo en la provincia donde está censada y una única vez."],
   ["¿Se puede retirar un aval?", "Una vez presentada la candidatura, retirarlo ya no tiene efecto."],
   ["¿Las firmas sirven para el Congreso y el Senado?", "Trabajamos con una sola cifra por provincia para las dos cámaras. Está pendiente de confirmar con la Junta Electoral Provincial; si hiciera falta un juego de firmas por cámara, el esfuerzo se duplicaría."],
