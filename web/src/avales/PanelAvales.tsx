@@ -23,15 +23,10 @@ import {
 import { COLOR_SEDE, MapaAvales, type ModoMapa } from "./MapaAvales";
 import { interpolaColor } from "../colores";
 
-// Hoja de firmas oficial (modelo C.2) en castellano y en versión bilingüe con
-// cada lengua cooficial.
-const HOJAS_FIRMAS: [string, string][] = [
-  ["Castellano", "castellano"],
-  ["Català", "catalan"],
-  ["Euskara", "euskera"],
-  ["Galego", "gallego"],
-  ["Valencià", "valenciano"],
-].map(([idioma, f]) => [idioma, `${import.meta.env.BASE_URL}avales/hoja-firmas-${f}.pdf`]);
+// Hoja de firmas genérica, sin provincia rellenada. La de cada provincia está
+// en `url_impreso` de su ficha.
+const HOJA_SIN_PROVINCIA =
+  "https://drive.google.com/file/d/1DUSn_4tMSw6XFnZdeIWXYG34Ikb6j8ql/view";
 
 export function PanelAvales() {
   const provincias = PROVINCIAS_AVALES;
@@ -394,14 +389,9 @@ function FichaProvincia({
         <Enlace url={p.url_boreal} principal aviso="Enlace pendiente">
           Avala en línea con Boreal
         </Enlace>
-        <p className="av-ficha__hojas-titulo">Hoja de firmas oficial (PDF)</p>
-        <div className="av-ficha__hojas">
-          {HOJAS_FIRMAS.map(([idioma, url]) => (
-            <Enlace key={idioma} url={url}>
-              {idioma}
-            </Enlace>
-          ))}
-        </div>
+        <Enlace url={p.url_impreso} aviso="Hoja pendiente">
+          Hoja de firmas de {p.provincia} (PDF)
+        </Enlace>
       </div>
     </article>
   );
@@ -640,14 +630,12 @@ function Guia() {
             <a href="https://infoelectoral.interior.gob.es" target="_blank" rel="noopener noreferrer">
               Infoelectoral
             </a>
-            . Hay una versión en castellano y otra bilingüe por cada lengua cooficial:
-          </p>
-          <p className="av-hojas">
-            {HOJAS_FIRMAS.map(([idioma, url]) => (
-              <a key={idioma} href={url} target="_blank" rel="noopener noreferrer">
-                {idioma}
-              </a>
-            ))}
+            . Usa la hoja de M+J de tu provincia: la tienes en su ficha del mapa. Si aún no sabes
+            para qué provincia vas a recoger firmas, descarga la{" "}
+            <a href={HOJA_SIN_PROVINCIA} target="_blank" rel="noopener noreferrer">
+              hoja sin provincia
+            </a>{" "}
+            y rellena la provincia a mano.
           </p>
           <ul>
             <li>Imprimir a tamaño real, sin tocar nada.</li>
