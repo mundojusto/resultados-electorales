@@ -45,7 +45,8 @@ Se ejecutan automáticamente en cada Pull Request junto con el build, mediante
 
 La app tiene estas vistas (pestañas en la cabecera):
 
-- **Exploración por territorio**: una elección concreta, en listado y mapa.
+- **Resultados electorales**: una elección concreta, en listado y mapa. Se
+  enlaza con `#resultados`.
 - **Histórico** (`src/components/PanelHistorico.tsx`): evolución del número de
   votos (o % sobre válidos) a M+J a lo largo del tiempo, **configurable por tipo
   de proceso electoral** (Congreso, Parlamento europeo, Cabildos…) y **por
@@ -55,8 +56,8 @@ La app tiene estas vistas (pestañas en la cabecera):
 - **Avales 29-N** (`src/avales/`): página informativa para la recogida de
   avales de las generales del 29 de noviembre (calendario con cuenta atrás,
   mapa y ficha por provincia, escenarios de esfuerzo, guía y preguntas
-  frecuentes). Se enlaza directamente con `#avales` (y el histórico con
-  `#historico`). Los datos por provincia están en
+  frecuentes). Es la vista que se abre por defecto (sin hash) y también se
+  enlaza con `#avales` (y el histórico con `#historico`). Los datos por provincia están en
   `src/avales/provincias-29n.json`; el mínimo legal y los objetivos se calculan
   a partir del censo. Para publicar recuentos, marcar las provincias elegidas o
   activar el enlace de Boreal, basta con rellenar en ese JSON `seleccionada`,
