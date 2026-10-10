@@ -44,11 +44,12 @@ export default function App() {
   const [tipoHist, setTipoHist] = useState<string>("");
   const [comunidadHist, setComunidadHist] = useState<string>(TODAS_COMUNIDADES);
 
-  // La vista activa se refleja en el hash (#historico, #avales, #listas) para poder
-  // enlazar cada pestaña directamente, p. ej. desde la web del partido.
+  // La vista activa se refleja en el hash (#resultados, #historico, #avales, #listas)
+  // para poder enlazar cada pestaña directamente, p. ej. desde la web del partido.
+  // Sin hash se abre Avales 29-N, que es lo prioritario ahora.
   function cambiarVista(v: Vista) {
     setVista(v);
-    history.replaceState(null, "", v === "exploracion" ? location.pathname + location.search : `#${v}`);
+    history.replaceState(null, "", `#${v === "exploracion" ? "resultados" : v}`);
   }
 
   useEffect(() => {
@@ -186,7 +187,7 @@ export default function App() {
     <div className="app">
       <header className="cabecera">
         <div>
-          <h1>Resultados Electorales · M+J</h1>
+          <h1>Elecciones · M+J</h1>
           <p className="sub">Por Un Mundo Más Justo — resultados oficiales por territorio</p>
         </div>
         <div className="controles">
@@ -246,18 +247,6 @@ export default function App() {
 
       <nav className="pestanas">
         <button
-          className={`pestana ${vista === "exploracion" ? "activa" : ""}`}
-          onClick={() => cambiarVista("exploracion")}
-        >
-          Exploración por territorio
-        </button>
-        <button
-          className={`pestana ${vista === "historico" ? "activa" : ""}`}
-          onClick={() => cambiarVista("historico")}
-        >
-          Histórico
-        </button>
-        <button
           className={`pestana pestana--avales ${vista === "avales" ? "activa" : ""}`}
           onClick={() => cambiarVista("avales")}
         >
@@ -268,6 +257,18 @@ export default function App() {
           onClick={() => cambiarVista("listas")}
         >
           Listas y calendario 29-N
+        </button>
+        <button
+          className={`pestana ${vista === "exploracion" ? "activa" : ""}`}
+          onClick={() => cambiarVista("exploracion")}
+        >
+          Resultados electorales
+        </button>
+        <button
+          className={`pestana ${vista === "historico" ? "activa" : ""}`}
+          onClick={() => cambiarVista("historico")}
+        >
+          Histórico
         </button>
       </nav>
 
@@ -364,7 +365,8 @@ export default function App() {
 
 function vistaDesdeHash(): Vista {
   const h = location.hash.replace("#", "");
-  return h === "historico" || h === "avales" || h === "listas" ? h : "exploracion";
+  if (h === "resultados" || h === "exploracion") return "exploracion";
+  return h === "historico" || h === "listas" ? h : "avales";
 }
 
 function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
