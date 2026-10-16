@@ -4,12 +4,14 @@ import {
   CALENDARIO,
   PROVINCIAS_AVALES,
   escenarios,
+  faltanMinimo,
   fechaActualizacion,
   minimoLegal,
   momento,
   objetivo,
   totales,
   tramo,
+  valorPunto,
   type ProvinciaAvales,
 } from "./avales";
 
@@ -93,5 +95,24 @@ describe("fechaActualizacion", () => {
   it("muestra día y hora sin ceros a la izquierda", () => {
     expect(fechaActualizacion("2026-10-16T09:46+02:00")).toBe("16 oct, 9:46");
     expect(fechaActualizacion("2026-10-26T18:05+01:00")).toBe("26 oct, 18:05");
+  });
+});
+
+describe("histórico", () => {
+  const prov = (codigo: string, censo: number) =>
+    ({ ...PROVINCIAS_AVALES[0], codigo, censo }) as ProvinciaAvales;
+  const ps = [prov("01", 100_000), prov("02", 50_000)]; // mínimos 100 y 50
+  const punto = { fecha: "2026-10-16", total: 180, prov: { "01": 150, "02": 30 } };
+
+  it("lee el total o una provincia", () => {
+    expect(valorPunto(punto, "total")).toBe(180);
+    expect(valorPunto(punto, "02")).toBe(30);
+    expect(valorPunto(punto, "99")).toBe(0);
+  });
+
+  it("lo que sobra en una provincia no compensa a otra", () => {
+    expect(faltanMinimo(ps, punto, "total")).toBe(20);
+    expect(faltanMinimo(ps, punto, "01")).toBe(0);
+    expect(faltanMinimo(ps, undefined, "total")).toBe(150);
   });
 });

@@ -6,6 +6,7 @@
 // partir del censo, para que no puedan desincronizarse si se corrige un censo.
 import PROVINCIAS from "./provincias-29n.json";
 import ACTUALIZACION from "./avales-actualizacion.json";
+import HISTORIAL from "./historial-avales.json";
 
 export type TipoSede = "constituida" | "pendiente" | "sin_sede";
 
@@ -167,6 +168,34 @@ export function escenarios(ps: ProvinciaAvales[]): Escenario[] {
     lista.unshift(escenario(`Provincias elegidas (${elegidas.length})`, elegidas));
   }
   return lista;
+}
+
+// --- Histórico diario ----------------------------------------------------------
+
+/** Avales acumulados al cierre de un día, en total y por código de provincia. */
+export interface PuntoHistorial {
+  fecha: string; // AAAA-MM-DD
+  total: number;
+  prov: Record<string, number>;
+}
+
+export const HISTORIAL_AVALES = HISTORIAL as PuntoHistorial[];
+
+/** Valor de un punto para el total ("total") o para una provincia (su código). */
+export function valorPunto(pt: PuntoHistorial, sel: string): number {
+  return sel === "total" ? pt.total : (pt.prov[sel] ?? 0);
+}
+
+/**
+ * Avales que faltan para el mínimo legal. Lo que sobra en una provincia no
+ * compensa a otra, así que se suma provincia a provincia.
+ */
+export function faltanMinimo(ps: ProvinciaAvales[], pt: PuntoHistorial | undefined, sel: string): number {
+  const lista = sel === "total" ? ps : ps.filter((p) => p.codigo === sel);
+  return lista.reduce(
+    (s, p) => s + Math.max(0, minimoLegal(p.censo) - (pt?.prov[p.codigo] ?? 0)),
+    0,
+  );
 }
 
 // --- Calendario --------------------------------------------------------------

@@ -75,3 +75,27 @@ def test_aplicar_solo_toca_provincias_de_la_hoja():
 def test_aplicar_sin_cambios():
     ps = [provincia("Madrid", papel=150, estado="Margen alcanzado")]
     assert aa.aplicar(ps, {"MADRID": 150}) == []
+
+
+def test_lectura_de_manana_cuenta_como_cierre_del_dia_anterior():
+    from datetime import date, datetime
+    assert aa.dia_de_cierre(datetime(2026, 10, 17, 8, 23)) == date(2026, 10, 16)
+    assert aa.dia_de_cierre(datetime(2026, 10, 17, 18, 0)) == date(2026, 10, 17)
+
+
+def test_registrar_dia_sustituye_el_mismo_dia_y_ordena():
+    from datetime import date
+    ps = [{"codigo": "28", "avales_papel": 10, "avales_boreal": 2},
+          {"codigo": "27", "avales_papel": None, "avales_boreal": None}]
+    h = [{"fecha": "2026-10-16", "total": 1, "prov": {"28": 1}}]
+    assert aa.registrar_dia(h, date(2026, 10, 15), ps)
+    assert aa.registrar_dia(h, date(2026, 10, 16), ps)
+    assert h == [{"fecha": "2026-10-15", "total": 12, "prov": {"28": 12}},
+                 {"fecha": "2026-10-16", "total": 12, "prov": {"28": 12}}]
+
+
+def test_registrar_dia_fuera_de_la_recogida():
+    from datetime import date
+    h: list[dict] = []
+    assert not aa.registrar_dia(h, date(2026, 10, 27), [])
+    assert h == []
