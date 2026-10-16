@@ -60,8 +60,13 @@ En **Sitios web y dominios > (tu dominio) > Git**:
    `httpdocs`), para que Plesk coloque ahí los ficheros.
 4. **NO** configures ninguna "acción de despliegue adicional": no hay que
    construir nada, Plesk solo copia ficheros.
-5. **Modo de despliegue: Automático** (usa el webhook que indica Plesk; añádelo
-   en GitHub > Settings > Webhooks si no se crea solo).
+5. **Modo de despliegue: Automático.** Copia la **Webhook URL** que muestra
+   Plesk en los ajustes del repositorio y guárdala en GitHub como secreto
+   **`PLESK_WEBHOOK_URL`** (Settings > Secrets and variables > Actions > New
+   repository secret). El workflow la llama al terminar cada publicación, así
+   que Plesk hace pull sin que nadie pulse **Deploy**. Si no está el secreto,
+   el workflow avisa con un warning y Plesk solo se entera si tiene el webhook
+   en GitHub > Settings > Webhooks.
 
 ### 3. Cabeceras de caché (recomendado)
 
