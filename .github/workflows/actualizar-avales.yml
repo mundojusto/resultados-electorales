@@ -58,7 +58,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add web/src/avales/provincias-29n.json web/src/avales/avales-actualizacion.json
+          git add web/src/avales/provincias-29n.json web/src/avales/avales-actualizacion.json \
+            web/src/avales/historial-avales.json
           if git diff --cached --quiet; then
             echo "Sin cambios."
           else

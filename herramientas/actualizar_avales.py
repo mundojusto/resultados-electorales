@@ -13,6 +13,13 @@ ninguna clave) y se actualizan en `web/src/avales/provincias-29n.json`:
 - `estado`: se deduce de la cifra, salvo que la Comisión ya haya marcado
   «Revisado» o «Presentado», que nunca se pisan.
 
+Además guarda en `web/src/avales/historial-avales.json` lo acumulado en cada
+provincia al cierre de cada día, para la gráfica de evolución. Una lectura
+hecha antes de las 12:00 cuenta como cierre del día anterior: por la mañana
+apenas se ha recogido nada todavía, y así la ejecución diaria de las 8:23 deja
+cada punto con su fecha real. Una lectura posterior del mismo día se pisa con
+la siguiente.
+
 Si una pestaña falta o su cabecera ya no dice lo esperado, esa provincia no se
 toca. Si no se puede leer ninguna, el script falla sin escribir nada.
 
@@ -29,7 +36,7 @@ import math
 import sys
 import unicodedata
 import urllib.request
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -41,6 +48,11 @@ URL_XLSX = f"https://docs.google.com/spreadsheets/d/{HOJA_ID}/export?format=xlsx
 RAIZ = Path(__file__).resolve().parent.parent
 JSON_PROVINCIAS = RAIZ / "web/src/avales/provincias-29n.json"
 JSON_ACTUALIZACION = RAIZ / "web/src/avales/avales-actualizacion.json"
+JSON_HISTORIAL = RAIZ / "web/src/avales/historial-avales.json"
+
+# Días que entran en el histórico: los de la recogida.
+PRIMER_DIA = date(2026, 10, 6)
+ULTIMO_DIA = date(2026, 10, 26)
 
 # Pestañas cuyo nombre no coincide con el de la web.
 ALIAS = {"ARABA-ALAVA": "ARABA/ALAVA"}
@@ -136,6 +148,26 @@ def aplicar(provincias: list[dict], cifras: dict[str, int]) -> list[str]:
     return cambios
 
 
+def dia_de_cierre(ahora: datetime) -> date:
+    """Día cuyo cierre refleja una lectura hecha en `ahora` (hora de Madrid)."""
+    return ahora.date() - timedelta(days=1) if ahora.hour < 12 else ahora.date()
+
+
+def registrar_dia(historial: list[dict], dia: date, provincias: list[dict]) -> bool:
+    """Guarda (o sustituye) el punto de `dia`. False si cae fuera de la recogida."""
+    if not PRIMER_DIA <= dia <= ULTIMO_DIA:
+        return False
+    prov = {}
+    for p in provincias:
+        n = (p["avales_papel"] or 0) + (p["avales_boreal"] or 0)
+        if n:
+            prov[p["codigo"]] = n
+    punto = {"fecha": dia.isoformat(), "total": sum(prov.values()), "prov": prov}
+    historial[:] = [h for h in historial if h["fecha"] != punto["fecha"]] + [punto]
+    historial.sort(key=lambda h: h["fecha"])
+    return True
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--xlsx", type=Path, help="Leer de un XLSX local en vez de descargarlo")
@@ -163,11 +195,20 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(provincias, ensure_ascii=False, indent=1), encoding="utf-8"
         )
     # La fecha se renueva aunque no cambie nada: la web dice cuándo se comprobó.
-    ahora = datetime.now(ZoneInfo("Europe/Madrid")).isoformat(timespec="minutes")
+    ahora = datetime.now(ZoneInfo("Europe/Madrid"))
     JSON_ACTUALIZACION.write_text(
-        json.dumps({"actualizado": ahora}, ensure_ascii=False, indent=1) + "\n",
+        json.dumps({"actualizado": ahora.isoformat(timespec="minutes")}, ensure_ascii=False,
+                   indent=1) + "\n",
         encoding="utf-8",
     )
+
+    historial = json.loads(JSON_HISTORIAL.read_text(encoding="utf-8"))
+    dia = dia_de_cierre(ahora)
+    if registrar_dia(historial, dia, provincias):
+        # Un día por línea: los diffs diarios se leen de un vistazo.
+        lineas = ",\n".join(json.dumps(h, ensure_ascii=False) for h in historial)
+        JSON_HISTORIAL.write_text(f"[\n{lineas}\n]\n", encoding="utf-8")
+        print(f"Histórico: cierre del {dia.isoformat()} guardado.")
     return 0
 
 

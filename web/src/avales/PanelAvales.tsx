@@ -23,6 +23,7 @@ import {
   tramo,
   type ProvinciaAvales,
 } from "./avales";
+import { EvolucionAvales } from "./EvolucionAvales";
 import { COLOR_SEDE, MapaAvales, type ModoMapa } from "./MapaAvales";
 import { interpolaColor } from "../colores";
 
@@ -104,6 +105,7 @@ export function PanelAvales() {
         />
       </section>
 
+      {hayRecuento && <EvolucionAvales provincias={provincias} />}
       <Escenarios provincias={provincias} />
       <Guia />
       <Preguntas />

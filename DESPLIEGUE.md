@@ -91,7 +91,10 @@ No hay pasos manuales en el día a día:
   `MJ_Avales_Generales_2026`, la vuelca en
   `web/src/avales/provincias-29n.json` con
   [`herramientas/actualizar_avales.py`](./herramientas/actualizar_avales.py) y
-  commitea en `main`; al acabar se publica sola. La hoja se lee por su enlace
+  commitea en `main`; al acabar se publica sola. También guarda la cifra de
+  cada día en `web/src/avales/historial-avales.json`, que alimenta la gráfica
+  «Evolución diaria» (la lectura de las 8:23 cuenta como cierre del día
+  anterior). La hoja se lee por su enlace
   público, sin claves: si se le quita el acceso por enlace, el workflow falla
   y la web conserva las últimas cifras. Para actualizar a deshora: **Actions >
   Actualizar avales > Run workflow**. Deja de actualizar después del 2-nov.
