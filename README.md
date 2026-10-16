@@ -17,6 +17,7 @@ resultados-electorales/
 └── .github/workflows/
     ├── ci.yml                        # CI: lint + tests + validación + build en cada PR
     ├── procesar-resultados.yml       # CI/CD: procesa los XLSX automáticamente
+    ├── actualizar-avales.yml         # Cada mañana: avales de la hoja de Google -> web
     ├── publicar-plesk.yml            # Build + publicación a la rama plesk-deploy
     └── desplegar-web.yml             # Despliegue alternativo a GitHub Pages (manual)
 ```

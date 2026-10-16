@@ -60,8 +60,13 @@ En **Sitios web y dominios > (tu dominio) > Git**:
    `httpdocs`), para que Plesk coloque ahí los ficheros.
 4. **NO** configures ninguna "acción de despliegue adicional": no hay que
    construir nada, Plesk solo copia ficheros.
-5. **Modo de despliegue: Automático** (usa el webhook que indica Plesk; añádelo
-   en GitHub > Settings > Webhooks si no se crea solo).
+5. **Modo de despliegue: Automático.** Copia la **Webhook URL** que muestra
+   Plesk en los ajustes del repositorio y guárdala en GitHub como secreto
+   **`PLESK_WEBHOOK_URL`** (Settings > Secrets and variables > Actions > New
+   repository secret). El workflow la llama al terminar cada publicación, así
+   que Plesk hace pull sin que nadie pulse **Deploy**. Si no está el secreto,
+   el workflow avisa con un warning y Plesk solo se entera si tiene el webhook
+   en GitHub > Settings > Webhooks.
 
 ### 3. Cabeceras de caché (recomendado)
 
@@ -79,6 +84,17 @@ No hay pasos manuales en el día a día:
   actualiza `plesk-deploy` → Plesk hace pull y publica.
 - **Datos nuevos** → sube el XLSX a `datos-oficiales/`; el procesado genera el
   JSON, y al terminar se reconstruye y publica automáticamente.
+
+- **Avales 29-N** → cada mañana (08:23 en Madrid) el workflow
+  [`actualizar-avales.yml`](./.github/workflows/actualizar-avales.yml) lee la
+  columna «Conseguidas» (F4) de cada pestaña provincial de la hoja
+  `MJ_Avales_Generales_2026`, la vuelca en
+  `web/src/avales/provincias-29n.json` con
+  [`herramientas/actualizar_avales.py`](./herramientas/actualizar_avales.py) y
+  commitea en `main`; al acabar se publica sola. La hoja se lee por su enlace
+  público, sin claves: si se le quita el acceso por enlace, el workflow falla
+  y la web conserva las últimas cifras. Para actualizar a deshora: **Actions >
+  Actualizar avales > Run workflow**. Deja de actualizar después del 2-nov.
 
 Para forzar una publicación manual: **Actions > Publicar web en Plesk > Run
 workflow**. En Plesk también puedes pulsar **Deploy** para forzar un pull.

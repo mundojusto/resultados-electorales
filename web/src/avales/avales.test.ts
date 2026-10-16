@@ -4,6 +4,7 @@ import {
   CALENDARIO,
   PROVINCIAS_AVALES,
   escenarios,
+  fechaActualizacion,
   minimoLegal,
   momento,
   objetivo,
@@ -85,5 +86,12 @@ describe("calendario", () => {
       "26 oct",
       "28 oct – 2 nov",
     ]);
+  });
+});
+
+describe("fechaActualizacion", () => {
+  it("muestra día y hora sin ceros a la izquierda", () => {
+    expect(fechaActualizacion("2026-10-16T09:46+02:00")).toBe("16 oct, 9:46");
+    expect(fechaActualizacion("2026-10-26T18:05+01:00")).toBe("26 oct, 18:05");
   });
 });

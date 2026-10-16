@@ -5,6 +5,7 @@
 // enlaces). El mínimo legal y los objetivos NO se guardan: se calculan aquí a
 // partir del censo, para que no puedan desincronizarse si se corrige un censo.
 import PROVINCIAS from "./provincias-29n.json";
+import ACTUALIZACION from "./avales-actualizacion.json";
 
 export type TipoSede = "constituida" | "pendiente" | "sin_sede";
 
@@ -50,6 +51,19 @@ export interface ProvinciaAvales {
 
 export const PROVINCIAS_AVALES = PROVINCIAS as ProvinciaAvales[];
 
+/**
+ * Cuándo se volcó por última vez la hoja de avales (ISO con zona horaria, o
+ * null si nunca). Lo escribe `herramientas/actualizar_avales.py` cada mañana.
+ */
+export const ACTUALIZADO: string | null = (ACTUALIZACION as { actualizado: string | null }).actualizado;
+
+/** "2026-10-16T09:46+02:00" → "16 oct, 9:46". La hora es la de la península. */
+export function fechaActualizacion(iso: string): string {
+  const [dia, hora] = iso.split("T");
+  const [h, min] = hora.slice(0, 5).split(":");
+  return `${fechaCorta(dia)}, ${Number(h)}:${min}`;
+}
+
 export const ETIQUETA_SEDE: Record<TipoSede, string> = {
   constituida: "Sede constituida",
   pendiente: "Sede pendiente de constitución",
@@ -71,6 +85,11 @@ export function objetivo(censo: number, margen: number): number {
 export function avalesRecogidos(p: ProvinciaAvales): number | null {
   if (p.avales_papel == null && p.avales_boreal == null) return null;
   return (p.avales_papel ?? 0) + (p.avales_boreal ?? 0);
+}
+
+/** Suma de avales recogidos en todas las provincias con recuento. */
+export function totalRecogidos(ps: ProvinciaAvales[]): number {
+  return ps.reduce((s, p) => s + (avalesRecogidos(p) ?? 0), 0);
 }
 
 /** Fracción del objetivo +30 % ya cubierta (0 si no hay recuento). */
