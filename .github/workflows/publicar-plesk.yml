@@ -6,8 +6,9 @@ name: Publicar web en Plesk
 #
 # Se ejecuta:
 #  - push a main que toque la web o los datos (fusiones de PR);
-#  - al terminar "Procesar resultados oficiales" (los commits de datos los hace
-#    GITHUB_TOKEN y NO disparan 'push', por eso usamos workflow_run);
+#  - al terminar "Procesar resultados oficiales" o "Actualizar avales" (los
+#    commits de datos los hace GITHUB_TOKEN y NO disparan 'push', por eso usamos
+#    workflow_run);
 #  - manualmente (workflow_dispatch).
 on:
   push:
@@ -17,7 +18,7 @@ on:
       - "resultados-oficiales-procesados/**"
       - ".github/workflows/publicar-plesk.yml"
   workflow_run:
-    workflows: ["Procesar resultados oficiales"]
+    workflows: ["Procesar resultados oficiales", "Actualizar avales"]
     types: [completed]
     branches: [main]
   workflow_dispatch:
@@ -31,7 +32,7 @@ concurrency:
 
 jobs:
   publicar:
-    # En el caso workflow_run, solo si el procesado terminó bien.
+    # En el caso workflow_run, solo si el procesado o la actualización terminó bien.
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,67 @@
+name: Actualizar avales
+
+# Una vez al día copia a la web los avales recogidos que figuran en la hoja
+# «MJ_Avales_Generales_2026» (columna «Conseguidas» de cada provincia) y
+# commitea el resultado en main. Al terminar bien, «Publicar web en Plesk» se
+# dispara solo (workflow_run) y la cifra aparece en elecciones.porunmundomasjusto.es.
+#
+# La hoja se descarga con su enlace público: si alguien le quita el acceso por
+# enlace, el job falla y la web conserva las últimas cifras buenas.
+on:
+  schedule:
+    # 06:23 UTC = 08:23 en Madrid hasta el 25-oct (07:23 después del cambio de hora).
+    - cron: "23 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-avales
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ¿Sigue abierto el seguimiento?
+        id: plazo
+        run: |
+          # Tras la proclamación (2-nov) las cifras ya no cambian.
+          if [ "$(TZ=Europe/Madrid date +%F)" \> "2026-11-02" ]; then
+            echo "Recogida cerrada: no se actualiza. Puedes desactivar este workflow."
+            echo "seguir=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "seguir=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.plazo.outputs.seguir == 'true'
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        if: steps.plazo.outputs.seguir == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        if: steps.plazo.outputs.seguir == 'true'
+        run: pip install -r herramientas/requirements.txt
+
+      - name: Leer la hoja y actualizar los JSON
+        if: steps.plazo.outputs.seguir == 'true'
+        run: python herramientas/actualizar_avales.py
+
+      - name: Commitear
+        if: steps.plazo.outputs.seguir == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/src/avales/provincias-29n.json web/src/avales/avales-actualizacion.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios."
+          else
+            git commit -q -m "Actualizar avales recogidos ($(TZ=Europe/Madrid date '+%d/%m %H:%M')) [skip ci]"
+            git push
+          fi

@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  ACTUALIZADO,
   CALENDARIO,
   DIAS_UTILES,
   ESTADOS,
@@ -10,12 +11,14 @@ import {
   avalesRecogidos,
   diaNumero,
   escenarios,
+  fechaActualizacion,
   fechaCorta,
   fmt,
   hoyISO,
   minimoLegal,
   momento,
   objetivo,
+  totalRecogidos,
   totales,
   tramo,
   type ProvinciaAvales,
@@ -57,6 +60,9 @@ export function PanelAvales() {
         <p className="av-intro">
           Cada provincia exige las firmas del 0,1 % de su censo: una por cada mil electores.
           Pulsa una provincia en el mapa o en la tabla para ver su ficha.
+          {hayRecuento && ACTUALIZADO && (
+            <> Recuento actualizado el {fechaActualizacion(ACTUALIZADO)}; se renueva cada mañana.</>
+          )}
         </p>
         <div className="av-mapa-ficha">
           <div className="panel-mapa">
@@ -110,6 +116,7 @@ export function PanelAvales() {
 
 function Portada() {
   const t = totales(PROVINCIAS_AVALES);
+  const recogidos = totalRecogidos(PROVINCIAS_AVALES);
   const m = momento(hoyISO());
   return (
     <section className="av-portada">
@@ -154,6 +161,7 @@ function Portada() {
       <div className="resumen av-resumen">
         <Dato valor="40–42" etiqueta="provincias a las que aspiramos (de 52)" />
         <Dato valor={fmt(t.minimo)} etiqueta="avales mínimos si vamos a las 52" />
+        {recogidos > 0 && <Dato valor={fmt(recogidos)} etiqueta="avales recogidos hasta ahora" />}
         <Dato valor={fmt(t.objetivo30)} etiqueta="objetivo recomendado (+30 %)" />
         <Dato valor={String(DIAS_UTILES)} etiqueta="días útiles de recogida" />
       </div>

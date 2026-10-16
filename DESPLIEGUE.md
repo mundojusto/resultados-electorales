@@ -80,6 +80,17 @@ No hay pasos manuales en el día a día:
 - **Datos nuevos** → sube el XLSX a `datos-oficiales/`; el procesado genera el
   JSON, y al terminar se reconstruye y publica automáticamente.
 
+- **Avales 29-N** → cada mañana (08:23 en Madrid) el workflow
+  [`actualizar-avales.yml`](./.github/workflows/actualizar-avales.yml) lee la
+  columna «Conseguidas» (F4) de cada pestaña provincial de la hoja
+  `MJ_Avales_Generales_2026`, la vuelca en
+  `web/src/avales/provincias-29n.json` con
+  [`herramientas/actualizar_avales.py`](./herramientas/actualizar_avales.py) y
+  commitea en `main`; al acabar se publica sola. La hoja se lee por su enlace
+  público, sin claves: si se le quita el acceso por enlace, el workflow falla
+  y la web conserva las últimas cifras. Para actualizar a deshora: **Actions >
+  Actualizar avales > Run workflow**. Deja de actualizar después del 2-nov.
+
 Para forzar una publicación manual: **Actions > Publicar web en Plesk > Run
 workflow**. En Plesk también puedes pulsar **Deploy** para forzar un pull.
 
