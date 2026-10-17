@@ -64,7 +64,7 @@ export function EvolucionAvales({ provincias }: { provincias: ProvinciaAvales[] 
       <h2>Evolución diaria</h2>
       <p className="av-intro">
         Avales acumulados al cierre de cada día. La cifra se toma de la hoja de recogida cada
-        mañana; el registro empieza el 15 de octubre.
+        mañana; el registro empieza el 8 de octubre.
       </p>
 
       <label className="av-evo__selector">
