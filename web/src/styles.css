@@ -593,3 +593,25 @@ body {
 .av-evo__tabla td.fuerte { color: white; font-weight: 700; }
 .av-evo__tabla td.baja { color: #b0362a; }
 .av-evo__tabla tfoot th, .av-evo__tabla tfoot td { font-weight: 700; background: #fdf1e6; border-bottom: 0; }
+.av-evo__grafica .proy { stroke: var(--terracota); stroke-width: 2; stroke-dasharray: 6 5; opacity: 0.85; }
+.av-evo__grafica .proy-punto { fill: white; stroke: var(--terracota); stroke-width: 2; }
+.av-evo__grafica .proy-txt { fill: var(--terracota-osc); font-weight: 700; paint-order: stroke; stroke: white; stroke-width: 3px; }
+.av-evo__grafica .nec { stroke: #3d2c24; stroke-width: 1.5; stroke-dasharray: 2 4; opacity: 0.7; }
+.av-evo__grafica .nec-punto { fill: white; stroke: #3d2c24; stroke-width: 1.5; }
+.av-evo__grafica .nec-txt { fill: #3d2c24; font-weight: 700; paint-order: stroke; stroke: white; stroke-width: 3px; }
+.av-evo__veredicto { margin: 0 0 1rem; padding: 0.7rem 0.9rem; border: 1px solid var(--borde); border-left: 5px solid var(--gris); border-radius: 8px; font-size: 0.9rem; }
+.av-evo__veredicto--cumplido, .av-evo__veredicto--bien { border-left-color: #47744a; }
+.av-evo__veredicto--cumplido b, .av-evo__veredicto--bien b { color: #47744a; }
+.av-evo__veredicto--justo { border-left-color: #a86b12; }
+.av-evo__veredicto--justo b { color: #a86b12; }
+.av-evo__veredicto--corto, .av-evo__veredicto--cerrado { border-left-color: #b0362a; }
+.av-evo__veredicto--corto b, .av-evo__veredicto--cerrado b { color: #b0362a; }
+.av-evo__leyenda { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; margin: 0.4rem 0 0; font-size: 0.78rem; color: var(--gris); }
+.av-evo__leyenda span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.leyenda-linea { display: inline-block; width: 22px; border-top: 2px solid var(--terracota); }
+.leyenda-linea--proy { border-top-style: dashed; }
+.leyenda-linea--nec { border-top: 2px dotted #3d2c24; }
+.av-evo__tabla td.pj { font-weight: 700; }
+.av-evo__tabla td.pj--cumplido, .av-evo__tabla td.pj--bien { color: #47744a; }
+.av-evo__tabla td.pj--justo { color: #a86b12; }
+.av-evo__tabla td.pj--corto, .av-evo__tabla td.pj--cerrado { color: #b0362a; }
