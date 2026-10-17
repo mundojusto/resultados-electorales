@@ -1,6 +1,7 @@
 // Evolución diaria de la recogida: avales acumulados al cierre de cada día,
 // en total o por provincia, con el mínimo legal y el objetivo +30 % como
-// referencia. Los puntos los guarda cada mañana herramientas/actualizar_avales.py.
+// referencia, y la proyección hasta el 26 al ritmo actual y al necesario. Los
+// puntos los guarda cada mañana herramientas/actualizar_avales.py.
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import {
   HISTORIAL_AVALES,
@@ -8,14 +9,15 @@ import {
   ULTIMO_DIA,
   diaNumero,
   diasEntre,
-  faltanMinimo,
   fechaCorta,
   fmt,
-  hoyISO,
   minimoLegal,
   objetivo,
+  proyeccion,
   totales,
   valorPunto,
+  type EstadoRitmo,
+  type Proyeccion,
   type PuntoHistorial,
   type ProvinciaAvales,
 } from "./avales";
@@ -26,6 +28,36 @@ const DIAS_SEMANA = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
 
 const conSigno = (n: number) => (n > 0 ? "+" : n < 0 ? "−" : "") + fmt(Math.abs(n));
 const diaDelMes = (iso: string) => Number(iso.slice(8));
+
+const TITULO_RITMO: Record<EstadoRitmo, string> = {
+  cumplido: "Mínimo cubierto",
+  cerrado: "Plazo cerrado",
+  bien: "Buen ritmo",
+  justo: "Ritmo justo",
+  corto: "Ritmo insuficiente",
+};
+
+/** Frase que explica el ritmo frente al necesario. */
+function veredicto(pj: Proyeccion, hasta: string, total: boolean): string {
+  const ritmo = `${fmt(Math.round(pj.ritmo))} al día (del ${diaDelMes(pj.desde)} al ${fechaCorta(hasta)})`;
+  const necesario = fmt(Math.ceil(pj.necesario));
+  switch (pj.estado) {
+    case "cumplido":
+      return `El mínimo legal ya está cubierto${total ? " en todas las provincias" : ""}.`;
+    case "cerrado":
+      return `La recogida terminó con ${fmt(pj.faltan)} avales por debajo del mínimo legal.`;
+    case "bien":
+      return total
+        ? `Se recogen ${ritmo} y hacen falta ${necesario} para cubrir el mínimo en todas las provincias el 26.`
+        : `Se recogen ${ritmo} y hacen falta ${necesario}. A este paso, el mínimo se cubre hacia el ${fechaCorta(pj.llegada!)}.`;
+    default:
+      return `Se recogen ${ritmo} y hacen falta ${necesario}: hay que sumar ${fmt(
+        Math.ceil(pj.necesario - pj.ritmo),
+      )} más cada día. A este paso, el 26 faltarían unos ${fmt(
+        Math.round(pj.faltan - pj.ritmo * pj.quedan),
+      )} avales.`;
+  }
+}
 
 /** Techo «redondo» para el eje Y. */
 function techo(v: number): number {
@@ -55,16 +87,16 @@ export function EvolucionAvales({ provincias }: { provincias: ProvinciaAvales[] 
   const subida = vals.length > 1 ? valor - vals[vals.length - 2] : null;
   const dias = diasEntre(puntos[0].fecha, ultimo.fecha);
   const media = dias > 0 ? (valor - vals[0]) / dias : null;
-  const faltan = faltanMinimo(provincias, ultimo, sel);
-  // Días que quedan contando hoy, hasta el 26 incluido.
-  const quedan = Math.max(0, diasEntre(hoyISO(), ULTIMO_DIA) + 1);
+  const pj = proyeccion(puntos, provincias, sel)!;
 
   return (
     <section className="av-bloque av-evo">
       <h2>Evolución diaria</h2>
       <p className="av-intro">
         Avales acumulados al cierre de cada día. La cifra se toma de la hoja de recogida cada
-        mañana; el registro empieza el 8 de octubre.
+        mañana; el registro empieza el 8 de octubre. La línea discontinua prolonga hasta el 26
+        el ritmo de los últimos tres días; la punteada, el que haría falta para cubrir el
+        mínimo legal.
       </p>
 
       <label className="av-evo__selector">
@@ -93,18 +125,41 @@ export function EvolucionAvales({ provincias }: { provincias: ProvinciaAvales[] 
           etiqueta={media == null ? "media diaria (con dos días o más)" : "avales al día de media"}
         />
         <Dato
-          valor={faltan === 0 ? "Cumplido" : quedan ? fmt(Math.ceil(faltan / quedan)) : "—"}
-          etiqueta={
-            faltan === 0
-              ? "mínimo legal alcanzado"
-              : quedan
-                ? `al día hasta el 26 oct para el mínimo legal (faltan ${fmt(faltan)})`
-                : "plazo cerrado"
+          valor={
+            pj.estado === "cumplido" ? "Cumplido" : pj.estado === "cerrado" ? "—" : fmt(Math.ceil(pj.necesario))
           }
+          etiqueta={
+            pj.estado === "cumplido"
+              ? "mínimo legal alcanzado"
+              : pj.estado === "cerrado"
+                ? "plazo cerrado"
+                : `al día hasta el 26 oct para el mínimo legal (faltan ${fmt(pj.faltan)})`
+          }
+        />
+        <Dato
+          valor={fmt(pj.quedan ? pj.proyectado : valor)}
+          etiqueta={`el 26 oct al ritmo actual (${fmt(Math.round(pj.ritmo))} al día) · ${Math.round(
+            ((pj.quedan ? pj.proyectado : valor) / minimo) * 100,
+          )} % del mínimo`}
         />
       </div>
 
-      <Grafica puntos={puntos} vals={vals} minimo={minimo} meta={meta} />
+      <p className={`av-evo__veredicto av-evo__veredicto--${pj.estado}`} role="status">
+        <b>{TITULO_RITMO[pj.estado]}.</b> {veredicto(pj, ultimo.fecha, !prov)}
+      </p>
+
+      <Grafica puntos={puntos} vals={vals} minimo={minimo} meta={meta} pj={pj} />
+      <p className="av-evo__leyenda">
+        <span>
+          <i className="leyenda-linea" /> Recogido
+        </span>
+        <span>
+          <i className="leyenda-linea leyenda-linea--proy" /> Al ritmo actual
+        </span>
+        <span>
+          <i className="leyenda-linea leyenda-linea--nec" /> Ritmo necesario para el mínimo
+        </span>
+      </p>
 
       <TablaDiaria
         puntos={puntos}
@@ -132,11 +187,13 @@ function Grafica({
   vals,
   minimo,
   meta,
+  pj,
 }: {
   puntos: PuntoHistorial[];
   vals: number[];
   minimo: number;
   meta: number;
+  pj: Proyeccion;
 }) {
   const caja = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(720);
@@ -155,7 +212,10 @@ function Grafica({
   const iw = W - m.l - m.r;
   const ih = H - m.t - m.b;
   // El eje llega al mínimo legal; el objetivo solo se dibuja si cabe sin aplastar la serie.
-  const ymax = techo(Math.max(1, ...vals, minimo) * 1.05);
+  const valor = vals[vals.length - 1];
+  const proyectar = pj.quedan > 0 && pj.estado !== "cumplido";
+  const destino = valor + pj.faltan; // lo que haría falta tener el 26
+  const ymax = techo(Math.max(1, ...vals, minimo, proyectar ? pj.proyectado : 0) * 1.05);
   const x = (iso: string) => m.l + ((diaNumero(iso) - D0) / (D1 - D0)) * iw;
   const y = (v: number) => m.t + ih - (v / ymax) * ih;
   const xs = puntos.map((p) => x(p.fecha));
@@ -168,6 +228,12 @@ function Grafica({
     if ((d - D0) % paso === 0 || d === D1) etiquetasX.push(new Date(d * 86_400_000).toISOString().slice(0, 10));
   }
   const ultimoX = xs[xs.length - 1];
+  const ultimoY = ys[ys.length - 1];
+  const finX = x(ULTIMO_DIA);
+  const proyY = y(pj.proyectado);
+  const necY = y(destino);
+  // La etiqueta de la línea que acaba más alta va encima; la otra, debajo.
+  const proyArriba = proyY <= necY;
 
   function mover(e: PointerEvent<SVGRectElement>) {
     const r = e.currentTarget.ownerSVGElement!.getBoundingClientRect();
@@ -219,6 +285,20 @@ function Grafica({
             </text>
           </g>
         ))}
+        {proyectar && (
+          <g className="proyeccion">
+            <line className="nec" x1={ultimoX} y1={ultimoY} x2={finX} y2={necY} />
+            <circle className="nec-punto" cx={finX} cy={necY} r={3.5} />
+            <text className="nec-txt" x={(ultimoX + finX) / 2 - 4} y={(ultimoY + necY) / 2 - 8} textAnchor="end">
+              Necesario: {fmt(Math.ceil(pj.necesario))}/día
+            </text>
+            <line className="proy" x1={ultimoX} y1={ultimoY} x2={finX} y2={proyY} />
+            <circle className="proy-punto" cx={finX} cy={proyY} r={4} />
+            <text className="proy-txt" x={finX - 6} y={proyArriba ? proyY - 8 : proyY + 16} textAnchor="end">
+              ≈ {fmt(pj.proyectado)} el 26
+            </text>
+          </g>
+        )}
         {xs.length > 1 && (
           <>
             <path className="area" d={`${linea}L${ultimoX.toFixed(1)},${y(0)}L${xs[0].toFixed(1)},${y(0)}Z`} />
@@ -310,6 +390,22 @@ function TablaDiaria({
         (ultimo.prov[b.codigo] ?? 0) - (ultimo.prov[a.codigo] ?? 0) ||
         a.provincia.localeCompare(b.provincia, "es"),
     );
+  const proyCeldas = (codigo: string) => {
+    const q = proyeccion(puntos, provincias, codigo)!;
+    const fin = q.quedan ? q.proyectado : valorPunto(ultimo, codigo);
+    return (
+      <>
+        <td className={`pj pj--${q.estado}`}>{fmt(fin)}</td>
+        <td className={`pj pj--${q.estado}`}>
+          {q.estado === "cumplido"
+            ? "Cumplido"
+            : q.estado === "cerrado"
+              ? "—"
+              : `${fmt(Math.round(q.ritmo))} / ${fmt(Math.ceil(q.necesario))}`}
+        </td>
+      </>
+    );
+  };
   let maxSubida = 1;
   for (const p of filas)
     for (let i = 1; i < puntos.length; i++)
@@ -337,6 +433,7 @@ function TablaDiaria({
       <td>
         <b>{fmt(get(ultimo))}</b>
       </td>
+      {proyCeldas(clave)}
     </tr>
   );
 
@@ -345,7 +442,9 @@ function TablaDiaria({
       <summary>Lo recogido cada día, provincia a provincia</summary>
       <p className="av-intro">
         La primera columna es lo acumulado el primer día registrado; las siguientes, lo sumado
-        cada día. Pulsa una provincia para verla en la gráfica.
+        cada día. Al final, lo que habría el 26 al ritmo de los últimos tres días y ese ritmo
+        frente al que hace falta para el mínimo legal. Pulsa una provincia para verla en la
+        gráfica.
       </p>
       <div className="tabla-scroll">
         <table>
@@ -356,6 +455,8 @@ function TablaDiaria({
                 <th key={p.fecha}>{(i === 0 ? "A " : "") + fechaCorta(p.fecha)}</th>
               ))}
               <th>Total</th>
+              <th>Al 26 oct</th>
+              <th>Ritmo / necesario</th>
             </tr>
           </thead>
           <tbody>

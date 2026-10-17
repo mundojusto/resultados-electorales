@@ -198,6 +198,74 @@ export function faltanMinimo(ps: ProvinciaAvales[], pt: PuntoHistorial | undefin
   );
 }
 
+export type EstadoRitmo = "cumplido" | "cerrado" | "bien" | "justo" | "corto";
+
+export interface Proyeccion {
+  /** Avales al día de los últimos días registrados (hasta tres). */
+  ritmo: number;
+  /** Primer día del tramo con el que se mide el ritmo (AAAA-MM-DD). */
+  desde: string;
+  /** Días completos que quedan tras el último dato, hasta el 26 incluido. */
+  quedan: number;
+  /** Avales que habría el 26 si se mantiene el ritmo. */
+  proyectado: number;
+  /** Avales que faltan para el mínimo legal (provincia a provincia). */
+  faltan: number;
+  /** Avales al día que harían falta para cubrir el mínimo legal el 26. */
+  necesario: number;
+  estado: EstadoRitmo;
+  /** Día en que se cubriría el mínimo al ritmo actual, si es antes del cierre. */
+  llegada: string | null;
+}
+
+const isoDeDia = (n: number) => new Date(n * 86_400_000).toISOString().slice(0, 10);
+
+/**
+ * Proyecta hasta el 26 el ritmo de los últimos días registrados (hasta tres) y
+ * lo compara con el que hace falta para el mínimo legal. Con un solo día se usa
+ * la media desde el arranque de la recogida.
+ */
+export function proyeccion(
+  puntos: PuntoHistorial[],
+  ps: ProvinciaAvales[],
+  sel: string,
+): Proyeccion | null {
+  if (!puntos.length) return null;
+  const ultimo = puntos[puntos.length - 1];
+  const valor = valorPunto(ultimo, sel);
+  const base = puntos.length > 1 ? puntos[Math.max(0, puntos.length - 4)] : null;
+  const diaBase = base ? diaNumero(base.fecha) : diaNumero(INICIO_RECOGIDA) - 1;
+  const tramo = diaNumero(ultimo.fecha) - diaBase;
+  const ritmo = tramo > 0 ? Math.max(0, (valor - (base ? valorPunto(base, sel) : 0)) / tramo) : 0;
+  const quedan = Math.max(0, diasEntre(ultimo.fecha, ULTIMO_DIA));
+  const faltan = faltanMinimo(ps, ultimo, sel);
+  const necesario = faltan === 0 ? 0 : quedan ? faltan / quedan : Infinity;
+  const estado: EstadoRitmo =
+    faltan === 0
+      ? "cumplido"
+      : !quedan
+        ? "cerrado"
+        : ritmo >= necesario
+          ? "bien"
+          : ritmo >= 0.8 * necesario
+            ? "justo"
+            : "corto";
+  const llegada =
+    faltan > 0 && ritmo > 0 && faltan / ritmo <= quedan
+      ? isoDeDia(diaNumero(ultimo.fecha) + Math.ceil(faltan / ritmo))
+      : null;
+  return {
+    ritmo,
+    desde: base ? base.fecha : INICIO_RECOGIDA,
+    quedan,
+    proyectado: Math.round(valor + ritmo * quedan),
+    faltan,
+    necesario,
+    estado,
+    llegada,
+  };
+}
+
 // --- Calendario --------------------------------------------------------------
 
 export interface Hito {

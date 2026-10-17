@@ -5,6 +5,7 @@ import {
   PROVINCIAS_AVALES,
   escenarios,
   faltanMinimo,
+  proyeccion,
   fechaActualizacion,
   minimoLegal,
   momento,
@@ -13,6 +14,7 @@ import {
   tramo,
   valorPunto,
   type ProvinciaAvales,
+  type PuntoHistorial,
 } from "./avales";
 
 describe("cálculo de avales", () => {
@@ -115,4 +117,37 @@ describe("histórico", () => {
     expect(faltanMinimo(ps, punto, "01")).toBe(0);
     expect(faltanMinimo(ps, undefined, "total")).toBe(150);
   });
+  it("proyecta el ritmo de los últimos tres días y lo compara con el necesario", () => {
+    const pts: PuntoHistorial[] = [
+      { fecha: "2026-10-12", total: 0, prov: {} },
+      { fecha: "2026-10-13", total: 10, prov: { "01": 10 } },
+      { fecha: "2026-10-14", total: 20, prov: { "01": 20 } },
+      { fecha: "2026-10-15", total: 25, prov: { "01": 25 } },
+      { fecha: "2026-10-16", total: 40, prov: { "01": 40 } },
+    ];
+    const pj = proyeccion(pts, ps, "01")!;
+    expect(pj.desde).toBe("2026-10-13");
+    expect(pj.ritmo).toBe(10); // (40 − 10) / 3
+    expect(pj.quedan).toBe(10); // del 17 al 26
+    expect(pj.proyectado).toBe(140);
+    expect(pj.faltan).toBe(60);
+    expect(pj.necesario).toBe(6);
+    expect(pj.estado).toBe("bien");
+    expect(pj.llegada).toBe("2026-10-22");
+    expect(proyeccion(pts, ps, "02")!.estado).toBe("corto");
+  });
+
+  it("con un solo día usa la media desde el arranque", () => {
+    const pj = proyeccion([{ fecha: "2026-10-07", total: 20, prov: { "02": 20 } }], ps, "02")!;
+    expect(pj.ritmo).toBe(10); // 20 avales en dos días (6 y 7)
+    expect(pj.quedan).toBe(19);
+  });
+
+  it("distingue el mínimo cumplido y el plazo cerrado", () => {
+    const fin = [{ fecha: "2026-10-26", total: 120, prov: { "01": 110, "02": 10 } }];
+    expect(proyeccion(fin, ps, "01")!.estado).toBe("cumplido");
+    expect(proyeccion(fin, ps, "02")!.estado).toBe("cerrado");
+    expect(proyeccion(fin, ps, "02")!.necesario).toBe(Infinity);
+  });
 });
+
