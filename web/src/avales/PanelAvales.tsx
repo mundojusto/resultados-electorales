@@ -489,6 +489,7 @@ function TablaProvincias({
               <th className="num">Mínimo</th>
               <th className="num ocultable">+20 %</th>
               <th className="num">+30 %</th>
+              <th className="num">Conseguidos</th>
               <th className="av-tabla__col-barra" aria-hidden="true" />
             </tr>
           </thead>
@@ -496,7 +497,7 @@ function TablaProvincias({
             <tbody key={g.nombre ?? "todas"}>
               {g.nombre && (
                 <tr className="av-tabla__grupo">
-                  <th colSpan={6}>
+                  <th colSpan={7}>
                     {g.nombre}
                     <span className={`av-sede av-sede--${g.filas[0].sede}`}>
                       {ETIQUETA_SEDE[g.filas[0].sede]}
@@ -506,6 +507,8 @@ function TablaProvincias({
               )}
               {g.filas.map((p) => {
                 const min = minimoLegal(p.censo);
+                const r = avalesRecogidos(p);
+                const cubierto = r != null && r >= min;
                 return (
                   <tr
                     key={p.codigo}
@@ -519,11 +522,29 @@ function TablaProvincias({
                     <td className="num destacado">{fmt(min)}</td>
                     <td className="num ocultable">{fmt(objetivo(p.censo, 0.2))}</td>
                     <td className="num">{fmt(objetivo(p.censo, 0.3))}</td>
+                    <td className={`num av-tabla__conseguidos ${cubierto ? "cubierto" : ""}`}>
+                      {r == null ? "—" : fmt(r)}
+                    </td>
                     <td className="av-tabla__col-barra">
                       <span
-                        className="av-tabla__barra"
-                        style={{ width: `${(min / max) * 100}%` }}
-                      />
+                        className="av-tabla__barras"
+                        title={
+                          r == null
+                            ? "Sin recuento"
+                            : `${fmt(r)} de ${fmt(min)} (${Math.round((r / min) * 100)} % del mínimo)`
+                        }
+                      >
+                        <span
+                          className="av-tabla__barra"
+                          style={{ width: `${(min / max) * 100}%` }}
+                        />
+                        {r != null && r > 0 && (
+                          <span
+                            className={`av-tabla__barra-conseguidos ${cubierto ? "cubierto" : ""}`}
+                            style={{ width: `${(Math.min(r, max) / max) * 100}%` }}
+                          />
+                        )}
+                      </span>
                     </td>
                   </tr>
                 );
@@ -537,6 +558,7 @@ function TablaProvincias({
               <td className="num">{fmt(t.minimo)}</td>
               <td className="num ocultable">{fmt(t.objetivo20)}</td>
               <td className="num">{fmt(t.objetivo30)}</td>
+              <td className="num">{fmt(totalRecogidos(provincias))}</td>
               <td />
             </tr>
           </tfoot>
@@ -544,7 +566,8 @@ function TablaProvincias({
       </div>
       <p className="leyenda">
         Censo CER + CERA aproximado; las cifras definitivas las da la Oficina del Censo Electoral
-        tras la convocatoria. Reparto de escaños de 2023, pendiente del decreto. Estados del
+        tras la convocatoria. En la barra, la parte clara es el mínimo legal y la oscura los
+        avales conseguidos (en verde cuando ya se alcanza el mínimo). Reparto de escaños de 2023, pendiente del decreto. Estados del
         recuento: {ESTADOS.join(" · ")}.
       </p>
     </div>

@@ -395,7 +395,12 @@ body {
 .av-tabla tr.seleccionada td:first-child { box-shadow: inset 3px 0 0 var(--terracota); font-weight: 600; }
 .av-tabla tr.descartada td { opacity: 0.45; }
 .av-tabla__col-barra { width: 28%; }
-.av-tabla__barra { display: block; height: 8px; border-radius: 4px; background: var(--beige); min-width: 2px; }
+.av-tabla__barras { position: relative; display: block; height: 8px; }
+.av-tabla__barra { display: block; height: 8px; border-radius: 4px; background: var(--beige); opacity: 0.55; min-width: 2px; }
+.av-tabla__barra-conseguidos { position: absolute; top: 0; left: 0; height: 8px; border-radius: 4px; background: var(--terracota); min-width: 2px; }
+.av-tabla__barra-conseguidos.cubierto { background: #47744a; }
+.av-tabla__conseguidos { font-weight: 600; color: var(--terracota); }
+.av-tabla__conseguidos.cubierto { color: #47744a; }
 .av-tabla tfoot td { font-weight: 700; background: var(--fondo); }
 @media (max-width: 600px) {
   .av-tabla .ocultable { display: none; }
