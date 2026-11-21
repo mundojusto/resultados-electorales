@@ -1,0 +1,728 @@
+{
+  "eleccion": {
+    "tipo": "Municipales",
+    "periodo": "Mayo 2023",
+    "anio": 2023,
+    "mes": 5,
+    "ambito": "municipio",
+    "fuente_archivo": "04_202305_1.xlsx",
+    "fecha_procesado": "2026-06-18"
+  },
+  "partido": {
+    "nombre": "POR UN MUNDO MAS JUSTO",
+    "siglas": "PUM+J"
+  },
+  "totales": {
+    "votos_partido": 9653,
+    "votos_validos": 22380941,
+    "votos_candidaturas": 22380941,
+    "porcentaje_validos": 0.0431,
+    "municipios": 8087
+  },
+  "provincias": [
+    {
+      "codigo_provincia": 1,
+      "provincia": "Araba / Álava",
+      "comunidad": "País Vasco",
+      "votos_partido": 475,
+      "votos_validos": 149848,
+      "votos_candidaturas": 149848,
+      "municipios": 51
+    },
+    {
+      "codigo_provincia": 2,
+      "provincia": "Albacete",
+      "comunidad": "Castilla - La Mancha",
+      "votos_partido": 0,
+      "votos_validos": 209838,
+      "votos_candidaturas": 209838,
+      "municipios": 87
+    },
+    {
+      "codigo_provincia": 3,
+      "provincia": "Alicante / Alacant",
+      "comunidad": "Comunitat Valenciana",
+      "votos_partido": 202,
+      "votos_validos": 829588,
+      "votos_candidaturas": 829588,
+      "municipios": 141
+    },
+    {
+      "codigo_provincia": 4,
+      "provincia": "Almería",
+      "comunidad": "Andalucía",
+      "votos_partido": 0,
+      "votos_validos": 289118,
+      "votos_candidaturas": 289118,
+      "municipios": 103
+    },
+    {
+      "codigo_provincia": 5,
+      "provincia": "Ávila",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 91864,
+      "votos_candidaturas": 91864,
+      "municipios": 248
+    },
+    {
+      "codigo_provincia": 6,
+      "provincia": "Badajoz",
+      "comunidad": "Extremadura",
+      "votos_partido": 0,
+      "votos_validos": 380063,
+      "votos_candidaturas": 380063,
+      "municipios": 165
+    },
+    {
+      "codigo_provincia": 7,
+      "provincia": "Illes Balears",
+      "comunidad": "Illes Balears",
+      "votos_partido": 0,
+      "votos_validos": 456922,
+      "votos_candidaturas": 456922,
+      "municipios": 67
+    },
+    {
+      "codigo_provincia": 8,
+      "provincia": "Barcelona",
+      "comunidad": "Catalunya",
+      "votos_partido": 0,
+      "votos_validos": 2223061,
+      "votos_candidaturas": 2223061,
+      "municipios": 311
+    },
+    {
+      "codigo_provincia": 9,
+      "provincia": "Burgos",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 178576,
+      "votos_candidaturas": 178576,
+      "municipios": 367
+    },
+    {
+      "codigo_provincia": 10,
+      "provincia": "Cáceres",
+      "comunidad": "Extremadura",
+      "votos_partido": 0,
+      "votos_validos": 230334,
+      "votos_candidaturas": 230334,
+      "municipios": 223
+    },
+    {
+      "codigo_provincia": 11,
+      "provincia": "Cádiz",
+      "comunidad": "Andalucía",
+      "votos_partido": 0,
+      "votos_validos": 552331,
+      "votos_candidaturas": 552331,
+      "municipios": 45
+    },
+    {
+      "codigo_provincia": 12,
+      "provincia": "Castellón / Castelló",
+      "comunidad": "Comunitat Valenciana",
+      "votos_partido": 0,
+      "votos_validos": 292646,
+      "votos_candidaturas": 292646,
+      "municipios": 135
+    },
+    {
+      "codigo_provincia": 13,
+      "provincia": "Ciudad Real",
+      "comunidad": "Castilla - La Mancha",
+      "votos_partido": 0,
+      "votos_validos": 269048,
+      "votos_candidaturas": 269048,
+      "municipios": 102
+    },
+    {
+      "codigo_provincia": 14,
+      "provincia": "Córdoba",
+      "comunidad": "Andalucía",
+      "votos_partido": 254,
+      "votos_validos": 400961,
+      "votos_candidaturas": 400961,
+      "municipios": 77
+    },
+    {
+      "codigo_provincia": 15,
+      "provincia": "A Coruña",
+      "comunidad": "Galicia",
+      "votos_partido": 337,
+      "votos_validos": 578807,
+      "votos_candidaturas": 578807,
+      "municipios": 93
+    },
+    {
+      "codigo_provincia": 16,
+      "provincia": "Cuenca",
+      "comunidad": "Castilla - La Mancha",
+      "votos_partido": 0,
+      "votos_validos": 113371,
+      "votos_candidaturas": 113371,
+      "municipios": 238
+    },
+    {
+      "codigo_provincia": 17,
+      "provincia": "Girona",
+      "comunidad": "Catalunya",
+      "votos_partido": 0,
+      "votos_validos": 284498,
+      "votos_candidaturas": 284498,
+      "municipios": 221
+    },
+    {
+      "codigo_provincia": 18,
+      "provincia": "Granada",
+      "comunidad": "Andalucía",
+      "votos_partido": 818,
+      "votos_validos": 450755,
+      "votos_candidaturas": 450755,
+      "municipios": 174
+    },
+    {
+      "codigo_provincia": 19,
+      "provincia": "Guadalajara",
+      "comunidad": "Castilla - La Mancha",
+      "votos_partido": 0,
+      "votos_validos": 132099,
+      "votos_candidaturas": 132099,
+      "municipios": 288
+    },
+    {
+      "codigo_provincia": 20,
+      "provincia": "Gipuzkoa",
+      "comunidad": "País Vasco",
+      "votos_partido": 154,
+      "votos_validos": 331160,
+      "votos_candidaturas": 331160,
+      "municipios": 88
+    },
+    {
+      "codigo_provincia": 21,
+      "provincia": "Huelva",
+      "comunidad": "Andalucía",
+      "votos_partido": 0,
+      "votos_validos": 249396,
+      "votos_candidaturas": 249396,
+      "municipios": 80
+    },
+    {
+      "codigo_provincia": 22,
+      "provincia": "Huesca",
+      "comunidad": "Aragón",
+      "votos_partido": 0,
+      "votos_validos": 113035,
+      "votos_candidaturas": 113035,
+      "municipios": 202
+    },
+    {
+      "codigo_provincia": 23,
+      "provincia": "Jaén",
+      "comunidad": "Andalucía",
+      "votos_partido": 0,
+      "votos_validos": 345340,
+      "votos_candidaturas": 345340,
+      "municipios": 97
+    },
+    {
+      "codigo_provincia": 24,
+      "provincia": "León",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 243974,
+      "votos_candidaturas": 243974,
+      "municipios": 211
+    },
+    {
+      "codigo_provincia": 25,
+      "provincia": "Lleida",
+      "comunidad": "Catalunya",
+      "votos_partido": 0,
+      "votos_validos": 175944,
+      "votos_candidaturas": 175944,
+      "municipios": 231
+    },
+    {
+      "codigo_provincia": 26,
+      "provincia": "La Rioja",
+      "comunidad": "La Rioja",
+      "votos_partido": 0,
+      "votos_validos": 168067,
+      "votos_candidaturas": 168067,
+      "municipios": 174
+    },
+    {
+      "codigo_provincia": 27,
+      "provincia": "Lugo",
+      "comunidad": "Galicia",
+      "votos_partido": 0,
+      "votos_validos": 191597,
+      "votos_candidaturas": 191597,
+      "municipios": 67
+    },
+    {
+      "codigo_provincia": 28,
+      "provincia": "Madrid",
+      "comunidad": "Comunidad de Madrid",
+      "votos_partido": 2647,
+      "votos_validos": 3373982,
+      "votos_candidaturas": 3373982,
+      "municipios": 179
+    },
+    {
+      "codigo_provincia": 29,
+      "provincia": "Málaga",
+      "comunidad": "Andalucía",
+      "votos_partido": 426,
+      "votos_validos": 686866,
+      "votos_candidaturas": 686866,
+      "municipios": 103
+    },
+    {
+      "codigo_provincia": 30,
+      "provincia": "Murcia",
+      "comunidad": "Región de Murcia",
+      "votos_partido": 0,
+      "votos_validos": 688095,
+      "votos_candidaturas": 688095,
+      "municipios": 45
+    },
+    {
+      "codigo_provincia": 31,
+      "provincia": "Navarra",
+      "comunidad": "Comunidad Foral de Navarra",
+      "votos_partido": 710,
+      "votos_validos": 323029,
+      "votos_candidaturas": 323029,
+      "municipios": 234
+    },
+    {
+      "codigo_provincia": 32,
+      "provincia": "Ourense",
+      "comunidad": "Galicia",
+      "votos_partido": 0,
+      "votos_validos": 177838,
+      "votos_candidaturas": 177838,
+      "municipios": 92
+    },
+    {
+      "codigo_provincia": 33,
+      "provincia": "Asturias",
+      "comunidad": "Principado de Asturias",
+      "votos_partido": 415,
+      "votos_validos": 532246,
+      "votos_candidaturas": 532246,
+      "municipios": 78
+    },
+    {
+      "codigo_provincia": 34,
+      "provincia": "Palencia",
+      "comunidad": "Castilla y León",
+      "votos_partido": 203,
+      "votos_validos": 89372,
+      "votos_candidaturas": 89372,
+      "municipios": 191
+    },
+    {
+      "codigo_provincia": 35,
+      "provincia": "Las Palmas",
+      "comunidad": "Canarias",
+      "votos_partido": 0,
+      "votos_validos": 464107,
+      "votos_candidaturas": 464107,
+      "municipios": 34
+    },
+    {
+      "codigo_provincia": 36,
+      "provincia": "Pontevedra",
+      "comunidad": "Galicia",
+      "votos_partido": 0,
+      "votos_validos": 492992,
+      "votos_candidaturas": 492992,
+      "municipios": 61
+    },
+    {
+      "codigo_provincia": 37,
+      "provincia": "Salamanca",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 177885,
+      "votos_candidaturas": 177885,
+      "municipios": 362
+    },
+    {
+      "codigo_provincia": 38,
+      "provincia": "Santa Cruz de Tenerife",
+      "comunidad": "Canarias",
+      "votos_partido": 0,
+      "votos_validos": 460684,
+      "votos_candidaturas": 460684,
+      "municipios": 54
+    },
+    {
+      "codigo_provincia": 39,
+      "provincia": "Cantabria",
+      "comunidad": "Cantabria",
+      "votos_partido": 0,
+      "votos_validos": 325028,
+      "votos_candidaturas": 325028,
+      "municipios": 102
+    },
+    {
+      "codigo_provincia": 40,
+      "provincia": "Segovia",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 82515,
+      "votos_candidaturas": 82515,
+      "municipios": 208
+    },
+    {
+      "codigo_provincia": 41,
+      "provincia": "Sevilla",
+      "comunidad": "Andalucía",
+      "votos_partido": 1086,
+      "votos_validos": 929707,
+      "votos_candidaturas": 929707,
+      "municipios": 106
+    },
+    {
+      "codigo_provincia": 42,
+      "provincia": "Soria",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 46025,
+      "votos_candidaturas": 46025,
+      "municipios": 183
+    },
+    {
+      "codigo_provincia": 43,
+      "provincia": "Tarragona",
+      "comunidad": "Catalunya",
+      "votos_partido": 0,
+      "votos_validos": 322522,
+      "votos_candidaturas": 322522,
+      "municipios": 184
+    },
+    {
+      "codigo_provincia": 44,
+      "provincia": "Teruel",
+      "comunidad": "Aragón",
+      "votos_partido": 0,
+      "votos_validos": 74554,
+      "votos_candidaturas": 74554,
+      "municipios": 235
+    },
+    {
+      "codigo_provincia": 45,
+      "provincia": "Toledo",
+      "comunidad": "Castilla - La Mancha",
+      "votos_partido": 0,
+      "votos_validos": 367090,
+      "votos_candidaturas": 367090,
+      "municipios": 204
+    },
+    {
+      "codigo_provincia": 46,
+      "provincia": "Valencia / València",
+      "comunidad": "Comunitat Valenciana",
+      "votos_partido": 538,
+      "votos_validos": 1369079,
+      "votos_candidaturas": 1369079,
+      "municipios": 266
+    },
+    {
+      "codigo_provincia": 47,
+      "provincia": "Valladolid",
+      "comunidad": "Castilla y León",
+      "votos_partido": 174,
+      "votos_validos": 282572,
+      "votos_candidaturas": 282572,
+      "municipios": 225
+    },
+    {
+      "codigo_provincia": 48,
+      "provincia": "Bizkaia",
+      "comunidad": "País Vasco",
+      "votos_partido": 613,
+      "votos_validos": 536443,
+      "votos_candidaturas": 536443,
+      "municipios": 112
+    },
+    {
+      "codigo_provincia": 49,
+      "provincia": "Zamora",
+      "comunidad": "Castilla y León",
+      "votos_partido": 0,
+      "votos_validos": 97813,
+      "votos_candidaturas": 97813,
+      "municipios": 248
+    },
+    {
+      "codigo_provincia": 50,
+      "provincia": "Zaragoza",
+      "comunidad": "Aragón",
+      "votos_partido": 601,
+      "votos_validos": 484221,
+      "votos_candidaturas": 484221,
+      "municipios": 293
+    },
+    {
+      "codigo_provincia": 51,
+      "provincia": "Ceuta",
+      "comunidad": "Ciudad de Ceuta",
+      "votos_partido": 0,
+      "votos_validos": 34282,
+      "votos_candidaturas": 34282,
+      "municipios": 1
+    },
+    {
+      "codigo_provincia": 52,
+      "provincia": "Melilla",
+      "comunidad": "Ciudad de Melilla",
+      "votos_partido": 0,
+      "votos_validos": 29753,
+      "votos_candidaturas": 29753,
+      "municipios": 1
+    }
+  ],
+  "resultados": [
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 14,
+      "provincia": "Córdoba",
+      "codigo_municipio": 21,
+      "municipio": "Córdoba",
+      "codigo_ine": "14021",
+      "censo": 261749,
+      "votantes": 152508,
+      "votos_validos": 150606,
+      "votos_candidaturas": 150606,
+      "votos_partido": 254
+    },
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 18,
+      "provincia": "Granada",
+      "codigo_municipio": 87,
+      "municipio": "Granada",
+      "codigo_ine": "18087",
+      "censo": 179382,
+      "votantes": 110556,
+      "votos_validos": 107614,
+      "votos_candidaturas": 107614,
+      "votos_partido": 798
+    },
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 18,
+      "provincia": "Granada",
+      "codigo_municipio": 192,
+      "municipio": "Zafarraya",
+      "codigo_ine": "18192",
+      "censo": 1412,
+      "votantes": 1094,
+      "votos_validos": 1071,
+      "votos_candidaturas": 1071,
+      "votos_partido": 20
+    },
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 29,
+      "provincia": "Málaga",
+      "codigo_municipio": 67,
+      "municipio": "Málaga",
+      "codigo_ine": "29067",
+      "censo": 437198,
+      "votantes": 241281,
+      "votos_validos": 239079,
+      "votos_candidaturas": 239079,
+      "votos_partido": 426
+    },
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 41,
+      "provincia": "Sevilla",
+      "codigo_municipio": 17,
+      "municipio": "Bormujos",
+      "codigo_ine": "41017",
+      "censo": 16936,
+      "votantes": 9948,
+      "votos_validos": 9757,
+      "votos_candidaturas": 9757,
+      "votos_partido": 238
+    },
+    {
+      "comunidad": "Andalucía",
+      "codigo_provincia": 41,
+      "provincia": "Sevilla",
+      "codigo_municipio": 91,
+      "municipio": "Sevilla",
+      "codigo_ine": "41091",
+      "censo": 531886,
+      "votantes": 326118,
+      "votos_validos": 322493,
+      "votos_candidaturas": 322493,
+      "votos_partido": 848
+    },
+    {
+      "comunidad": "Aragón",
+      "codigo_provincia": 50,
+      "provincia": "Zaragoza",
+      "codigo_municipio": 297,
+      "municipio": "Zaragoza",
+      "codigo_ine": "50297",
+      "censo": 503743,
+      "votantes": 335350,
+      "votos_validos": 331966,
+      "votos_candidaturas": 331966,
+      "votos_partido": 601
+    },
+    {
+      "comunidad": "Principado de Asturias",
+      "codigo_provincia": 33,
+      "provincia": "Asturias",
+      "codigo_municipio": 44,
+      "municipio": "Oviedo",
+      "codigo_ine": "33044",
+      "censo": 173940,
+      "votantes": 111344,
+      "votos_validos": 110116,
+      "votos_candidaturas": 110116,
+      "votos_partido": 415
+    },
+    {
+      "comunidad": "Castilla y León",
+      "codigo_provincia": 34,
+      "provincia": "Palencia",
+      "codigo_municipio": 120,
+      "municipio": "Palencia",
+      "codigo_ine": "34120",
+      "censo": 61888,
+      "votantes": 39816,
+      "votos_validos": 39325,
+      "votos_candidaturas": 39325,
+      "votos_partido": 203
+    },
+    {
+      "comunidad": "Castilla y León",
+      "codigo_provincia": 47,
+      "provincia": "Valladolid",
+      "codigo_municipio": 186,
+      "municipio": "Valladolid",
+      "codigo_ine": "47186",
+      "censo": 240651,
+      "votantes": 161820,
+      "votos_validos": 160501,
+      "votos_candidaturas": 160501,
+      "votos_partido": 174
+    },
+    {
+      "comunidad": "Galicia",
+      "codigo_provincia": 15,
+      "provincia": "A Coruña",
+      "codigo_municipio": 19,
+      "municipio": "Carballo",
+      "codigo_ine": "15019",
+      "censo": 25960,
+      "votantes": 15173,
+      "votos_validos": 15034,
+      "votos_candidaturas": 15034,
+      "votos_partido": 337
+    },
+    {
+      "comunidad": "Comunidad de Madrid",
+      "codigo_provincia": 28,
+      "provincia": "Madrid",
+      "codigo_municipio": 79,
+      "municipio": "Madrid",
+      "codigo_ine": "28079",
+      "censo": 2386293,
+      "votantes": 1651560,
+      "votos_validos": 1639227,
+      "votos_candidaturas": 1639227,
+      "votos_partido": 2647
+    },
+    {
+      "comunidad": "Comunidad Foral de Navarra",
+      "codigo_provincia": 31,
+      "provincia": "Navarra",
+      "codigo_municipio": 201,
+      "municipio": "Pamplona/Iruña",
+      "codigo_ine": "31201",
+      "censo": 153275,
+      "votantes": 102111,
+      "votos_validos": 101278,
+      "votos_candidaturas": 101278,
+      "votos_partido": 710
+    },
+    {
+      "comunidad": "País Vasco",
+      "codigo_provincia": 1,
+      "provincia": "Araba / Álava",
+      "codigo_municipio": 59,
+      "municipio": "Vitoria-Gasteiz",
+      "codigo_ine": "01059",
+      "censo": 190363,
+      "votantes": 110633,
+      "votos_validos": 108986,
+      "votos_candidaturas": 108986,
+      "votos_partido": 475
+    },
+    {
+      "comunidad": "País Vasco",
+      "codigo_provincia": 20,
+      "provincia": "Gipuzkoa",
+      "codigo_municipio": 69,
+      "municipio": "Donostia/San Sebastián",
+      "codigo_ine": "20069",
+      "censo": 147318,
+      "votantes": 88275,
+      "votos_validos": 87590,
+      "votos_candidaturas": 87590,
+      "votos_partido": 154
+    },
+    {
+      "comunidad": "País Vasco",
+      "codigo_provincia": 48,
+      "provincia": "Bizkaia",
+      "codigo_municipio": 20,
+      "municipio": "Bilbao",
+      "codigo_ine": "48020",
+      "censo": 267984,
+      "votantes": 150482,
+      "votos_validos": 148822,
+      "votos_candidaturas": 148822,
+      "votos_partido": 613
+    },
+    {
+      "comunidad": "Comunitat Valenciana",
+      "codigo_provincia": 3,
+      "provincia": "Alicante / Alacant",
+      "codigo_municipio": 14,
+      "municipio": "Alicante/Alacant",
+      "codigo_ine": "03014",
+      "censo": 242735,
+      "votantes": 148387,
+      "votos_validos": 147040,
+      "votos_candidaturas": 147040,
+      "votos_partido": 202
+    },
+    {
+      "comunidad": "Comunitat Valenciana",
+      "codigo_provincia": 46,
+      "provincia": "Valencia / València",
+      "codigo_municipio": 250,
+      "municipio": "València",
+      "codigo_ine": "46250",
+      "censo": 579205,
+      "votantes": 417512,
+      "votos_validos": 414372,
+      "votos_candidaturas": 414372,
+      "votos_partido": 538
+    }
+  ]
+}
